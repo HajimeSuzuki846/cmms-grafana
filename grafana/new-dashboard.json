@@ -275,7 +275,7 @@
                 },
                 {
                   "config": {
-                    "id": "regex",
+                    "id": "equal",
                     "options": {
                       "value": "${ProcessName}"
                     }
