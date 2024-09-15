@@ -1,5 +1,5 @@
 {
-  "apiVersion": "dashboard.grafana.app/v1beta1",
+  "apiVersion": "dashboard.grafana.app/v0alpha1",
   "kind": "Dashboard",
   "metadata": {
     "name": "adtptxm5bb8qof"
@@ -28,7 +28,6 @@
     "panels": [
       {
         "datasource": {
-          "default": true,
           "type": "dvelop-odata-datasource",
           "uid": "cdtvprupj2lfkc"
         },
@@ -64,7 +63,7 @@
               {
                 "targetBlank": true,
                 "title": "詳細をドリルダウン（クリック）",
-                "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/scheduledevents?from=${__from}﻿\u0026to=${__to}\u0026asset=${__data.fields.MachineName\\Status}"
+                "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/scheduledevents?from=${__from}﻿\u0026to=${__to}\u0026asset=${__data.fields.AssetName\\Status}"
               }
             ],
             "mappings": [],
@@ -250,10 +249,6 @@
               {
                 "name": "ProcessName",
                 "type": "Edm.String"
-              },
-              {
-                "name": "MachineName",
-                "type": "Edm.String"
               }
             ],
             "refId": "A",
@@ -280,7 +275,7 @@
                 },
                 {
                   "config": {
-                    "id": "equal",
+                    "id": "regex",
                     "options": {
                       "value": "${ProcessName}"
                     }
@@ -300,7 +295,25 @@
                   "config": {
                     "id": "equal",
                     "options": {
-                      "value": "Aborted"
+                      "value": "Finished"
+                    }
+                  },
+                  "fieldName": "Status"
+                },
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "Planed"
+                    }
+                  },
+                  "fieldName": "Status"
+                },
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "Requesting"
                     }
                   },
                   "fieldName": "Status"
@@ -316,7 +329,7 @@
                 }
               ],
               "match": "any",
-              "type": "exclude"
+              "type": "include"
             }
           },
           {
@@ -329,16 +342,9 @@
                     "options": {}
                   },
                   "fieldName": "AssetName"
-                },
-                {
-                  "config": {
-                    "id": "isNull",
-                    "options": {}
-                  },
-                  "fieldName": "MachineName"
                 }
               ],
-              "match": "any",
+              "match": "all",
               "type": "exclude"
             }
           },
@@ -347,7 +353,8 @@
             "options": {
               "fields": {
                 "AssetName": {
-                  "aggregations": []
+                  "aggregations": [],
+                  "operation": "groupby"
                 },
                 "EventId": {
                   "aggregations": [
@@ -387,10 +394,6 @@
                   ],
                   "operation": "groupby"
                 },
-                "MachineName": {
-                  "aggregations": [],
-                  "operation": "groupby"
-                },
                 "Status": {
                   "aggregations": [],
                   "operation": "groupby"
@@ -407,11 +410,9 @@
                   "enumConfig": {
                     "text": [
                       "Finished",
+                      "Requesting",
                       "Planed",
-                      "Assign",
-                      "FinalApprovementFinished",
-                      "NoSpecifiedAssignee",
-                      "Requesting"
+                      "InProcessing"
                     ]
                   },
                   "targetField": "Status"
@@ -425,7 +426,7 @@
             "options": {
               "columnField": "Status",
               "emptyValue": "null",
-              "rowField": "MachineName",
+              "rowField": "AssetName",
               "valueField": "EventId (count)"
             }
           },
@@ -436,36 +437,22 @@
               "includeByName": {},
               "indexByName": {},
               "renameByName": {
-                "0": "実施完了",
-                "1": "計画中",
-                "2": "担当者アサイン_Assign",
-                "3": "最終承認完了",
-                "4": "担当者アサイン_NoSpecifiedAssignee",
-                "5": "承認依頼中",
-                "Assign": "担当者アサイン",
-                "FinalApprovementFinished": "最終承認完了",
-                "Finished": "実施完了",
-                "MachineName\\Status": "設備名",
-                "NoSpecifiedAssignee": "担当者アサイン",
-                "Planed": "計画中",
-                "Requesting": "承認依頼中"
+                "0": "完了",
+                "1": "承認依頼中",
+                "2": "計画中",
+                "3": "実行中"
               }
             }
           },
           {
-            "id": "calculateField",
+            "id": "sortBy",
             "options": {
-              "alias": "完了",
-              "mode": "reduceRow",
-              "reduce": {
-                "include": [
-                  "実施完了",
-                  "最終承認完了",
-                  "承認依頼中"
-                ],
-                "reducer": "sum"
-              },
-              "replaceFields": false
+              "fields": {},
+              "sort": [
+                {
+                  "field": "AssetName\\Status"
+                }
+              ]
             }
           },
           {
@@ -475,9 +462,9 @@
               "mode": "reduceRow",
               "reduce": {
                 "include": [
-                  "計画中",
-                  "担当者アサイン_Assign",
-                  "担当者アサイン_NoSpecifiedAssignee"
+                  "1",
+                  "2",
+                  "3"
                 ],
                 "reducer": "sum"
               },
@@ -485,24 +472,13 @@
             }
           },
           {
-            "id": "sortBy",
-            "options": {
-              "fields": {},
-              "sort": [
-                {
-                  "field": "設備名"
-                }
-              ]
-            }
-          },
-          {
             "id": "filterFieldsByName",
             "options": {
               "include": {
                 "names": [
+                  "AssetName\\Status",
                   "完了",
-                  "未完了",
-                  "設備名"
+                  "未完了"
                 ]
               }
             }
@@ -512,7 +488,431 @@
       },
       {
         "datasource": {
-          "default": true,
+          "type": "dvelop-odata-datasource",
+          "uid": "cdtvprupj2lfkc"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "axisSoftMax": 1.1,
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "fieldMinMax": false,
+            "links": [
+              {
+                "title": "詳細をドリルダウン（クリック）",
+                "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/scheduledevents?from=${__from}﻿\u0026to=${__to}\u0026asset=${__data.fields.AssetName\\Status}"
+              }
+            ],
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "FinalApprovementFinished"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "red",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Finished / Finished + FinalApprovementFinished"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "orange",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Finished + FinalApprovementFinished"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#B877D9",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Planed"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Requesting"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "orange",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "計画中"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "text",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "実行中"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "アサイン"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "text",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "未アサイン"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "text",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 19,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 3,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.8,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "auto",
+          "stacking": "normal",
+          "text": {
+            "valueSize": 12
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xField": "AssetName\\Status",
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "11.1.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "dvelop-odata-datasource",
+              "uid": "cdtvprupj2lfkc"
+            },
+            "entitySet": {
+              "entityType": "DefaultNamespace.ScheduledEvents",
+              "name": "ScheduledEvents"
+            },
+            "filterConditions": [],
+            "properties": [
+              {
+                "name": "AssetName",
+                "type": "Edm.String"
+              },
+              {
+                "name": "EventId",
+                "type": "Edm.Int64"
+              },
+              {
+                "name": "Status",
+                "type": "DefaultNamespace.ScheduledEvents_Status"
+              },
+              {
+                "name": "SiteName",
+                "type": "Edm.String"
+              },
+              {
+                "name": "ProcessName",
+                "type": "Edm.String"
+              }
+            ],
+            "refId": "A",
+            "timeProperty": {
+              "name": "DueDate",
+              "type": "Edm.DateTimeOffset"
+            }
+          }
+        ],
+        "title": "件数",
+        "transformations": [
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "${SiteName}"
+                    }
+                  },
+                  "fieldName": "SiteName"
+                },
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "${ProcessName}"
+                    }
+                  },
+                  "fieldName": "ProcessName"
+                }
+              ],
+              "match": "all",
+              "type": "include"
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "isNull",
+                    "options": {}
+                  },
+                  "fieldName": "AssetName"
+                }
+              ],
+              "match": "all",
+              "type": "exclude"
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "substring",
+                    "options": {
+                      "value": "Aborted"
+                    }
+                  },
+                  "fieldName": "Status"
+                }
+              ],
+              "match": "any",
+              "type": "exclude"
+            }
+          },
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "AssetName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "FinalApprovementFinished AssetName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "FinalApprovementFinished EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "FinalApprovementFinished Status": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "groupby"
+                },
+                "Finished AssetName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "Finished EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "Finished Status": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "groupby"
+                },
+                "Status": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                }
+              }
+            }
+          },
+          {
+            "id": "groupingToMatrix",
+            "options": {
+              "columnField": "Status",
+              "emptyValue": "null",
+              "rowField": "AssetName",
+              "valueField": "EventId (count)"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "AssetName\\Status"
+                }
+              ]
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "includeByName": {},
+              "indexByName": {
+                "AssetName\\Status": 0,
+                "Assign": 2,
+                "Finished": 5,
+                "InProcessing": 4,
+                "NoSpecifiedAssignee": 3,
+                "Planed": 1
+              },
+              "renameByName": {
+                "AssetName\\Status": "アセット名",
+                "Assign": "アサイン",
+                "Finished": "完了",
+                "InProcessing": "実行中",
+                "NoSpecifiedAssignee": "未アサイン",
+                "Planed": "計画中",
+                "Requesting": "承認依頼中"
+              }
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
           "type": "dvelop-odata-datasource",
           "uid": "cdtvprupj2lfkc"
         },
@@ -544,14 +944,19 @@
               }
             },
             "fieldMinMax": false,
-            "links": [],
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "詳細をドリルダウン（クリック）",
+                "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/scheduledevents?from=${__from}﻿\u0026to=${__to}\u0026asset=${__data.fields.AssetName\\Status}"
+              }
+            ],
             "mappings": [],
             "thresholds": {
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 }
               ]
             }
@@ -667,8 +1072,8 @@
         "gridPos": {
           "h": 19,
           "w": 12,
-          "x": 12,
-          "y": 0
+          "x": 5,
+          "y": 19
         },
         "id": 5,
         "options": {
@@ -728,10 +1133,6 @@
               {
                 "name": "ProcessName",
                 "type": "Edm.String"
-              },
-              {
-                "name": "MachineName",
-                "type": "Edm.String"
               }
             ],
             "refId": "A",
@@ -741,7 +1142,7 @@
             }
           }
         ],
-        "title": "進捗率forMobile",
+        "title": "進捗率",
         "transformations": [
           {
             "id": "filterByValue",
@@ -755,15 +1156,6 @@
                     }
                   },
                   "fieldName": "SiteName"
-                },
-                {
-                  "config": {
-                    "id": "equal",
-                    "options": {
-                      "value": "${ProcessName}"
-                    }
-                  },
-                  "fieldName": "ProcessName"
                 }
               ],
               "match": "all",
@@ -778,7 +1170,25 @@
                   "config": {
                     "id": "equal",
                     "options": {
-                      "value": "Aborted"
+                      "value": "Finished"
+                    }
+                  },
+                  "fieldName": "Status"
+                },
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "Planed"
+                    }
+                  },
+                  "fieldName": "Status"
+                },
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "Requesting"
                     }
                   },
                   "fieldName": "Status"
@@ -794,7 +1204,7 @@
                 }
               ],
               "match": "any",
-              "type": "exclude"
+              "type": "include"
             }
           },
           {
@@ -807,13 +1217,6 @@
                     "options": {}
                   },
                   "fieldName": "AssetName"
-                },
-                {
-                  "config": {
-                    "id": "isNull",
-                    "options": {}
-                  },
-                  "fieldName": "MachineName"
                 }
               ],
               "match": "all",
@@ -825,7 +1228,8 @@
             "options": {
               "fields": {
                 "AssetName": {
-                  "aggregations": []
+                  "aggregations": [],
+                  "operation": "groupby"
                 },
                 "EventId": {
                   "aggregations": [
@@ -863,10 +1267,6 @@
                   "aggregations": [
                     "count"
                   ],
-                  "operation": "groupby"
-                },
-                "MachineName": {
-                  "aggregations": [],
                   "operation": "groupby"
                 },
                 "Status": {
@@ -885,11 +1285,9 @@
                   "enumConfig": {
                     "text": [
                       "Finished",
+                      "Requesting",
                       "Planed",
-                      "Assign",
-                      "FinalApprovementFinished",
-                      "NoSpecifiedAssignee",
-                      "Requesting"
+                      "InProcessing"
                     ]
                   },
                   "targetField": "Status"
@@ -903,7 +1301,7 @@
             "options": {
               "columnField": "Status",
               "emptyValue": "null",
-              "rowField": "MachineName",
+              "rowField": "AssetName",
               "valueField": "EventId (count)"
             }
           },
@@ -914,36 +1312,22 @@
               "includeByName": {},
               "indexByName": {},
               "renameByName": {
-                "0": "実施完了",
-                "1": "計画中",
-                "2": "担当者アサイン_Assign",
-                "3": "最終承認完了",
-                "4": "担当者アサイン_NoSpecifiedAssignee",
-                "5": "承認依頼中",
-                "Assign": "担当者アサイン",
-                "FinalApprovementFinished": "最終承認完了",
-                "Finished": "実施完了",
-                "MachineName\\Status": "設備名",
-                "NoSpecifiedAssignee": "担当者アサイン",
-                "Planed": "計画中",
-                "Requesting": "承認依頼中"
+                "0": "完了",
+                "1": "承認依頼中",
+                "2": "計画中",
+                "3": "実行中"
               }
             }
           },
           {
-            "id": "calculateField",
+            "id": "sortBy",
             "options": {
-              "alias": "完了",
-              "mode": "reduceRow",
-              "reduce": {
-                "include": [
-                  "実施完了",
-                  "最終承認完了",
-                  "承認依頼中"
-                ],
-                "reducer": "sum"
-              },
-              "replaceFields": false
+              "fields": {},
+              "sort": [
+                {
+                  "field": "AssetName\\Status"
+                }
+              ]
             }
           },
           {
@@ -953,9 +1337,9 @@
               "mode": "reduceRow",
               "reduce": {
                 "include": [
-                  "計画中",
-                  "担当者アサイン_Assign",
-                  "担当者アサイン_NoSpecifiedAssignee"
+                  "1",
+                  "2",
+                  "3"
                 ],
                 "reducer": "sum"
               },
@@ -963,908 +1347,14 @@
             }
           },
           {
-            "id": "sortBy",
-            "options": {
-              "fields": {},
-              "sort": [
-                {
-                  "field": "設備名"
-                }
-              ]
-            }
-          },
-          {
             "id": "filterFieldsByName",
             "options": {
               "include": {
                 "names": [
+                  "AssetName\\Status",
                   "完了",
-                  "未完了",
-                  "設備名"
+                  "未完了"
                 ]
-              }
-            }
-          }
-        ],
-        "type": "barchart"
-      },
-      {
-        "datasource": {
-          "default": true,
-          "type": "dvelop-odata-datasource",
-          "uid": "cdtvprupj2lfkc"
-        },
-        "description": "",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "axisSoftMax": 1.1,
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "fieldMinMax": false,
-            "links": [
-              {
-                "title": "詳細をドリルダウン（クリック）",
-                "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/scheduledevents?from=${__from}﻿\u0026to=${__to}\u0026asset=${__data.fields.MachineName\\Status}"
-              }
-            ],
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                }
-              ]
-            }
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "FinalApprovementFinished"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "red",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Finished / Finished + FinalApprovementFinished"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "orange",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Finished + FinalApprovementFinished"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "#B877D9",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Planed"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "blue",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Requesting"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "orange",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "計画中"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "text",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "実行中"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "blue",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "アサイン"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "text",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "未アサイン"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "text",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 19,
-          "w": 12,
-          "x": 0,
-          "y": 19
-        },
-        "id": 3,
-        "options": {
-          "barRadius": 0,
-          "barWidth": 0.8,
-          "fullHighlight": false,
-          "groupWidth": 0.7,
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "right",
-            "showLegend": true
-          },
-          "orientation": "horizontal",
-          "showValue": "auto",
-          "stacking": "normal",
-          "text": {
-            "valueSize": 12
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "none"
-          },
-          "xField": "AssetName\\Status",
-          "xTickLabelRotation": 0,
-          "xTickLabelSpacing": 0
-        },
-        "pluginVersion": "11.1.3",
-        "targets": [
-          {
-            "datasource": {
-              "type": "dvelop-odata-datasource",
-              "uid": "cdtvprupj2lfkc"
-            },
-            "entitySet": {
-              "entityType": "DefaultNamespace.ScheduledEvents",
-              "name": "ScheduledEvents"
-            },
-            "filterConditions": [],
-            "properties": [
-              {
-                "name": "AssetName",
-                "type": "Edm.String"
-              },
-              {
-                "name": "EventId",
-                "type": "Edm.Int64"
-              },
-              {
-                "name": "Status",
-                "type": "DefaultNamespace.ScheduledEvents_Status"
-              },
-              {
-                "name": "SiteName",
-                "type": "Edm.String"
-              },
-              {
-                "name": "ProcessName",
-                "type": "Edm.String"
-              },
-              {
-                "name": "MachineName",
-                "type": "Edm.String"
-              }
-            ],
-            "refId": "A",
-            "timeProperty": {
-              "name": "DueDate",
-              "type": "Edm.DateTimeOffset"
-            }
-          }
-        ],
-        "title": "件数",
-        "transformations": [
-          {
-            "id": "filterByValue",
-            "options": {
-              "filters": [
-                {
-                  "config": {
-                    "id": "equal",
-                    "options": {
-                      "value": "${SiteName}"
-                    }
-                  },
-                  "fieldName": "SiteName"
-                },
-                {
-                  "config": {
-                    "id": "equal",
-                    "options": {
-                      "value": "${ProcessName}"
-                    }
-                  },
-                  "fieldName": "ProcessName"
-                }
-              ],
-              "match": "all",
-              "type": "include"
-            }
-          },
-          {
-            "id": "filterByValue",
-            "options": {
-              "filters": [
-                {
-                  "config": {
-                    "id": "isNull",
-                    "options": {}
-                  },
-                  "fieldName": "AssetName"
-                },
-                {
-                  "config": {
-                    "id": "isNull",
-                    "options": {}
-                  },
-                  "fieldName": "MachineName"
-                }
-              ],
-              "match": "all",
-              "type": "exclude"
-            }
-          },
-          {
-            "id": "filterByValue",
-            "options": {
-              "filters": [
-                {
-                  "config": {
-                    "id": "substring",
-                    "options": {
-                      "value": "Aborted"
-                    }
-                  },
-                  "fieldName": "Status"
-                }
-              ],
-              "match": "any",
-              "type": "exclude"
-            }
-          },
-          {
-            "id": "groupBy",
-            "options": {
-              "fields": {
-                "AssetName": {
-                  "aggregations": []
-                },
-                "EventId": {
-                  "aggregations": [
-                    "count"
-                  ],
-                  "operation": "aggregate"
-                },
-                "FinalApprovementFinished AssetName": {
-                  "aggregations": [],
-                  "operation": "groupby"
-                },
-                "FinalApprovementFinished EventId": {
-                  "aggregations": [
-                    "count"
-                  ],
-                  "operation": "aggregate"
-                },
-                "FinalApprovementFinished Status": {
-                  "aggregations": [
-                    "count"
-                  ],
-                  "operation": "groupby"
-                },
-                "Finished AssetName": {
-                  "aggregations": [],
-                  "operation": "groupby"
-                },
-                "Finished EventId": {
-                  "aggregations": [
-                    "count"
-                  ],
-                  "operation": "aggregate"
-                },
-                "Finished Status": {
-                  "aggregations": [
-                    "count"
-                  ],
-                  "operation": "groupby"
-                },
-                "MachineName": {
-                  "aggregations": [],
-                  "operation": "groupby"
-                },
-                "Status": {
-                  "aggregations": [],
-                  "operation": "groupby"
-                }
-              }
-            }
-          },
-          {
-            "id": "groupingToMatrix",
-            "options": {
-              "columnField": "Status",
-              "emptyValue": "null",
-              "rowField": "MachineName",
-              "valueField": "EventId (count)"
-            }
-          },
-          {
-            "id": "sortBy",
-            "options": {
-              "fields": {},
-              "sort": [
-                {
-                  "field": "MachineName\\Status"
-                }
-              ]
-            }
-          },
-          {
-            "id": "organize",
-            "options": {
-              "excludeByName": {
-                "FinalApprovementFinished": false
-              },
-              "includeByName": {},
-              "indexByName": {
-                "AssetName\\Status": 0,
-                "Assign": 2,
-                "Finished": 5,
-                "InProcessing": 4,
-                "NoSpecifiedAssignee": 3,
-                "Planed": 1
-              },
-              "renameByName": {
-                "AssetName\\Status": "アセット名",
-                "Assign": "アサイン",
-                "FinalApprovementFinished": "最終承認完了",
-                "Finished": "完了",
-                "InProcessing": "実行中",
-                "MachineName\\Status": "設備名",
-                "NoSpecifiedAssignee": "未アサイン",
-                "Planed": "計画中",
-                "Requesting": "承認依頼中"
-              }
-            }
-          }
-        ],
-        "type": "barchart"
-      },
-      {
-        "datasource": {
-          "default": true,
-          "type": "dvelop-odata-datasource",
-          "uid": "cdtvprupj2lfkc"
-        },
-        "description": "",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "axisSoftMax": 1.1,
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "fieldMinMax": false,
-            "links": [],
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                }
-              ]
-            }
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "FinalApprovementFinished"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "red",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Finished / Finished + FinalApprovementFinished"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "orange",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Finished + FinalApprovementFinished"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "#B877D9",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Planed"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "blue",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Requesting"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "orange",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "計画中"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "text",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "実行中"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "blue",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "アサイン"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "text",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "未アサイン"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "text",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 19,
-          "w": 12,
-          "x": 12,
-          "y": 19
-        },
-        "id": 6,
-        "options": {
-          "barRadius": 0,
-          "barWidth": 0.8,
-          "fullHighlight": false,
-          "groupWidth": 0.7,
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "right",
-            "showLegend": true
-          },
-          "orientation": "horizontal",
-          "showValue": "auto",
-          "stacking": "normal",
-          "text": {
-            "valueSize": 12
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "none"
-          },
-          "xField": "AssetName\\Status",
-          "xTickLabelRotation": 0,
-          "xTickLabelSpacing": 0
-        },
-        "pluginVersion": "11.1.3",
-        "targets": [
-          {
-            "datasource": {
-              "type": "dvelop-odata-datasource",
-              "uid": "cdtvprupj2lfkc"
-            },
-            "entitySet": {
-              "entityType": "DefaultNamespace.ScheduledEvents",
-              "name": "ScheduledEvents"
-            },
-            "filterConditions": [],
-            "properties": [
-              {
-                "name": "AssetName",
-                "type": "Edm.String"
-              },
-              {
-                "name": "EventId",
-                "type": "Edm.Int64"
-              },
-              {
-                "name": "Status",
-                "type": "DefaultNamespace.ScheduledEvents_Status"
-              },
-              {
-                "name": "SiteName",
-                "type": "Edm.String"
-              },
-              {
-                "name": "ProcessName",
-                "type": "Edm.String"
-              },
-              {
-                "name": "MachineName",
-                "type": "Edm.String"
-              }
-            ],
-            "refId": "A",
-            "timeProperty": {
-              "name": "DueDate",
-              "type": "Edm.DateTimeOffset"
-            }
-          }
-        ],
-        "title": "件数forMobile",
-        "transformations": [
-          {
-            "id": "filterByValue",
-            "options": {
-              "filters": [
-                {
-                  "config": {
-                    "id": "equal",
-                    "options": {
-                      "value": "${SiteName}"
-                    }
-                  },
-                  "fieldName": "SiteName"
-                },
-                {
-                  "config": {
-                    "id": "equal",
-                    "options": {
-                      "value": "${ProcessName}"
-                    }
-                  },
-                  "fieldName": "ProcessName"
-                }
-              ],
-              "match": "all",
-              "type": "include"
-            }
-          },
-          {
-            "id": "filterByValue",
-            "options": {
-              "filters": [
-                {
-                  "config": {
-                    "id": "isNull",
-                    "options": {}
-                  },
-                  "fieldName": "AssetName"
-                },
-                {
-                  "config": {
-                    "id": "isNull",
-                    "options": {}
-                  },
-                  "fieldName": "MachineName"
-                }
-              ],
-              "match": "all",
-              "type": "exclude"
-            }
-          },
-          {
-            "id": "filterByValue",
-            "options": {
-              "filters": [
-                {
-                  "config": {
-                    "id": "substring",
-                    "options": {
-                      "value": "Aborted"
-                    }
-                  },
-                  "fieldName": "Status"
-                }
-              ],
-              "match": "any",
-              "type": "exclude"
-            }
-          },
-          {
-            "id": "groupBy",
-            "options": {
-              "fields": {
-                "AssetName": {
-                  "aggregations": []
-                },
-                "EventId": {
-                  "aggregations": [
-                    "count"
-                  ],
-                  "operation": "aggregate"
-                },
-                "FinalApprovementFinished AssetName": {
-                  "aggregations": [],
-                  "operation": "groupby"
-                },
-                "FinalApprovementFinished EventId": {
-                  "aggregations": [
-                    "count"
-                  ],
-                  "operation": "aggregate"
-                },
-                "FinalApprovementFinished Status": {
-                  "aggregations": [
-                    "count"
-                  ],
-                  "operation": "groupby"
-                },
-                "Finished AssetName": {
-                  "aggregations": [],
-                  "operation": "groupby"
-                },
-                "Finished EventId": {
-                  "aggregations": [
-                    "count"
-                  ],
-                  "operation": "aggregate"
-                },
-                "Finished Status": {
-                  "aggregations": [
-                    "count"
-                  ],
-                  "operation": "groupby"
-                },
-                "MachineName": {
-                  "aggregations": [],
-                  "operation": "groupby"
-                },
-                "Status": {
-                  "aggregations": [],
-                  "operation": "groupby"
-                }
-              }
-            }
-          },
-          {
-            "id": "groupingToMatrix",
-            "options": {
-              "columnField": "Status",
-              "emptyValue": "null",
-              "rowField": "MachineName",
-              "valueField": "EventId (count)"
-            }
-          },
-          {
-            "id": "sortBy",
-            "options": {
-              "fields": {},
-              "sort": [
-                {
-                  "field": "MachineName\\Status"
-                }
-              ]
-            }
-          },
-          {
-            "id": "organize",
-            "options": {
-              "excludeByName": {
-                "FinalApprovementFinished": false
-              },
-              "includeByName": {},
-              "indexByName": {
-                "AssetName\\Status": 0,
-                "Assign": 2,
-                "Finished": 5,
-                "InProcessing": 4,
-                "NoSpecifiedAssignee": 3,
-                "Planed": 1
-              },
-              "renameByName": {
-                "AssetName\\Status": "アセット名",
-                "Assign": "アサイン",
-                "FinalApprovementFinished": "最終承認完了",
-                "Finished": "完了",
-                "InProcessing": "実行中",
-                "MachineName\\Status": "設備名",
-                "NoSpecifiedAssignee": "未アサイン",
-                "Planed": "計画中",
-                "Requesting": "承認依頼中"
               }
             }
           }
@@ -1872,16 +1362,16 @@
         "type": "barchart"
       }
     ],
-    "refresh": "",
-    "schemaVersion": 41,
+    "refresh": "1h",
+    "schemaVersion": 39,
     "tags": [],
     "templating": {
       "list": [
         {
           "current": {
             "selected": true,
-            "text": "北本",
-            "value": "北本"
+            "text": "茨城",
+            "value": "茨城"
           },
           "hide": 0,
           "includeAll": false,
@@ -1890,12 +1380,12 @@
           "name": "SiteName",
           "options": [
             {
-              "selected": false,
+              "selected": true,
               "text": "茨城",
               "value": "茨城"
             },
             {
-              "selected": true,
+              "selected": false,
               "text": "北本",
               "value": "北本"
             },
@@ -1913,9 +1403,9 @@
         {
           "allValue": ".*",
           "current": {
-            "selected": true,
-            "text": "Po5号ライン仕上",
-            "value": "Po5号ライン仕上"
+            "selected": false,
+            "text": "*",
+            "value": "*"
           },
           "hide": 0,
           "includeAll": true,
@@ -1924,27 +1414,12 @@
           "name": "ProcessName",
           "options": [
             {
-              "selected": false,
-              "text": "All",
-              "value": "$__all"
-            },
-            {
-              "selected": false,
-              "text": "Gコーン充填ライン",
-              "value": "Gコーン充填ライン"
-            },
-            {
-              "selected": false,
-              "text": "パナップ仕上げ工程",
-              "value": "パナップ仕上げ工程"
-            },
-            {
               "selected": true,
-              "text": "Po5号ライン仕上",
-              "value": "Po5号ライン仕上"
+              "text": "*",
+              "value": "*"
             }
           ],
-          "query": "Gコーン充填ライン,パナップ仕上げ工程,Po5号ライン仕上",
+          "query": "Gコーン充填ライン,パナップ仕上げ工程",
           "queryValue": "",
           "skipUrlSync": false,
           "type": "custom"
