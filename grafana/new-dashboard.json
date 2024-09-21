@@ -1419,7 +1419,7 @@
               "value": "*"
             }
           ],
-          "query": "Gコーン充填ライン,パナップ仕上げ工程",
+          "query": "Gコーン充填ライン,パナップ仕上げ工程,Po5号ライン仕上",
           "queryValue": "",
           "skipUrlSync": false,
           "type": "custom"
