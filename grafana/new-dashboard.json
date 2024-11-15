@@ -982,7 +982,7 @@
               {
                 "targetBlank": true,
                 "title": "詳細をドリルダウン（クリック）",
-                "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/scheduledevents?from=${__from}﻿\u0026to=${__to}\u0026asset=${__data.fields.AssetName\\Status}"
+                "url": "http://localhost:8080/rest/myservicegrafanadatalinks/v1/scheduledevents?from=${__from}﻿\u0026to=${__to}\u0026asset=${__data.fields.AssetName\\Status}"
               }
             ],
             "mappings": [],
