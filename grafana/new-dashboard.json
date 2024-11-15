@@ -456,6 +456,7 @@
             }
           },
           {
+            "disabled": true,
             "id": "calculateField",
             "options": {
               "alias": "未完了",
@@ -472,6 +473,7 @@
             }
           },
           {
+            "disabled": true,
             "id": "filterFieldsByName",
             "options": {
               "include": {
@@ -887,7 +889,9 @@
           {
             "id": "organize",
             "options": {
-              "excludeByName": {},
+              "excludeByName": {
+                "FinalApprovementFinished": false
+              },
               "includeByName": {},
               "indexByName": {
                 "AssetName\\Status": 0,
@@ -900,6 +904,7 @@
               "renameByName": {
                 "AssetName\\Status": "アセット名",
                 "Assign": "アサイン",
+                "FinalApprovementFinished": "最終承認完了",
                 "Finished": "完了",
                 "InProcessing": "実行中",
                 "NoSpecifiedAssignee": "未アサイン",
@@ -913,6 +918,7 @@
       },
       {
         "datasource": {
+          "default": true,
           "type": "dvelop-odata-datasource",
           "uid": "cdtvprupj2lfkc"
         },
@@ -956,7 +962,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 }
               ]
             }
@@ -1133,6 +1140,10 @@
               {
                 "name": "ProcessName",
                 "type": "Edm.String"
+              },
+              {
+                "name": "MachineName",
+                "type": "Edm.String"
               }
             ],
             "refId": "A",
@@ -1217,6 +1228,13 @@
                     "options": {}
                   },
                   "fieldName": "AssetName"
+                },
+                {
+                  "config": {
+                    "id": "isNull",
+                    "options": {}
+                  },
+                  "fieldName": "MachineName"
                 }
               ],
               "match": "all",
@@ -1228,8 +1246,7 @@
             "options": {
               "fields": {
                 "AssetName": {
-                  "aggregations": [],
-                  "operation": "groupby"
+                  "aggregations": []
                 },
                 "EventId": {
                   "aggregations": [
@@ -1269,6 +1286,10 @@
                   ],
                   "operation": "groupby"
                 },
+                "MachineName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
                 "Status": {
                   "aggregations": [],
                   "operation": "groupby"
@@ -1301,7 +1322,7 @@
             "options": {
               "columnField": "Status",
               "emptyValue": "null",
-              "rowField": "AssetName",
+              "rowField": "MachineName",
               "valueField": "EventId (count)"
             }
           },
@@ -1325,7 +1346,7 @@
               "fields": {},
               "sort": [
                 {
-                  "field": "AssetName\\Status"
+                  "field": "MachineName\\Status"
                 }
               ]
             }
@@ -1337,9 +1358,8 @@
               "mode": "reduceRow",
               "reduce": {
                 "include": [
-                  "1",
-                  "2",
-                  "3"
+                  "計画中",
+                  "承認依頼中"
                 ],
                 "reducer": "sum"
               },
@@ -1351,9 +1371,9 @@
             "options": {
               "include": {
                 "names": [
-                  "AssetName\\Status",
                   "完了",
-                  "未完了"
+                  "未完了",
+                  "MachineName\\Status"
                 ]
               }
             }
