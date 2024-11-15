@@ -1249,6 +1249,15 @@
                     }
                   },
                   "fieldName": "Status"
+                },
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "FinalApprovementFinished"
+                    }
+                  },
+                  "fieldName": "Status"
                 }
               ],
               "match": "any",
@@ -1342,6 +1351,7 @@
                   "destinationType": "enum",
                   "enumConfig": {
                     "text": [
+                      "FinalApprovementFinished",
                       "Finished",
                       "Requesting",
                       "Planed",
@@ -1370,10 +1380,11 @@
               "includeByName": {},
               "indexByName": {},
               "renameByName": {
-                "0": "完了",
-                "1": "承認依頼中",
-                "2": "計画中",
-                "3": "実行中"
+                "0": "最終承認完了",
+                "1": "実行完了",
+                "2": "承認依頼中",
+                "3": "計画中",
+                "MachineName\\Status": ""
               }
             }
           },
@@ -1401,6 +1412,20 @@
                 "reducer": "sum"
               },
               "replaceFields": false
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "alias": "完了",
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "最終承認完了",
+                  "実行完了"
+                ],
+                "reducer": "sum"
+              }
             }
           },
           {
