@@ -1402,6 +1402,20 @@
           {
             "id": "calculateField",
             "options": {
+              "alias": "完了",
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "最終承認完了",
+                  "実行完了"
+                ],
+                "reducer": "sum"
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
               "alias": "未完了",
               "mode": "reduceRow",
               "reduce": {
@@ -1412,20 +1426,6 @@
                 "reducer": "sum"
               },
               "replaceFields": false
-            }
-          },
-          {
-            "id": "calculateField",
-            "options": {
-              "alias": "完了",
-              "mode": "reduceRow",
-              "reduce": {
-                "include": [
-                  "最終承認完了",
-                  "実行完了"
-                ],
-                "reducer": "sum"
-              }
             }
           },
           {
