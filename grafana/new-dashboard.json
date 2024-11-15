@@ -28,6 +28,7 @@
     "panels": [
       {
         "datasource": {
+          "default": true,
           "type": "dvelop-odata-datasource",
           "uid": "cdtvprupj2lfkc"
         },
@@ -191,7 +192,7 @@
           "x": 0,
           "y": 0
         },
-        "id": 4,
+        "id": 5,
         "options": {
           "barRadius": 0,
           "barWidth": 0.8,
@@ -248,6 +249,10 @@
               },
               {
                 "name": "ProcessName",
+                "type": "Edm.String"
+              },
+              {
+                "name": "MachineName",
                 "type": "Edm.String"
               }
             ],
@@ -342,6 +347,13 @@
                     "options": {}
                   },
                   "fieldName": "AssetName"
+                },
+                {
+                  "config": {
+                    "id": "isNull",
+                    "options": {}
+                  },
+                  "fieldName": "MachineName"
                 }
               ],
               "match": "all",
@@ -353,8 +365,7 @@
             "options": {
               "fields": {
                 "AssetName": {
-                  "aggregations": [],
-                  "operation": "groupby"
+                  "aggregations": []
                 },
                 "EventId": {
                   "aggregations": [
@@ -394,6 +405,10 @@
                   ],
                   "operation": "groupby"
                 },
+                "MachineName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
                 "Status": {
                   "aggregations": [],
                   "operation": "groupby"
@@ -426,7 +441,7 @@
             "options": {
               "columnField": "Status",
               "emptyValue": "null",
-              "rowField": "AssetName",
+              "rowField": "MachineName",
               "valueField": "EventId (count)"
             }
           },
@@ -450,22 +465,20 @@
               "fields": {},
               "sort": [
                 {
-                  "field": "AssetName\\Status"
+                  "field": "MachineName\\Status"
                 }
               ]
             }
           },
           {
-            "disabled": true,
             "id": "calculateField",
             "options": {
               "alias": "未完了",
               "mode": "reduceRow",
               "reduce": {
                 "include": [
-                  "1",
-                  "2",
-                  "3"
+                  "計画中",
+                  "承認依頼中"
                 ],
                 "reducer": "sum"
               },
@@ -473,14 +486,13 @@
             }
           },
           {
-            "disabled": true,
             "id": "filterFieldsByName",
             "options": {
               "include": {
                 "names": [
-                  "AssetName\\Status",
                   "完了",
-                  "未完了"
+                  "未完了",
+                  "MachineName\\Status"
                 ]
               }
             }
@@ -1079,10 +1091,10 @@
         "gridPos": {
           "h": 19,
           "w": 12,
-          "x": 5,
+          "x": 0,
           "y": 19
         },
-        "id": 5,
+        "id": 4,
         "options": {
           "barRadius": 0,
           "barWidth": 0.8,
@@ -1167,6 +1179,15 @@
                     }
                   },
                   "fieldName": "SiteName"
+                },
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "${ProcessName}"
+                    }
+                  },
+                  "fieldName": "ProcessName"
                 }
               ],
               "match": "all",
