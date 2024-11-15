@@ -64,7 +64,7 @@
               {
                 "targetBlank": true,
                 "title": "詳細をドリルダウン（クリック）",
-                "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/scheduledevents?from=${__from}﻿\u0026to=${__to}\u0026asset=${__data.fields.AssetName\\Status}"
+                "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/scheduledevents?from=${__from}﻿\u0026to=${__to}\u0026asset=${__data.fields.MachineName\\Status}"
               }
             ],
             "mappings": [],
@@ -82,13 +82,13 @@
             {
               "matcher": {
                 "id": "byName",
-                "options": "Planed"
+                "options": "完了"
               },
               "properties": [
                 {
                   "id": "color",
                   "value": {
-                    "fixedColor": "transparent",
+                    "fixedColor": "green",
                     "mode": "fixed"
                   }
                 }
@@ -214,7 +214,7 @@
             "mode": "multi",
             "sort": "none"
           },
-          "xField": "AssetName\\Status",
+          "xField": "MachineName\\Status",
           "xTickLabelRotation": 0,
           "xTickLabelSpacing": 0
         },
@@ -538,7 +538,7 @@
             "links": [
               {
                 "title": "詳細をドリルダウン（クリック）",
-                "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/scheduledevents?from=${__from}﻿\u0026to=${__to}\u0026asset=${__data.fields.AssetName\\Status}"
+                "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/scheduledevents?from=${__from}﻿\u0026to=${__to}\u0026asset=${__data.fields.MachineName\\Status}"
               }
             ],
             "mappings": [],
