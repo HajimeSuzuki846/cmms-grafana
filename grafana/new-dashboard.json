@@ -1218,50 +1218,14 @@
                   "config": {
                     "id": "equal",
                     "options": {
-                      "value": "Finished"
-                    }
-                  },
-                  "fieldName": "Status"
-                },
-                {
-                  "config": {
-                    "id": "equal",
-                    "options": {
-                      "value": "Planed"
-                    }
-                  },
-                  "fieldName": "Status"
-                },
-                {
-                  "config": {
-                    "id": "equal",
-                    "options": {
-                      "value": "Requesting"
-                    }
-                  },
-                  "fieldName": "Status"
-                },
-                {
-                  "config": {
-                    "id": "equal",
-                    "options": {
-                      "value": "InProcessing"
-                    }
-                  },
-                  "fieldName": "Status"
-                },
-                {
-                  "config": {
-                    "id": "equal",
-                    "options": {
-                      "value": "FinalApprovementFinished"
+                      "value": "Aborted"
                     }
                   },
                   "fieldName": "Status"
                 }
               ],
-              "match": "any",
-              "type": "include"
+              "match": "all",
+              "type": "exclude"
             }
           },
           {
@@ -1351,11 +1315,12 @@
                   "destinationType": "enum",
                   "enumConfig": {
                     "text": [
-                      "FinalApprovementFinished",
                       "Finished",
-                      "Requesting",
                       "Planed",
-                      "InProcessing"
+                      "Assign",
+                      "FinalApprovementFinished",
+                      "NoSpecifiedAssignee",
+                      "Requesting"
                     ]
                   },
                   "targetField": "Status"
@@ -1380,12 +1345,52 @@
               "includeByName": {},
               "indexByName": {},
               "renameByName": {
-                "0": "最終承認完了",
-                "1": "実行完了",
-                "2": "承認依頼中",
-                "3": "計画中",
-                "MachineName\\Status": ""
+                "0": "実施完了",
+                "1": "計画中",
+                "2": "担当者アサイン_Assign",
+                "3": "最終承認完了",
+                "4": "担当者アサイン_NoSpecifiedAssignee",
+                "5": "承認依頼中",
+                "Assign": "担当者アサイン",
+                "FinalApprovementFinished": "最終承認完了",
+                "Finished": "実施完了",
+                "MachineName\\Status": "",
+                "NoSpecifiedAssignee": "担当者アサイン",
+                "Planed": "計画中",
+                "Requesting": "承認依頼中"
               }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "alias": "完了",
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "実施完了",
+                  "最終承認完了",
+                  "承認依頼中"
+                ],
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "alias": "未完了",
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "計画中",
+                  "担当者アサイン_Assign",
+                  "担当者アサイン_NoSpecifiedAssignee"
+                ],
+                "reducer": "sum"
+              },
+              "replaceFields": false
             }
           },
           {
@@ -1397,35 +1402,6 @@
                   "field": "MachineName\\Status"
                 }
               ]
-            }
-          },
-          {
-            "id": "calculateField",
-            "options": {
-              "alias": "完了",
-              "mode": "reduceRow",
-              "reduce": {
-                "include": [
-                  "最終承認完了",
-                  "実行完了"
-                ],
-                "reducer": "sum"
-              }
-            }
-          },
-          {
-            "id": "calculateField",
-            "options": {
-              "alias": "未完了",
-              "mode": "reduceRow",
-              "reduce": {
-                "include": [
-                  "計画中",
-                  "承認依頼中"
-                ],
-                "reducer": "sum"
-              },
-              "replaceFields": false
             }
           },
           {
