@@ -263,7 +263,7 @@
             }
           }
         ],
-        "title": "進捗率",
+        "title": "進捗率（未使用）",
         "transformations": [
           {
             "id": "filterByValue",
