@@ -304,9 +304,18 @@
                     }
                   },
                   "fieldName": "Status"
+                },
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "InProcessing"
+                    }
+                  },
+                  "fieldName": "Status"
                 }
               ],
-              "match": "all",
+              "match": "any",
               "type": "exclude"
             }
           },
@@ -329,7 +338,7 @@
                   "fieldName": "MachineName"
                 }
               ],
-              "match": "all",
+              "match": "any",
               "type": "exclude"
             }
           },
