@@ -445,7 +445,7 @@
                 "Assign": "担当者アサイン",
                 "FinalApprovementFinished": "最終承認完了",
                 "Finished": "実施完了",
-                "MachineName\\Status": "",
+                "MachineName\\Status": "設備名",
                 "NoSpecifiedAssignee": "担当者アサイン",
                 "Planed": "計画中",
                 "Requesting": "承認依頼中"
@@ -490,7 +490,7 @@
               "fields": {},
               "sort": [
                 {
-                  "field": "MachineName\\Status"
+                  "field": "設備名"
                 }
               ]
             }
@@ -502,7 +502,7 @@
                 "names": [
                   "完了",
                   "未完了",
-                  "MachineName\\Status"
+                  "設備名"
                 ]
               }
             }
