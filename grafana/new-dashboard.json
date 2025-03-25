@@ -1880,8 +1880,8 @@
         {
           "current": {
             "selected": true,
-            "text": "茨城",
-            "value": "茨城"
+            "text": "北本",
+            "value": "北本"
           },
           "hide": 0,
           "includeAll": false,
@@ -1890,12 +1890,12 @@
           "name": "SiteName",
           "options": [
             {
-              "selected": true,
+              "selected": false,
               "text": "茨城",
               "value": "茨城"
             },
             {
-              "selected": false,
+              "selected": true,
               "text": "北本",
               "value": "北本"
             },
@@ -1913,9 +1913,9 @@
         {
           "allValue": ".*",
           "current": {
-            "selected": false,
-            "text": "*",
-            "value": "*"
+            "selected": true,
+            "text": "Po5号ライン仕上",
+            "value": "Po5号ライン仕上"
           },
           "hide": 0,
           "includeAll": true,
@@ -1924,9 +1924,24 @@
           "name": "ProcessName",
           "options": [
             {
+              "selected": false,
+              "text": "All",
+              "value": "$__all"
+            },
+            {
+              "selected": false,
+              "text": "Gコーン充填ライン",
+              "value": "Gコーン充填ライン"
+            },
+            {
+              "selected": false,
+              "text": "パナップ仕上げ工程",
+              "value": "パナップ仕上げ工程"
+            },
+            {
               "selected": true,
-              "text": "*",
-              "value": "*"
+              "text": "Po5号ライン仕上",
+              "value": "Po5号ライン仕上"
             }
           ],
           "query": "Gコーン充填ライン,パナップ仕上げ工程,Po5号ライン仕上",
