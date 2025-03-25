@@ -1,5 +1,5 @@
 {
-  "apiVersion": "dashboard.grafana.app/v1beta1",
+  "apiVersion": "dashboard.grafana.app/v0alpha1",
   "kind": "Dashboard",
   "metadata": {
     "name": "cdxy77qlsg8owh"
@@ -36,8 +36,730 @@
         },
         "id": 23,
         "panels": [],
-        "title": "在庫管理KPIs",
+        "title": "計画保全進捗率",
         "type": "row"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "feetsozgtngg0d"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "left",
+              "cellOptions": {
+                "type": "auto",
+                "wrapText": true
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 20
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "完了率（％）"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "mode": "basic",
+                    "type": "gauge",
+                    "valueDisplayMode": "color"
+                  }
+                },
+                {
+                  "id": "links"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 7,
+          "x": 0,
+          "y": 1
+        },
+        "id": 20,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "frameIndex": 1,
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": true,
+              "displayName": "完了率"
+            }
+          ]
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "feetsozgtngg0d"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  process_name AS 工程, \r\n  CAST(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished') THEN 1 ELSE 0 END) AS FLOAT\r\n  ) / COUNT(status) * 100 AS 完了率（％）\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  site_name = '${SiteName}'and $__timeFilter(due_date) \r\nGROUP BY\r\n  process_name\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "name": "COUNT",
+                  "parameters": [
+                    {
+                      "name": "status",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "process_name",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "scheduled_events"
+          }
+        ],
+        "title": "ライン別の進捗率",
+        "transformations": [
+          {
+            "id": "groupingToMatrix",
+            "options": {
+              "columnField": "status",
+              "emptyValue": "null",
+              "rowField": "process_name",
+              "valueField": "status_count"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "feetsozgtngg0d"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "left",
+              "cellOptions": {
+                "type": "auto",
+                "wrapText": true
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 20
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "完了率（％）"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "mode": "basic",
+                    "type": "color-background"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "完了率（％）"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "mode": "basic",
+                    "type": "gauge",
+                    "valueDisplayMode": "color"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 7,
+          "x": 7,
+          "y": 1
+        },
+        "id": 21,
+        "options": {
+          "cellHeight": "md",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "frameIndex": 1,
+          "showHeader": true
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "feetsozgtngg0d"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  machine_name AS 設備, \r\n  CAST(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished') THEN 1 ELSE 0 END) AS FLOAT\r\n  ) / COUNT(status) * 100 AS  完了率（％）\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  site_name = '${SiteName}' and process_name = '${ProcessName}' AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name\r\nORDER BY\r\n  machine_name ASC",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "name": "COUNT",
+                  "parameters": [
+                    {
+                      "name": "status",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "process_name",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "scheduled_events"
+          }
+        ],
+        "title": "設備別の進捗率",
+        "transformations": [
+          {
+            "id": "groupingToMatrix",
+            "options": {
+              "columnField": "status",
+              "emptyValue": "null",
+              "rowField": "process_name",
+              "valueField": "status_count"
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "feetsozgtngg0d"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisBorderShow": true,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisGridShow": true,
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "axisWidth": -1,
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "完了件数"
+              },
+              "properties": []
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "未完了件数"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#3f3f42",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 14,
+          "w": 9,
+          "x": 14,
+          "y": 1
+        },
+        "id": 22,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "auto",
+          "stacking": "normal",
+          "text": {
+            "valueSize": 20
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xField": "設備",
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "feetsozgtngg0d"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  machine_name AS 設備,\r\n  SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished') THEN 1 ELSE 0 END) AS 完了件数,\r\n  SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished') THEN 1 ELSE 0 END) AS 未完了件数\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  not(machine_name = '')\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}'\r\nGROUP BY\r\n  machine_name\r\nORDER BY\r\n  machine_name ASC;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "name": "COUNT",
+                  "parameters": [
+                    {
+                      "name": "status",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "process_name",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "scheduled_events"
+          }
+        ],
+        "title": "設備別の進捗率",
+        "transformations": [
+          {
+            "id": "groupingToMatrix",
+            "options": {
+              "columnField": "ステータス",
+              "rowField": "設備",
+              "valueField": "件数"
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "cedpglkgedslca"
+        },
+        "gridPos": {
+          "h": 13,
+          "w": 16,
+          "x": 0,
+          "y": 15
+        },
+        "id": 14,
+        "options": {
+          "barPadding": 2,
+          "barTextFontSize": 12,
+          "barTextRotation": 270,
+          "isInclusive": false,
+          "showBarText": true,
+          "showBarValue": false,
+          "showVitalFew": true,
+          "valToFixed": 2,
+          "vitalBreakpointVal": 20
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "cedpglkgedslca"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT name_and_part_number, AVG(part_total_qty) FROM change_histories WHERE site_name = '${SiteName}' and $__timeFilter(datetime) GROUP BY name_and_part_number ORDER BY AVG(part_total_qty) DESC LIMIT ${top} ",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "パレート図",
+        "type": "isaozler-paretochart-panel"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "feetsozgtngg0d"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 16,
+          "y": 15
+        },
+        "id": 19,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "frameIndex": 1,
+          "showHeader": true
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "feetsozgtngg0d"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  process_name,\r\n  status,\r\n  COUNT(*) AS status_count\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  site_name = '${SiteName}'\r\nGROUP BY\r\n  process_name, status",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "name": "COUNT",
+                  "parameters": [
+                    {
+                      "name": "status",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "process_name",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "scheduled_events"
+          }
+        ],
+        "title": "Panel Title",
+        "transformations": [
+          {
+            "id": "groupingToMatrix",
+            "options": {
+              "columnField": "status",
+              "emptyValue": "null",
+              "rowField": "process_name",
+              "valueField": "status_count"
+            }
+          }
+        ],
+        "type": "table"
       },
       {
         "datasource": {
@@ -55,8 +777,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -72,7 +793,7 @@
           "h": 8,
           "w": 12,
           "x": 0,
-          "y": 1
+          "y": 28
         },
         "id": 16,
         "options": {
@@ -221,8 +942,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -243,9 +963,9 @@
         },
         "gridPos": {
           "h": 8,
-          "w": 12,
+          "w": 11,
           "x": 12,
-          "y": 1
+          "y": 28
         },
         "id": 15,
         "maxDataPoints": 100,
@@ -375,255 +1095,66 @@
       },
       {
         "datasource": {
-          "default": false,
-          "type": "datasource",
-          "uid": "-- Mixed --"
-        },
-        "description": "",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "fillOpacity": 50,
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "pointShape": "circle",
-              "pointSize": {
-                "fixed": 20
-              },
-              "pointStrokeWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "show": "points"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "在庫回転率"
-              },
-              "properties": []
-            }
-          ]
+          "type": "dvelop-odata-datasource",
+          "uid": "cdtvprupj2lfkc"
         },
         "gridPos": {
-          "h": 13,
+          "h": 7,
           "w": 12,
           "x": 0,
-          "y": 9
+          "y": 36
         },
-        "id": 11,
-        "maxDataPoints": 100,
+        "id": 12,
         "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom",
-            "showLegend": true
+          "alertInstanceLabelFilter": "",
+          "alertName": "",
+          "dashboardAlerts": true,
+          "datasource": "-- Grafana --",
+          "folder": {
+            "title": "在庫回転率",
+            "uid": "fedqpef6l41z4b"
           },
-          "mapping": "auto",
-          "series": [
-            {}
-          ],
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
+          "groupBy": [],
+          "groupMode": "default",
+          "maxItems": 20,
+          "sortOrder": 1,
+          "stateFilter": {
+            "error": true,
+            "firing": true,
+            "noData": false,
+            "normal": false,
+            "pending": true
+          },
+          "viewMode": "list"
         },
-        "pluginVersion": "11.2.0",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-postgresql-datasource",
-              "uid": "cedpglkgedslca"
-            },
-            "editorMode": "code",
-            "format": "table",
-            "rawQuery": true,
-            "rawSql": "SELECT \r\n    name_and_part_number, \r\n    AVG(unit_price) AS 単価,\r\n    CASE \r\n        WHEN AVG(part_total_qty) = 0 THEN 0 \r\n        ELSE SUM(qty_change) / AVG(part_total_qty) \r\n    END AS 在庫回転率\r\nFROM \r\n    change_histories\r\nWHERE \r\n    site_name = '${SiteName}' \r\n    AND $__timeFilter(datetime)\r\nGROUP BY \r\n    name_and_part_number\r\nORDER BY \r\n    単価 DESC, 在庫回転率 DESC\r\nLIMIT 50;\r\n",
-            "refId": "A",
-            "sql": {
-              "columns": [
-                {
-                  "parameters": [
-                    {
-                      "name": "name_and_part_number",
-                      "type": "functionParameter"
-                    }
-                  ],
-                  "type": "function"
-                },
-                {
-                  "name": "AVG",
-                  "parameters": [
-                    {
-                      "name": "part_total_qty",
-                      "type": "functionParameter"
-                    }
-                  ],
-                  "type": "function"
-                }
-              ],
-              "groupBy": [
-                {
-                  "property": {
-                    "name": "name_and_part_number",
-                    "type": "string"
-                  },
-                  "type": "groupBy"
-                }
-              ],
-              "limit": 50,
-              "orderBy": {
-                "property": {
-                  "name": "AVG(part_total_qty)",
-                  "type": "string"
-                },
-                "type": "property"
-              },
-              "orderByDirection": "DESC",
-              "whereJsonTree": {
-                "children1": [
-                  {
-                    "id": "bbb8899a-cdef-4012-b456-7195277ab9bf",
-                    "properties": {
-                      "field": "site_name",
-                      "fieldSrc": "field",
-                      "operator": "equal",
-                      "value": [
-                        "${SiteName}"
-                      ],
-                      "valueError": [
-                        null
-                      ],
-                      "valueSrc": [
-                        "value"
-                      ],
-                      "valueType": [
-                        "text"
-                      ]
-                    },
-                    "type": "rule"
-                  },
-                  {
-                    "id": "9898a888-89ab-4cde-b012-319527ebb69f",
-                    "properties": {
-                      "field": "datetime",
-                      "fieldSrc": "field",
-                      "operator": "between",
-                      "value": [
-                        "2025-02-21 18:52:05",
-                        null
-                      ],
-                      "valueError": [
-                        null,
-                        null
-                      ],
-                      "valueSrc": [
-                        "value",
-                        "value"
-                      ],
-                      "valueType": [
-                        "datetime",
-                        "datetime"
-                      ]
-                    },
-                    "type": "rule"
-                  }
-                ],
-                "id": "8b8abb89-0123-4456-b89a-b1952669d1f0",
-                "type": "group"
-              },
-              "whereString": "site_name = '${SiteName}'"
-            },
-            "table": "change_histories"
-          }
-        ],
-        "title": "部品単価 vs 在庫回転率",
-        "type": "xychart"
+        "title": "Panel Title",
+        "type": "alertlist"
       },
       {
         "datasource": {
-          "default": false,
-          "type": "grafana-postgresql-datasource",
-          "uid": "cedpglkgedslca"
+          "type": "dvelop-odata-datasource",
+          "uid": "cdtvprupj2lfkc"
         },
         "gridPos": {
-          "h": 13,
+          "h": 7,
           "w": 12,
           "x": 12,
-          "y": 9
+          "y": 36
         },
-        "id": 14,
+        "id": 18,
         "options": {
-          "barPadding": 2,
-          "barTextFontSize": 12,
-          "barTextRotation": 270,
-          "isInclusive": false,
-          "showBarText": true,
-          "showBarValue": false,
-          "showVitalFew": true,
-          "valToFixed": 2,
-          "vitalBreakpointVal": 20
+          "limit": 10,
+          "navigateAfter": "10m",
+          "navigateBefore": "10m",
+          "navigateToPanel": true,
+          "onlyFromThisDashboard": false,
+          "onlyInTimeRange": false,
+          "showTags": true,
+          "showTime": true,
+          "showUser": true
         },
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-postgresql-datasource",
-              "uid": "cedpglkgedslca"
-            },
-            "editorMode": "code",
-            "format": "table",
-            "rawQuery": true,
-            "rawSql": "SELECT name_and_part_number, AVG(part_total_qty) FROM change_histories WHERE site_name = '${SiteName}' and $__timeFilter(datetime) GROUP BY name_and_part_number ORDER BY AVG(part_total_qty) DESC LIMIT ${top} ",
-            "refId": "A",
-            "sql": {
-              "columns": [
-                {
-                  "parameters": [],
-                  "type": "function"
-                }
-              ],
-              "groupBy": [
-                {
-                  "property": {
-                    "type": "string"
-                  },
-                  "type": "groupBy"
-                }
-              ],
-              "limit": 50
-            }
-          }
-        ],
-        "title": "パレート図",
-        "type": "isaozler-paretochart-panel"
+        "title": "Panel Title",
+        "type": "annolist"
       },
       {
         "datasource": {
@@ -663,8 +1194,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "blue",
-                  "value": null
+                  "color": "blue"
                 }
               ]
             },
@@ -684,7 +1214,7 @@
           "h": 19,
           "w": 24,
           "x": 0,
-          "y": 22
+          "y": 43
         },
         "id": 7,
         "maxDataPoints": 100,
@@ -826,6 +1356,200 @@
           "type": "datasource",
           "uid": "-- Mixed --"
         },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 50,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "pointShape": "circle",
+              "pointSize": {
+                "fixed": 20
+              },
+              "pointStrokeWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "show": "points"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "在庫回転率"
+              },
+              "properties": []
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 19,
+          "w": 12,
+          "x": 0,
+          "y": 62
+        },
+        "id": 11,
+        "maxDataPoints": 100,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "mapping": "auto",
+          "series": [
+            {}
+          ],
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "cedpglkgedslca"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT \r\n    name_and_part_number, \r\n    AVG(unit_price) AS 単価,\r\n    CASE \r\n        WHEN AVG(part_total_qty) = 0 THEN 0 \r\n        ELSE SUM(qty_change) / AVG(part_total_qty) \r\n    END AS 在庫回転率\r\nFROM \r\n    change_histories\r\nWHERE \r\n    site_name = '${SiteName}' \r\n    AND $__timeFilter(datetime)\r\nGROUP BY \r\n    name_and_part_number\r\nORDER BY \r\n    単価 DESC, 在庫回転率 DESC\r\nLIMIT 50;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "name_and_part_number",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "name": "AVG",
+                  "parameters": [
+                    {
+                      "name": "part_total_qty",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "name_and_part_number",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "orderBy": {
+                "property": {
+                  "name": "AVG(part_total_qty)",
+                  "type": "string"
+                },
+                "type": "property"
+              },
+              "orderByDirection": "DESC",
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "bbb8899a-cdef-4012-b456-7195277ab9bf",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  },
+                  {
+                    "id": "9898a888-89ab-4cde-b012-319527ebb69f",
+                    "properties": {
+                      "field": "datetime",
+                      "fieldSrc": "field",
+                      "operator": "between",
+                      "value": [
+                        "2025-02-21 18:52:05",
+                        null
+                      ],
+                      "valueError": [
+                        null,
+                        null
+                      ],
+                      "valueSrc": [
+                        "value",
+                        "value"
+                      ],
+                      "valueType": [
+                        "datetime",
+                        "datetime"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "8b8abb89-0123-4456-b89a-b1952669d1f0",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "change_histories"
+          }
+        ],
+        "title": "部品単価 vs 在庫回転率",
+        "type": "xychart"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "datasource",
+          "uid": "-- Mixed --"
+        },
         "description": "在庫変動数量/平均在庫数",
         "fieldConfig": {
           "defaults": {
@@ -899,7 +1623,7 @@
           "h": 15,
           "w": 24,
           "x": 0,
-          "y": 41
+          "y": 81
         },
         "id": 10,
         "maxDataPoints": 100,
@@ -1024,13 +1748,1318 @@
         ],
         "title": "在庫回転率",
         "type": "barchart"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "datasource",
+          "uid": "-- Mixed --"
+        },
+        "description": "拠点ごとの在庫部品数量を可視化",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "__systemRef": "hideSeriesFrom",
+              "matcher": {
+                "id": "byNames",
+                "options": {
+                  "mode": "exclude",
+                  "names": [
+                    "TotalQty A"
+                  ],
+                  "prefix": "All except:",
+                  "readOnly": true
+                }
+              },
+              "properties": []
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "PhotoUrl"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "image"
+                  }
+                },
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "targetBlank": true,
+                      "title": "",
+                      "url": "${__value.row}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 17,
+          "w": 12,
+          "x": 0,
+          "y": 96
+        },
+        "id": 8,
+        "maxDataPoints": 100,
+        "options": {
+          "cellHeight": "lg",
+          "footer": {
+            "countRows": false,
+            "enablePagination": true,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "dvelop-odata-datasource",
+              "uid": "eedi34n3ayqdcd"
+            },
+            "entitySet": {
+              "entityType": "DefaultNamespace.Parts",
+              "name": "Parts"
+            },
+            "filterConditions": [],
+            "properties": [
+              {
+                "name": "Name",
+                "type": "Edm.String"
+              },
+              {
+                "name": "TotalQty",
+                "type": "Edm.Int64"
+              },
+              {
+                "name": "Parts_Sites",
+                "type": "Edm.Int64"
+              },
+              {
+                "name": "PhotoUrl",
+                "type": "Edm.String"
+              },
+              {
+                "name": "UnitPrice",
+                "type": "Edm.Decimal"
+              }
+            ],
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "dvelop-odata-datasource",
+              "uid": "cdtvprupj2lfkc"
+            },
+            "entitySet": {
+              "entityType": "DefaultNamespace.Sites",
+              "name": "Sites"
+            },
+            "hide": false,
+            "properties": [
+              {
+                "name": "ID",
+                "type": "Edm.Int64"
+              },
+              {
+                "name": "SiteNameCaption",
+                "type": "Edm.String"
+              }
+            ],
+            "refId": "B"
+          }
+        ],
+        "title": "総数量",
+        "transformations": [
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "Parts_Sites",
+              "renamePattern": "ID"
+            }
+          },
+          {
+            "id": "joinByField",
+            "options": {
+              "byField": "ID",
+              "mode": "inner"
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "${SiteName}"
+                    }
+                  },
+                  "fieldName": "SiteNameCaption B"
+                }
+              ],
+              "match": "any",
+              "type": "include"
+            }
+          },
+          {
+            "id": "convertFieldType",
+            "options": {
+              "conversions": [
+                {
+                  "destinationType": "string",
+                  "targetField": "PhotoUrl"
+                }
+              ],
+              "fields": {}
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "datasource",
+          "uid": "-- Mixed --"
+        },
+        "description": "拠点ごとの在庫部品数量を可視化",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "__systemRef": "hideSeriesFrom",
+              "matcher": {
+                "id": "byNames",
+                "options": {
+                  "mode": "exclude",
+                  "names": [
+                    "TotalQty A"
+                  ],
+                  "prefix": "All except:",
+                  "readOnly": true
+                }
+              },
+              "properties": []
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "PhotoUrl"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "image"
+                  }
+                },
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "targetBlank": true,
+                      "title": "",
+                      "url": "${__value.row}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 17,
+          "w": 12,
+          "x": 12,
+          "y": 96
+        },
+        "id": 17,
+        "maxDataPoints": 100,
+        "options": {
+          "cellHeight": "lg",
+          "footer": {
+            "countRows": false,
+            "enablePagination": true,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "cedpglkgedslca"
+            },
+            "editorMode": "builder",
+            "format": "table",
+            "rawSql": "SELECT name_and_part_number, total_qty_before, total_qty_after, unit_price FROM change_histories WHERE site_name = '${SiteName}' LIMIT 50 ",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "name_and_part_number",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "total_qty_before",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "total_qty_after",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "unit_price",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "88b8a988-cdef-4012-b456-71952cce733c",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "88899ba8-0123-4456-b89a-b1952b3a5410",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "change_histories"
+          }
+        ],
+        "title": "総数量",
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "bdyrch7nmvy0wa"
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 4,
+          "x": 0,
+          "y": 113
+        },
+        "id": 6,
+        "options": {
+          "clickMode": "SetVariable",
+          "dashboardVariableName": "process_id",
+          "dataLinkNewTab": false,
+          "disabledColumn": "disabled",
+          "displayedTreeDepth": 100,
+          "idColumn": "id",
+          "labelColumn": "label",
+          "multiSelect": true,
+          "orderLevels": "asc",
+          "parentIdColumn": "parent",
+          "showItemCount": false,
+          "showSearch": false,
+          "supportsDisabled": false,
+          "toggleSelectMode": "singleClick"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "bdyrch7nmvy0wa"
+            },
+            "editorMode": "builder",
+            "format": "table",
+            "rawSql": "SELECT * FROM process LIMIT 50 ",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "*",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            },
+            "table": "process"
+          }
+        ],
+        "title": "Panel Title",
+        "type": "equansdatahub-tree-panel"
+      },
+      {
+        "datasource": {
+          "default": true,
+          "type": "dvelop-odata-datasource",
+          "uid": "cdtvprupj2lfkc"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "axisSoftMax": 1.1,
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "fieldMinMax": false,
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "詳細をドリルダウン（クリック）",
+                "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/scheduledevents?from=${__from}﻿\u0026to=${__to}\u0026asset=${__data.fields.AssetName\\Status}"
+              }
+            ],
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "完了"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "green",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "未完了"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#00000000",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 19,
+          "w": 9,
+          "x": 4,
+          "y": 113
+        },
+        "id": 4,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.8,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "auto",
+          "stacking": "percent",
+          "text": {
+            "valueSize": 12
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xField": "MachineName\\Status",
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "11.1.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "dvelop-odata-datasource",
+              "uid": "cdtvprupj2lfkc"
+            },
+            "entitySet": {
+              "entityType": "DefaultNamespace.ScheduledEvents",
+              "name": "ScheduledEvents"
+            },
+            "filterConditions": [],
+            "properties": [
+              {
+                "name": "AssetName",
+                "type": "Edm.String"
+              },
+              {
+                "name": "EventId",
+                "type": "Edm.Int64"
+              },
+              {
+                "name": "Status",
+                "type": "DefaultNamespace.ScheduledEvents_Status"
+              },
+              {
+                "name": "SiteName",
+                "type": "Edm.String"
+              },
+              {
+                "name": "ProcessName",
+                "type": "Edm.String"
+              },
+              {
+                "name": "MachineName",
+                "type": "Edm.String"
+              }
+            ],
+            "refId": "A",
+            "timeProperty": {
+              "name": "DueDate",
+              "type": "Edm.DateTimeOffset"
+            }
+          }
+        ],
+        "title": "進捗率",
+        "transformations": [
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "${SiteName}"
+                    }
+                  },
+                  "fieldName": "SiteName"
+                }
+              ],
+              "match": "all",
+              "type": "include"
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "Finished"
+                    }
+                  },
+                  "fieldName": "Status"
+                },
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "Planed"
+                    }
+                  },
+                  "fieldName": "Status"
+                },
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "Requesting"
+                    }
+                  },
+                  "fieldName": "Status"
+                },
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "InProcessing"
+                    }
+                  },
+                  "fieldName": "Status"
+                }
+              ],
+              "match": "any",
+              "type": "include"
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "isNull",
+                    "options": {}
+                  },
+                  "fieldName": "AssetName"
+                },
+                {
+                  "config": {
+                    "id": "isNull",
+                    "options": {}
+                  },
+                  "fieldName": "MachineName"
+                }
+              ],
+              "match": "all",
+              "type": "exclude"
+            }
+          },
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "AssetName": {
+                  "aggregations": []
+                },
+                "EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "FinalApprovementFinished AssetName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "FinalApprovementFinished EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "FinalApprovementFinished Status": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "groupby"
+                },
+                "Finished AssetName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "Finished EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "Finished Status": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "groupby"
+                },
+                "MachineName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "Status": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                }
+              }
+            }
+          },
+          {
+            "id": "convertFieldType",
+            "options": {
+              "conversions": [
+                {
+                  "destinationType": "enum",
+                  "enumConfig": {
+                    "text": [
+                      "Finished",
+                      "Requesting",
+                      "Planed",
+                      "InProcessing"
+                    ]
+                  },
+                  "targetField": "Status"
+                }
+              ],
+              "fields": {}
+            }
+          },
+          {
+            "id": "groupingToMatrix",
+            "options": {
+              "columnField": "Status",
+              "emptyValue": "null",
+              "rowField": "MachineName",
+              "valueField": "EventId (count)"
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "includeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "0": "完了",
+                "1": "承認依頼中",
+                "2": "計画中",
+                "3": "実行中"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "MachineName\\Status"
+                }
+              ]
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "alias": "未完了",
+              "mode": "reduceRow",
+              "reduce": {
+                "include": [
+                  "承認依頼中",
+                  "計画中",
+                  "実行中"
+                ],
+                "reducer": "sum"
+              },
+              "replaceFields": false
+            }
+          },
+          {
+            "id": "filterFieldsByName",
+            "options": {
+              "include": {
+                "names": [
+                  "完了",
+                  "未完了",
+                  "MachineName\\Status"
+                ]
+              }
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "default": true,
+          "type": "dvelop-odata-datasource",
+          "uid": "cdtvprupj2lfkc"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "axisSoftMax": 1.1,
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "fieldMinMax": false,
+            "links": [
+              {
+                "title": "詳細をドリルダウン（クリック）",
+                "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/scheduledevents?from=${__from}﻿\u0026to=${__to}\u0026asset=${__data.fields.AssetName\\Status}"
+              }
+            ],
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "FinalApprovementFinished"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "red",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Finished / Finished + FinalApprovementFinished"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "orange",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Finished + FinalApprovementFinished"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#B877D9",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Planed"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Requesting"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "orange",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "計画中"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "text",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "実行中"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "blue",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "アサイン"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "text",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "未アサイン"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "text",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 19,
+          "w": 9,
+          "x": 13,
+          "y": 113
+        },
+        "id": 3,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.8,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "orientation": "horizontal",
+          "showValue": "auto",
+          "stacking": "normal",
+          "text": {
+            "valueSize": 12
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xField": "AssetName\\Status",
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "11.1.3",
+        "targets": [
+          {
+            "datasource": {
+              "type": "dvelop-odata-datasource",
+              "uid": "cdtvprupj2lfkc"
+            },
+            "entitySet": {
+              "entityType": "DefaultNamespace.ScheduledEvents",
+              "name": "ScheduledEvents"
+            },
+            "filterConditions": [],
+            "properties": [
+              {
+                "name": "AssetName",
+                "type": "Edm.String"
+              },
+              {
+                "name": "EventId",
+                "type": "Edm.Int64"
+              },
+              {
+                "name": "Status",
+                "type": "DefaultNamespace.ScheduledEvents_Status"
+              },
+              {
+                "name": "SiteName",
+                "type": "Edm.String"
+              },
+              {
+                "name": "MachineName",
+                "type": "Edm.String"
+              }
+            ],
+            "refId": "A",
+            "timeProperty": {
+              "name": "DueDate",
+              "type": "Edm.DateTimeOffset"
+            }
+          }
+        ],
+        "title": "件数",
+        "transformations": [
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "${SiteName}"
+                    }
+                  },
+                  "fieldName": "SiteName"
+                }
+              ],
+              "match": "any",
+              "type": "include"
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "isNull",
+                    "options": {}
+                  },
+                  "fieldName": "AssetName"
+                },
+                {
+                  "config": {
+                    "id": "isNull",
+                    "options": {}
+                  },
+                  "fieldName": "MachineName"
+                }
+              ],
+              "match": "all",
+              "type": "exclude"
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "substring",
+                    "options": {
+                      "value": "Aborted"
+                    }
+                  },
+                  "fieldName": "Status"
+                }
+              ],
+              "match": "any",
+              "type": "exclude"
+            }
+          },
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "AssetName": {
+                  "aggregations": []
+                },
+                "EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "FinalApprovementFinished AssetName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "FinalApprovementFinished EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "FinalApprovementFinished Status": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "groupby"
+                },
+                "Finished AssetName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "Finished EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "Finished Status": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "groupby"
+                },
+                "MachineName": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "Status": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                }
+              }
+            }
+          },
+          {
+            "id": "groupingToMatrix",
+            "options": {
+              "columnField": "Status",
+              "emptyValue": "null",
+              "rowField": "MachineName",
+              "valueField": "EventId (count)"
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "MachineName"
+                }
+              ]
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "includeByName": {},
+              "indexByName": {
+                "AssetName\\Status": 0,
+                "Assign": 2,
+                "Finished": 5,
+                "InProcessing": 4,
+                "NoSpecifiedAssignee": 3,
+                "Planed": 1
+              },
+              "renameByName": {
+                "AssetName\\Status": "アセット名",
+                "Assign": "アサイン",
+                "FinalApprovementFinished": "最終承認完了",
+                "Finished": "完了",
+                "InProcessing": "実行中",
+                "MachineName\\Status": "設備名",
+                "NoSpecifiedAssignee": "未アサイン",
+                "Planed": "計画中",
+                "Requesting": "承認依頼中",
+                "Status": ""
+              }
+            }
+          }
+        ],
+        "type": "barchart"
       }
     ],
     "refresh": "1h",
-    "schemaVersion": 41,
+    "schemaVersion": 39,
     "tags": [],
     "templating": {
       "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": "2",
+            "value": "2"
+          },
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "bdyrch7nmvy0wa"
+          },
+          "definition": "select id from process",
+          "hide": 0,
+          "includeAll": false,
+          "multi": false,
+          "name": "process_id",
+          "options": [],
+          "query": "select id from process",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
         {
           "current": {
             "selected": false,
