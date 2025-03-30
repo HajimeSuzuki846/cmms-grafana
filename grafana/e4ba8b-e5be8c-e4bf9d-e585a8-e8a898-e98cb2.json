@@ -586,7 +586,7 @@
         "datasource": {
           "default": false,
           "type": "grafana-postgresql-datasource",
-          "uid": "feetsozgtngg0d"
+          "uid": "eeheqbjbgfwu8a"
         },
         "fieldConfig": {
           "defaults": {
@@ -670,7 +670,7 @@
             "placement": "right",
             "showLegend": false
           },
-          "orientation": "horizontal",
+          "orientation": "auto",
           "showValue": "always",
           "stacking": "none",
           "text": {
@@ -689,20 +689,28 @@
           {
             "datasource": {
               "type": "grafana-postgresql-datasource",
-              "uid": "feetsozgtngg0d"
+              "uid": "eeheqbjbgfwu8a"
             },
-            "editorMode": "code",
+            "editorMode": "builder",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "SELECT\r\n  machine_name AS 設備, \r\n  CAST(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') THEN 1 ELSE 0 END) AS FLOAT\r\n  ) / COUNT(status) * 100 AS  完了率（％）\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  not(machine_name = '')\r\n  and site_name = '${SiteName}' and process_name = '${ProcessName}' AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name\r\nORDER BY\r\n  machine_name ASC",
+            "rawSql": "SELECT asset_id, stoppage_duration FROM breakdown_maintenances ORDER BY stoppage_duration DESC LIMIT 50 ",
             "refId": "A",
             "sql": {
               "columns": [
                 {
-                  "name": "COUNT",
                   "parameters": [
                     {
-                      "name": "status",
+                      "name": "asset_id",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "stoppage_duration",
                       "type": "functionParameter"
                     }
                   ],
@@ -712,46 +720,29 @@
               "groupBy": [
                 {
                   "property": {
-                    "name": "process_name",
                     "type": "string"
                   },
                   "type": "groupBy"
                 }
               ],
               "limit": 50,
-              "whereJsonTree": {
-                "children1": [
-                  {
-                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
-                    "properties": {
-                      "field": "site_name",
-                      "fieldSrc": "field",
-                      "operator": "equal",
-                      "value": [
-                        "${SiteName}"
-                      ],
-                      "valueError": [
-                        null
-                      ],
-                      "valueSrc": [
-                        "value"
-                      ],
-                      "valueType": [
-                        "text"
-                      ]
-                    },
-                    "type": "rule"
-                  }
-                ],
-                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
-                "type": "group"
+              "orderBy": {
+                "property": {
+                  "name": "stoppage_duration",
+                  "type": "string"
+                },
+                "type": "property"
               },
-              "whereString": "site_name = '${SiteName}'"
+              "orderByDirection": "DESC",
+              "whereJsonTree": {
+                "id": "8b8babba-0123-4456-b89a-b195e945848b",
+                "type": "group"
+              }
             },
-            "table": "scheduled_events"
+            "table": "breakdown_maintenances"
           }
         ],
-        "title": "設備別の完了率 | Progress Ratio by machines",
+        "title": "設備別の中断時間 | Stoppage duration by machines",
         "transformations": [
           {
             "id": "groupingToMatrix",
@@ -1319,7 +1310,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "transparent"
+                  "color": "transparent",
+                  "value": null
                 },
                 {
                   "color": "red",
