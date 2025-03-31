@@ -418,169 +418,8 @@
         },
         "id": 23,
         "panels": [],
-        "title": "計画保全進捗率（選択工程）",
+        "title": "事後保全作業時間（選択工程）",
         "type": "row"
-      },
-      {
-        "datasource": {
-          "default": false,
-          "type": "grafana-postgresql-datasource",
-          "uid": "feetsozgtngg0d"
-        },
-        "description": "",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "fieldMinMax": false,
-            "mappings": [],
-            "max": 99,
-            "min": 0
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "未完了件数"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "#bebec2",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "完了件数"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "green",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 6,
-          "x": 0,
-          "y": 7
-        },
-        "id": 29,
-        "options": {
-          "displayLabels": [
-            "name",
-            "value",
-            "percent"
-          ],
-          "legend": {
-            "displayMode": "list",
-            "placement": "right",
-            "showLegend": false,
-            "values": [
-              "value"
-            ]
-          },
-          "pieType": "donut",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "none"
-          }
-        },
-        "pluginVersion": "11.2.0",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-postgresql-datasource",
-              "uid": "feetsozgtngg0d"
-            },
-            "editorMode": "code",
-            "format": "table",
-            "rawQuery": true,
-            "rawSql": "SELECT\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') THEN 1 ELSE 0 END) AS \"完了件数\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') THEN 1 ELSE 0 END) AS \"未完了件数\"\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  not(machine_name = '')\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\n",
-            "refId": "A",
-            "sql": {
-              "columns": [
-                {
-                  "name": "COUNT",
-                  "parameters": [
-                    {
-                      "name": "status",
-                      "type": "functionParameter"
-                    }
-                  ],
-                  "type": "function"
-                }
-              ],
-              "groupBy": [
-                {
-                  "property": {
-                    "name": "process_name",
-                    "type": "string"
-                  },
-                  "type": "groupBy"
-                }
-              ],
-              "limit": 50,
-              "whereJsonTree": {
-                "children1": [
-                  {
-                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
-                    "properties": {
-                      "field": "site_name",
-                      "fieldSrc": "field",
-                      "operator": "equal",
-                      "value": [
-                        "${SiteName}"
-                      ],
-                      "valueError": [
-                        null
-                      ],
-                      "valueSrc": [
-                        "value"
-                      ],
-                      "valueType": [
-                        "text"
-                      ]
-                    },
-                    "type": "rule"
-                  }
-                ],
-                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
-                "type": "group"
-              },
-              "whereString": "site_name = '${SiteName}'"
-            },
-            "table": "scheduled_events"
-          }
-        ],
-        "title": "残件（今月） |  Remaining Cases of this month",
-        "type": "piechart"
       },
       {
         "datasource": {
@@ -613,34 +452,21 @@
                 "type": "linear"
               },
               "thresholdsStyle": {
-                "mode": "area"
+                "mode": "off"
               }
             },
             "fieldMinMax": false,
             "mappings": [],
-            "max": 110,
             "thresholds": {
               "mode": "absolute",
               "steps": [
                 {
                   "color": "green",
                   "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 1
-                },
-                {
-                  "color": "#EAB839",
-                  "value": 50
-                },
-                {
-                  "color": "green",
-                  "value": 80
                 }
               ]
             },
-            "unit": "percent"
+            "unit": "m"
           },
           "overrides": [
             {
@@ -653,9 +479,9 @@
           ]
         },
         "gridPos": {
-          "h": 9,
+          "h": 8,
           "w": 8,
-          "x": 6,
+          "x": 0,
           "y": 7
         },
         "id": 31,
@@ -680,8 +506,8 @@
             "mode": "multi",
             "sort": "none"
           },
-          "xField": "設備",
-          "xTickLabelRotation": 0,
+          "xField": "asset_name",
+          "xTickLabelRotation": -90,
           "xTickLabelSpacing": 0
         },
         "pluginVersion": "11.2.0",
@@ -694,23 +520,24 @@
             "editorMode": "builder",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "SELECT asset_id, stoppage_duration FROM breakdown_maintenances ORDER BY stoppage_duration DESC LIMIT 50 ",
+            "rawSql": "SELECT asset_name, SUM(work_duration) FROM breakdown_maintenances WHERE process_name = '${ProcessName}' GROUP BY asset_name ORDER BY SUM(work_duration) DESC LIMIT 30 ",
             "refId": "A",
             "sql": {
               "columns": [
                 {
                   "parameters": [
                     {
-                      "name": "asset_id",
+                      "name": "asset_name",
                       "type": "functionParameter"
                     }
                   ],
                   "type": "function"
                 },
                 {
+                  "name": "SUM",
                   "parameters": [
                     {
-                      "name": "stoppage_duration",
+                      "name": "work_duration",
                       "type": "functionParameter"
                     }
                   ],
@@ -720,29 +547,54 @@
               "groupBy": [
                 {
                   "property": {
+                    "name": "asset_name",
                     "type": "string"
                   },
                   "type": "groupBy"
                 }
               ],
-              "limit": 50,
+              "limit": 30,
               "orderBy": {
                 "property": {
-                  "name": "stoppage_duration",
+                  "name": "SUM(work_duration)",
                   "type": "string"
                 },
                 "type": "property"
               },
               "orderByDirection": "DESC",
               "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "b89989ba-cdef-4012-b456-7195eaa39ad3",
+                    "properties": {
+                      "field": "process_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${ProcessName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
                 "id": "8b8babba-0123-4456-b89a-b195e945848b",
                 "type": "group"
-              }
+              },
+              "whereString": "process_name = '${ProcessName}'"
             },
             "table": "breakdown_maintenances"
           }
         ],
-        "title": "設備別の中断時間 | Stoppage duration by machines",
+        "title": "作業時間（設備別） | Work duration by machines",
         "transformations": [
           {
             "id": "groupingToMatrix",
@@ -754,351 +606,6 @@
           }
         ],
         "type": "barchart"
-      },
-      {
-        "datasource": {
-          "default": false,
-          "type": "grafana-postgresql-datasource",
-          "uid": "feetsozgtngg0d"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "axisBorderShow": true,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisGridShow": true,
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "axisWidth": -1,
-              "fillOpacity": 80,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "lineWidth": 1,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
-            },
-            "fieldMinMax": false,
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                }
-              ]
-            }
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "完了件数"
-              },
-              "properties": []
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "未完了件数"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "#b9b9be",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 9,
-          "w": 9,
-          "x": 14,
-          "y": 7
-        },
-        "id": 22,
-        "options": {
-          "barRadius": 0,
-          "barWidth": 0.75,
-          "fullHighlight": false,
-          "groupWidth": 0.7,
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "right",
-            "showLegend": false
-          },
-          "orientation": "horizontal",
-          "showValue": "always",
-          "stacking": "normal",
-          "text": {
-            "valueSize": 20
-          },
-          "tooltip": {
-            "mode": "multi",
-            "sort": "none"
-          },
-          "xField": "設備",
-          "xTickLabelRotation": 0,
-          "xTickLabelSpacing": 0
-        },
-        "pluginVersion": "11.2.0",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-postgresql-datasource",
-              "uid": "feetsozgtngg0d"
-            },
-            "editorMode": "code",
-            "format": "table",
-            "rawQuery": true,
-            "rawSql": "SELECT\r\n  machine_name AS 設備,\r\n  SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') THEN 1 ELSE 0 END) AS 完了件数,\r\n  SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') THEN 1 ELSE 0 END) AS 未完了件数\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  not(machine_name = '')\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}'\r\n  AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name\r\nORDER BY\r\n  machine_name ASC;",
-            "refId": "A",
-            "sql": {
-              "columns": [
-                {
-                  "name": "COUNT",
-                  "parameters": [
-                    {
-                      "name": "status",
-                      "type": "functionParameter"
-                    }
-                  ],
-                  "type": "function"
-                }
-              ],
-              "groupBy": [
-                {
-                  "property": {
-                    "name": "process_name",
-                    "type": "string"
-                  },
-                  "type": "groupBy"
-                }
-              ],
-              "limit": 50,
-              "whereJsonTree": {
-                "children1": [
-                  {
-                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
-                    "properties": {
-                      "field": "site_name",
-                      "fieldSrc": "field",
-                      "operator": "equal",
-                      "value": [
-                        "${SiteName}"
-                      ],
-                      "valueError": [
-                        null
-                      ],
-                      "valueSrc": [
-                        "value"
-                      ],
-                      "valueType": [
-                        "text"
-                      ]
-                    },
-                    "type": "rule"
-                  }
-                ],
-                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
-                "type": "group"
-              },
-              "whereString": "site_name = '${SiteName}'"
-            },
-            "table": "scheduled_events"
-          }
-        ],
-        "title": "設備別の完了件数 | Progress Counts by machines",
-        "transformations": [
-          {
-            "id": "groupingToMatrix",
-            "options": {
-              "columnField": "ステータス",
-              "rowField": "設備",
-              "valueField": "件数"
-            }
-          }
-        ],
-        "type": "barchart"
-      },
-      {
-        "datasource": {
-          "default": false,
-          "type": "grafana-postgresql-datasource",
-          "uid": "feetsozgtngg0d"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "align": "auto",
-              "cellOptions": {
-                "mode": "gradient",
-                "type": "color-background",
-                "wrapText": false
-              },
-              "filterable": false,
-              "inspect": false,
-              "width": 40
-            },
-            "fieldMinMax": false,
-            "mappings": [],
-            "max": 99,
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "transparent",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 0.1
-                },
-                {
-                  "color": "#EAB839",
-                  "value": 50
-                },
-                {
-                  "color": "light-green",
-                  "value": 80
-                },
-                {
-                  "color": "green",
-                  "value": 100
-                }
-              ]
-            }
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "設備 | Machines"
-              },
-              "properties": [
-                {
-                  "id": "custom.width",
-                  "value": 150
-                },
-                {
-                  "id": "custom.filterable",
-                  "value": true
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 13,
-          "x": 0,
-          "y": 16
-        },
-        "id": 24,
-        "options": {
-          "cellHeight": "sm",
-          "footer": {
-            "countRows": false,
-            "enablePagination": false,
-            "fields": "",
-            "reducer": [
-              "sum"
-            ],
-            "show": false
-          },
-          "showHeader": true,
-          "sortBy": []
-        },
-        "pluginVersion": "11.2.0",
-        "targets": [
-          {
-            "datasource": {
-              "type": "grafana-postgresql-datasource",
-              "uid": "feetsozgtngg0d"
-            },
-            "editorMode": "code",
-            "format": "table",
-            "rawQuery": true,
-            "rawSql": "SELECT\r\n  machine_name AS \"設備 | Machines\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 1 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 1 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"1月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 2 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 2 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"2月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 3 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 3 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"3月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 4 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 4 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"4月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 5 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 5 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"5月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 6 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 6 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"6月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 7 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 7 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"7月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 8 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 8 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"8月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 9 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 9 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"9月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 10 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 10 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"10月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 11 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 11 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"11月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 12 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 12 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"12月\"\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  not(machine_name = '')\r\n  and site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}'\r\n  AND EXTRACT(YEAR FROM due_date) = 2025  -- 例: 2025\r\nGROUP BY\r\n  machine_name\r\nORDER BY\r\n  machine_name;\r\n",
-            "refId": "A",
-            "sql": {
-              "columns": [
-                {
-                  "name": "COUNT",
-                  "parameters": [
-                    {
-                      "name": "status",
-                      "type": "functionParameter"
-                    }
-                  ],
-                  "type": "function"
-                }
-              ],
-              "groupBy": [
-                {
-                  "property": {
-                    "name": "process_name",
-                    "type": "string"
-                  },
-                  "type": "groupBy"
-                }
-              ],
-              "limit": 50,
-              "whereJsonTree": {
-                "children1": [
-                  {
-                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
-                    "properties": {
-                      "field": "site_name",
-                      "fieldSrc": "field",
-                      "operator": "equal",
-                      "value": [
-                        "${SiteName}"
-                      ],
-                      "valueError": [
-                        null
-                      ],
-                      "valueSrc": [
-                        "value"
-                      ],
-                      "valueType": [
-                        "text"
-                      ]
-                    },
-                    "type": "rule"
-                  }
-                ],
-                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
-                "type": "group"
-              },
-              "whereString": "site_name = '${SiteName}'"
-            },
-            "table": "scheduled_events"
-          }
-        ],
-        "title": "年間進捗率（設備） | Annual Progress Rate by machines",
-        "type": "table"
       },
       {
         "datasource": {
@@ -1183,7 +690,7 @@
           "h": 8,
           "w": 10,
           "x": 13,
-          "y": 16
+          "y": 7
         },
         "id": 28,
         "options": {
@@ -1302,6 +809,17 @@
             "color": {
               "mode": "thresholds"
             },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "mode": "gradient",
+                "type": "color-background",
+                "wrapText": false
+              },
+              "filterable": false,
+              "inspect": false,
+              "width": 40
+            },
             "fieldMinMax": false,
             "mappings": [],
             "max": 99,
@@ -1312,6 +830,156 @@
                 {
                   "color": "transparent",
                   "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 0.1
+                },
+                {
+                  "color": "#EAB839",
+                  "value": 50
+                },
+                {
+                  "color": "light-green",
+                  "value": 80
+                },
+                {
+                  "color": "green",
+                  "value": 100
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "設備 | Machines"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 150
+                },
+                {
+                  "id": "custom.filterable",
+                  "value": true
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 13,
+          "x": 0,
+          "y": 15
+        },
+        "id": 24,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "feetsozgtngg0d"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  machine_name AS \"設備 | Machines\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 1 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 1 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"1月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 2 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 2 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"2月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 3 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 3 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"3月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 4 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 4 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"4月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 5 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 5 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"5月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 6 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 6 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"6月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 7 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 7 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"7月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 8 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 8 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"8月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 9 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 9 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"9月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 10 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 10 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"10月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 11 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 11 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"11月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 12 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 12 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"12月\"\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  not(machine_name = '')\r\n  and site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}'\r\n  AND EXTRACT(YEAR FROM due_date) = 2025  -- 例: 2025\r\nGROUP BY\r\n  machine_name\r\nORDER BY\r\n  machine_name;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "name": "COUNT",
+                  "parameters": [
+                    {
+                      "name": "status",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "process_name",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "scheduled_events"
+          }
+        ],
+        "title": "年間進捗率（設備） | Annual Progress Rate by machines",
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "feetsozgtngg0d"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "max": 99,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "transparent"
                 },
                 {
                   "color": "red",
@@ -1367,7 +1035,7 @@
           "h": 9,
           "w": 5,
           "x": 0,
-          "y": 24
+          "y": 23
         },
         "id": 26,
         "options": {
