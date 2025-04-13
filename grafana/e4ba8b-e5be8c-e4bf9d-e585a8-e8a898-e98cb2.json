@@ -346,10 +346,10 @@
               "type": "grafana-postgresql-datasource",
               "uid": "eeheqbjbgfwu8a"
             },
-            "editorMode": "builder",
+            "editorMode": "code",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "SELECT asset_name, SUM(work_duration) FROM breakdown_maintenances WHERE process_name = '${ProcessName}' GROUP BY asset_name ORDER BY SUM(work_duration) DESC LIMIT 30 ",
+            "rawSql": "SELECT asset_name, SUM(work_duration) FROM breakdown_maintenances \r\nWHERE process_name = '${ProcessName}' AND $__timeFilter(created_date) \r\nGROUP BY asset_name \r\nORDER BY SUM(work_duration) DESC LIMIT 30 ",
             "refId": "A",
             "sql": {
               "columns": [
