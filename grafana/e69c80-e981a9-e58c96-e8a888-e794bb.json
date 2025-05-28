@@ -102,11 +102,11 @@
         },
         "gridPos": {
           "h": 6,
-          "w": 16,
+          "w": 12,
           "x": 0,
           "y": 0
         },
-        "id": 1,
+        "id": 3,
         "options": {
           "barRadius": 0,
           "barWidth": 0.97,
@@ -278,6 +278,193 @@
                   }
                 }
               ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 1,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [
+              "count"
+            ],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          },
+          "xField": "DueDateOriginalString",
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "dvelop-odata-datasource",
+              "uid": "een91luropiwwf"
+            },
+            "entitySet": {
+              "entityType": "DefaultNamespace.Events",
+              "name": "Events"
+            },
+            "properties": [
+              {
+                "name": "DueDateOriginalString",
+                "type": "Edm.String"
+              },
+              {
+                "name": "Duration_in_minutes",
+                "type": "Edm.Int64"
+              }
+            ],
+            "refId": "A"
+          }
+        ],
+        "title": "Panel Title",
+        "transformations": [
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "A DueDateOriginalString": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "A EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "B DueDateFixedString": {
+                  "aggregations": [],
+                  "operation": "aggregate"
+                },
+                "B EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "DueDateOriginalString": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "Duration_in_minutes": {
+                  "aggregations": [
+                    "sum"
+                  ],
+                  "operation": "aggregate"
+                },
+                "EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                }
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "DueDateOriginalString"
+                }
+              ]
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "dvelop-odata-datasource",
+          "uid": "een91luropiwwf"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "__systemRef": "hideSeriesFrom",
+              "matcher": {
+                "id": "byNames",
+                "options": {
+                  "mode": "exclude",
+                  "names": [
+                    "EventId (count)"
+                  ],
+                  "prefix": "All except:",
+                  "readOnly": true
+                }
+              },
+              "properties": [
+                {
+                  "id": "custom.hideFrom",
+                  "value": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": true
+                  }
+                }
+              ]
             },
             {
               "matcher": {
@@ -298,7 +485,7 @@
         },
         "gridPos": {
           "h": 6,
-          "w": 16,
+          "w": 12,
           "x": 0,
           "y": 6
         },
@@ -317,7 +504,7 @@
             "showLegend": true
           },
           "orientation": "auto",
-          "showValue": "auto",
+          "showValue": "always",
           "stacking": "none",
           "tooltip": {
             "mode": "single",
@@ -408,6 +595,7 @@
         "type": "barchart"
       }
     ],
+    "refresh": "",
     "schemaVersion": 39,
     "tags": [],
     "templating": {
