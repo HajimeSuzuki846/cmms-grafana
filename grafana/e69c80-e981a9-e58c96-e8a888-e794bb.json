@@ -118,13 +118,16 @@
             ],
             "displayMode": "list",
             "placement": "bottom",
-            "showLegend": true
+            "showLegend": false
           },
           "orientation": "auto",
-          "showValue": "auto",
+          "showValue": "always",
           "stacking": "none",
+          "text": {
+            "valueSize": 20
+          },
           "tooltip": {
-            "mode": "single",
+            "mode": "multi",
             "sort": "none"
           },
           "xField": "DueDateOriginalString",
@@ -314,11 +317,14 @@
             "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
-            "showLegend": true
+            "showLegend": false
           },
           "orientation": "auto",
           "showValue": "auto",
           "stacking": "none",
+          "text": {
+            "valueSize": 20
+          },
           "tooltip": {
             "mode": "single",
             "sort": "none"
@@ -344,6 +350,10 @@
               {
                 "name": "Duration_in_minutes",
                 "type": "Edm.Int64"
+              },
+              {
+                "name": "RootId",
+                "type": "Edm.Int64"
               }
             ],
             "refId": "A"
@@ -351,6 +361,24 @@
         ],
         "title": "月別工数（変更前の計画）",
         "transformations": [
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "$GUID"
+                    }
+                  },
+                  "fieldName": "RootId"
+                }
+              ],
+              "match": "any",
+              "type": "include"
+            }
+          },
           {
             "id": "groupBy",
             "options": {
@@ -516,11 +544,14 @@
             ],
             "displayMode": "list",
             "placement": "bottom",
-            "showLegend": true
+            "showLegend": false
           },
           "orientation": "auto",
           "showValue": "always",
           "stacking": "none",
+          "text": {
+            "valueSize": 20
+          },
           "tooltip": {
             "mode": "single",
             "sort": "none"
@@ -705,11 +736,14 @@
             "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
-            "showLegend": true
+            "showLegend": false
           },
           "orientation": "auto",
           "showValue": "always",
           "stacking": "normal",
+          "text": {
+            "valueSize": 20
+          },
           "tooltip": {
             "mode": "single",
             "sort": "none"
