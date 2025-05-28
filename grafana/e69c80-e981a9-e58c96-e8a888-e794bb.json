@@ -783,7 +783,20 @@
     "schemaVersion": 39,
     "tags": [],
     "templating": {
-      "list": []
+      "list": [
+        {
+          "current": {},
+          "hide": 0,
+          "includeAll": false,
+          "label": "GUID",
+          "multi": false,
+          "name": "GUID",
+          "options": [],
+          "query": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        }
+      ]
     },
     "time": {
       "from": "now-6h",
