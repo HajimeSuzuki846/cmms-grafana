@@ -159,7 +159,7 @@
             "refId": "A"
           }
         ],
-        "title": "Panel Title",
+        "title": "月別件数（変更前の計画）",
         "transformations": [
           {
             "id": "filterByValue",
@@ -349,7 +349,7 @@
             "refId": "A"
           }
         ],
-        "title": "Panel Title",
+        "title": "月別工数（変更前の計画）",
         "transformations": [
           {
             "id": "groupBy",
@@ -552,7 +552,7 @@
             "refId": "A"
           }
         ],
-        "title": "Panel Title",
+        "title": "月別件数（変更後の計画）",
         "transformations": [
           {
             "id": "groupBy",
@@ -740,7 +740,7 @@
             "refId": "A"
           }
         ],
-        "title": "Panel Title",
+        "title": "月別工数（変更後の計画）",
         "transformations": [
           {
             "id": "groupBy",
