@@ -169,7 +169,7 @@
                   "config": {
                     "id": "equal",
                     "options": {
-                      "value": "'${GUID}'"
+                      "value": "$GUID"
                     }
                   },
                   "fieldName": "RootId"
