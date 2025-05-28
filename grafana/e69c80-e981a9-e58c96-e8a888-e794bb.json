@@ -274,7 +274,7 @@
         },
         "gridPos": {
           "h": 6,
-          "w": 11,
+          "w": 12,
           "x": 12,
           "y": 0
         },
@@ -473,7 +473,7 @@
           ]
         },
         "gridPos": {
-          "h": 6,
+          "h": 7,
           "w": 12,
           "x": 0,
           "y": 6
@@ -664,8 +664,8 @@
           ]
         },
         "gridPos": {
-          "h": 6,
-          "w": 11,
+          "h": 7,
+          "w": 12,
           "x": 12,
           "y": 6
         },
@@ -682,8 +682,8 @@
             "showLegend": true
           },
           "orientation": "auto",
-          "showValue": "auto",
-          "stacking": "none",
+          "showValue": "always",
+          "stacking": "normal",
           "tooltip": {
             "mode": "single",
             "sort": "none"
