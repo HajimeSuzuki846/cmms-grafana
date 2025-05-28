@@ -128,7 +128,7 @@
             "sort": "none"
           },
           "xField": "DueDateOriginalString",
-          "xTickLabelRotation": 0,
+          "xTickLabelRotation": -90,
           "xTickLabelSpacing": 0
         },
         "targets": [
@@ -268,22 +268,13 @@
                   "readOnly": true
                 }
               },
-              "properties": [
-                {
-                  "id": "custom.hideFrom",
-                  "value": {
-                    "legend": false,
-                    "tooltip": false,
-                    "viz": true
-                  }
-                }
-              ]
+              "properties": []
             }
           ]
         },
         "gridPos": {
           "h": 6,
-          "w": 12,
+          "w": 11,
           "x": 12,
           "y": 0
         },
@@ -294,9 +285,7 @@
           "fullHighlight": false,
           "groupWidth": 0.7,
           "legend": {
-            "calcs": [
-              "count"
-            ],
+            "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
             "showLegend": true
@@ -308,8 +297,7 @@
             "mode": "single",
             "sort": "none"
           },
-          "xField": "DueDateOriginalString",
-          "xTickLabelRotation": 0,
+          "xTickLabelRotation": -90,
           "xTickLabelSpacing": 0
         },
         "targets": [
@@ -386,6 +374,7 @@
               "fields": {},
               "sort": [
                 {
+                  "desc": false,
                   "field": "DueDateOriginalString"
                 }
               ]
@@ -511,7 +500,7 @@
             "sort": "none"
           },
           "xField": "DueDateOriginalString",
-          "xTickLabelRotation": 0,
+          "xTickLabelRotation": -90,
           "xTickLabelSpacing": 0
         },
         "targets": [
@@ -586,6 +575,201 @@
               "fields": {},
               "sort": [
                 {
+                  "field": "DueDateOriginalString"
+                }
+              ]
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "dvelop-odata-datasource",
+          "uid": "een91luropiwwf"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "__systemRef": "hideSeriesFrom",
+              "matcher": {
+                "id": "byNames",
+                "options": {
+                  "mode": "exclude",
+                  "names": [
+                    "EventId (count)"
+                  ],
+                  "prefix": "All except:",
+                  "readOnly": true
+                }
+              },
+              "properties": []
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Duration_in_minutes (sum)"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "orange",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 11,
+          "x": 12,
+          "y": 6
+        },
+        "id": 4,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          },
+          "xTickLabelRotation": -90,
+          "xTickLabelSpacing": 0
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "dvelop-odata-datasource",
+              "uid": "een91luropiwwf"
+            },
+            "entitySet": {
+              "entityType": "DefaultNamespace.Events",
+              "name": "Events"
+            },
+            "properties": [
+              {
+                "name": "DueDateFixedString",
+                "type": "Edm.String"
+              },
+              {
+                "name": "Duration_in_minutes",
+                "type": "Edm.Int64"
+              }
+            ],
+            "refId": "A"
+          }
+        ],
+        "title": "Panel Title",
+        "transformations": [
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "A DueDateOriginalString": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "A EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "B DueDateFixedString": {
+                  "aggregations": [],
+                  "operation": "aggregate"
+                },
+                "B EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "DueDateFixedString": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "DueDateOriginalString": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "Duration_in_minutes": {
+                  "aggregations": [
+                    "sum"
+                  ],
+                  "operation": "aggregate"
+                },
+                "EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                }
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
                   "field": "DueDateOriginalString"
                 }
               ]
