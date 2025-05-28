@@ -141,6 +141,7 @@
               "entityType": "DefaultNamespace.Events",
               "name": "Events"
             },
+            "filterConditions": [],
             "properties": [
               {
                 "name": "DueDateOriginalString",
@@ -149,6 +150,10 @@
               {
                 "name": "EventId",
                 "type": "Edm.Int64"
+              },
+              {
+                "name": "RootId",
+                "type": "Edm.Int64"
               }
             ],
             "refId": "A"
@@ -156,6 +161,24 @@
         ],
         "title": "Panel Title",
         "transformations": [
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "'${Var-GUID}'"
+                    }
+                  },
+                  "fieldName": "RootId"
+                }
+              ],
+              "match": "any",
+              "type": "include"
+            }
+          },
           {
             "id": "groupBy",
             "options": {
@@ -189,6 +212,9 @@
                     "count"
                   ],
                   "operation": "aggregate"
+                },
+                "RootId": {
+                  "aggregations": []
                 }
               }
             }
@@ -793,6 +819,7 @@
           "name": "GUID",
           "options": [],
           "query": "",
+          "queryValue": "",
           "skipUrlSync": false,
           "type": "custom"
         }
