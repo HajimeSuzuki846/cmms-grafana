@@ -169,7 +169,7 @@
                   "config": {
                     "id": "equal",
                     "options": {
-                      "value": "'${Var-GUID}'"
+                      "value": "'${GUID}'"
                     }
                   },
                   "fieldName": "RootId"
@@ -818,7 +818,7 @@
           "multi": false,
           "name": "GUID",
           "options": [],
-          "query": "",
+          "query": "356065845538980160",
           "queryValue": "",
           "skipUrlSync": false,
           "type": "custom"
