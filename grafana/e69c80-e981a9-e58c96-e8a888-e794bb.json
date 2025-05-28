@@ -101,7 +101,7 @@
           ]
         },
         "gridPos": {
-          "h": 10,
+          "h": 6,
           "w": 16,
           "x": 0,
           "y": 0
@@ -152,28 +152,6 @@
               }
             ],
             "refId": "A"
-          },
-          {
-            "datasource": {
-              "type": "dvelop-odata-datasource",
-              "uid": "een91luropiwwf"
-            },
-            "entitySet": {
-              "entityType": "DefaultNamespace.Events",
-              "name": "Events"
-            },
-            "hide": false,
-            "properties": [
-              {
-                "name": "DueDateFixedString",
-                "type": "Edm.String"
-              },
-              {
-                "name": "EventId",
-                "type": "Edm.Int64"
-              }
-            ],
-            "refId": "B"
           }
         ],
         "title": "Panel Title",
@@ -194,13 +172,213 @@
                 },
                 "B DueDateFixedString": {
                   "aggregations": [],
-                  "operation": "groupby"
+                  "operation": "aggregate"
                 },
                 "B EventId": {
                   "aggregations": [
                     "count"
                   ],
                   "operation": "aggregate"
+                },
+                "DueDateOriginalString": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                }
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "field": "DueDateOriginalString"
+                }
+              ]
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "dvelop-odata-datasource",
+          "uid": "een91luropiwwf"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "__systemRef": "hideSeriesFrom",
+              "matcher": {
+                "id": "byNames",
+                "options": {
+                  "mode": "exclude",
+                  "names": [
+                    "EventId (count)"
+                  ],
+                  "prefix": "All except:",
+                  "readOnly": true
+                }
+              },
+              "properties": [
+                {
+                  "id": "custom.hideFrom",
+                  "value": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": true
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "EventId (count)"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "orange",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 16,
+          "x": 0,
+          "y": 6
+        },
+        "id": 2,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [
+              "count"
+            ],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          },
+          "xField": "DueDateOriginalString",
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "dvelop-odata-datasource",
+              "uid": "een91luropiwwf"
+            },
+            "entitySet": {
+              "entityType": "DefaultNamespace.Events",
+              "name": "Events"
+            },
+            "properties": [
+              {
+                "name": "DueDateFixedString",
+                "type": "Edm.String"
+              },
+              {
+                "name": "EventId",
+                "type": "Edm.Int64"
+              }
+            ],
+            "refId": "A"
+          }
+        ],
+        "title": "Panel Title",
+        "transformations": [
+          {
+            "id": "groupBy",
+            "options": {
+              "fields": {
+                "A DueDateOriginalString": {
+                  "aggregations": [],
+                  "operation": "groupby"
+                },
+                "A EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "B DueDateFixedString": {
+                  "aggregations": [],
+                  "operation": "aggregate"
+                },
+                "B EventId": {
+                  "aggregations": [
+                    "count"
+                  ],
+                  "operation": "aggregate"
+                },
+                "DueDateFixedString": {
+                  "aggregations": [],
+                  "operation": "groupby"
                 },
                 "DueDateOriginalString": {
                   "aggregations": [],
