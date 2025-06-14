@@ -446,6 +446,10 @@
                     "mode": "gradient",
                     "type": "color-background"
                   }
+                },
+                {
+                  "id": "custom.align",
+                  "value": "center"
                 }
               ]
             }
