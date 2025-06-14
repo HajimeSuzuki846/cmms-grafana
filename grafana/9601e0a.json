@@ -551,12 +551,212 @@
         "type": "table"
       },
       {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "feetsozgtngg0d"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "fieldMinMax": false,
+            "links": [],
+            "mappings": [
+              {
+                "options": {
+                  "Finished": {
+                    "index": 0,
+                    "text": "完了 | Finished"
+                  },
+                  "status": {
+                    "index": 1,
+                    "text": "ステータス | Status"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "max": 99,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "ステータス"
+              },
+              "properties": [
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "Assign": {
+                          "color": "#808080",
+                          "index": 4,
+                          "text": "計画中"
+                        },
+                        "Finished": {
+                          "color": "green",
+                          "index": 1,
+                          "text": "完了"
+                        },
+                        "InProcessing": {
+                          "color": "blue",
+                          "index": 0,
+                          "text": "計画済み"
+                        },
+                        "Planed": {
+                          "color": "#808080",
+                          "index": 2,
+                          "text": "計画中"
+                        },
+                        "Requesting": {
+                          "color": "green",
+                          "index": 3,
+                          "text": "完了"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                },
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "mode": "gradient",
+                    "type": "color-background"
+                  }
+                },
+                {
+                  "id": "custom.align",
+                  "value": "center"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 25
+        },
+        "id": 35,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": true,
+              "displayName": "asset_name"
+            }
+          ]
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "feetsozgtngg0d"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  process_name AS 工程名, machine_name AS 設備名, asset_name AS 部位, sm_title AS 件名, sm_check_item AS 項目, due_date AS 期日, status AS ステータス, finished_date AS 完了日, parts_ready_status AS 部品, assignees_display_name AS 担当者, event_id\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  machine_name IN (${MachineName}) \r\n  AND site_name = '${SiteName}'\r\n  AND process_name = '${ProcessName}'\r\n  AND $__timeFilter(due_date)\r\nORDER BY\r\n  due_date;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "name": "COUNT",
+                  "parameters": [
+                    {
+                      "name": "status",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "process_name",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "scheduled_events"
+          }
+        ],
+        "title": "イベントリスト | Events List",
+        "type": "table"
+      },
+      {
         "collapsed": true,
         "gridPos": {
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 25
+          "y": 33
         },
         "id": 32,
         "panels": [
