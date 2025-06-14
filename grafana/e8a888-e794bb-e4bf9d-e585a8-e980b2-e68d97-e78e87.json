@@ -940,7 +940,7 @@
               {
                 "targetBlank": true,
                 "title": "詳細",
-                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=34\u0026var-Month=${__field.name}"
+                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=34\u0026var-Month=${__field.name}\u0026var-MachineName=${__data.fields[0]}"
               }
             ],
             "mappings": [],
