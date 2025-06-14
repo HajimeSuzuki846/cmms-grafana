@@ -102,6 +102,34 @@
                     "mode": "gradient",
                     "type": "color-background"
                   }
+                },
+                {
+                  "id": "custom.width",
+                  "value": 131
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "期日"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 181
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "完了日"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 172
                 }
               ]
             }
@@ -592,8 +620,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 }
               ]
             }
