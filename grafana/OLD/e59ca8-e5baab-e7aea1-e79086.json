@@ -455,8 +455,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "blue",
-                  "value": null
+                  "color": "blue"
                 }
               ]
             },
@@ -651,8 +650,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -846,8 +844,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -1038,8 +1035,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -1244,8 +1240,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 },
                 {
                   "color": "red",
@@ -1484,29 +1479,6 @@
     "tags": [],
     "templating": {
       "list": [
-        {
-          "current": {
-            "selected": false,
-            "text": "2",
-            "value": "2"
-          },
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "bdyrch7nmvy0wa"
-          },
-          "definition": "select id from process",
-          "hide": 0,
-          "includeAll": false,
-          "multi": false,
-          "name": "process_id",
-          "options": [],
-          "query": "select id from process",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "type": "query"
-        },
         {
           "current": {
             "selected": false,
