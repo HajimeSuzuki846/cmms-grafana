@@ -1474,7 +1474,7 @@
         "type": "row"
       }
     ],
-    "refresh": "",
+    "refresh": "30m",
     "schemaVersion": 39,
     "tags": [],
     "templating": {
@@ -1556,7 +1556,7 @@
         },
         {
           "current": {
-            "selected": true,
+            "selected": false,
             "text": "Po5号ライン仕上",
             "value": "Po5号ライン仕上"
           },
