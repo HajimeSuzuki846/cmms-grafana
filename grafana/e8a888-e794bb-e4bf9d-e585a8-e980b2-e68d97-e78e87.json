@@ -1,5 +1,5 @@
 {
-  "apiVersion": "dashboard.grafana.app/v1beta1",
+  "apiVersion": "dashboard.grafana.app/v0alpha1",
   "kind": "Dashboard",
   "metadata": {
     "name": "cdxy77qlsg8owf"
@@ -24,20 +24,7 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "links": [
-      {
-        "asDropdown": false,
-        "icon": "dashboard",
-        "includeVars": false,
-        "keepTime": false,
-        "tags": [],
-        "targetBlank": true,
-        "title": "アラーム",
-        "tooltip": "",
-        "type": "link",
-        "url": "https://glicocmmsbeta.org/d/feq6oxi0iy874a/e382a2-e383a9-e383bc-e383a0-e79ba3-e8a696?orgId=1"
-      }
-    ],
+    "links": [],
     "panels": [
       {
         "collapsed": false,
@@ -416,7 +403,7 @@
               {
                 "targetBlank": true,
                 "title": "確認",
-                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=29\u0026var-Status=${__field.name}\u0026from=${__from}\u0026to=${__to}\u0026var-SiteName=${SiteName}\u0026var-ProcessName=${ProcessName}"
+                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=29\u0026var-Status=${__field.name}\u0026from=${__from}\u0026to=${__to}"
               }
             ],
             "mappings": [],
@@ -595,13 +582,6 @@
               }
             },
             "fieldMinMax": false,
-            "links": [
-              {
-                "targetBlank": true,
-                "title": "詳細（クリック）",
-                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=35\u0026var-MachineName=${__data.fields[0]}\u0026from=${__from}\u0026to=${__to}\u0026var-SiteName=${SiteName}\u0026var-ProcessName=${ProcessName}"
-              }
-            ],
             "mappings": [],
             "max": 110,
             "thresholds": {
@@ -784,13 +764,6 @@
               }
             },
             "fieldMinMax": false,
-            "links": [
-              {
-                "targetBlank": true,
-                "title": "詳細（クリック）",
-                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=35\u0026var-MachineName=${__data.fields[0]}\u0026from=${__from}\u0026to=${__to}\u0026var-SiteName=${SiteName}\u0026var-ProcessName=${ProcessName}"
-              }
-            ],
             "mappings": [],
             "thresholds": {
               "mode": "absolute",
@@ -967,7 +940,7 @@
               {
                 "targetBlank": true,
                 "title": "詳細",
-                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=34\u0026var-Month=${__field.name}\u0026var-MachineName=${__data.fields[0]}\u0026var-SiteName=${SiteName}\u0026var-ProcessName=${ProcessName}"
+                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=29\u0026var-Status=${__field.name}\u0026from=${__from}\u0026to=${__to}"
               }
             ],
             "mappings": [],
@@ -1147,8 +1120,8 @@
             "links": [
               {
                 "targetBlank": true,
-                "title": "内容確認（クリック）",
-                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=33\u0026var-Assignee=${__data.fields[0]}\u0026from=${__from}\u0026to=${__to}\u0026var-SiteName=${SiteName}\u0026var-ProcessName=${ProcessName}"
+                "title": "内容確認",
+                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=33\u0026var-Assignee=${__data.fields[0]}\u0026from=${__from}\u0026to=${__to}"
               }
             ],
             "mappings": [],
@@ -1308,7 +1281,7 @@
         "type": "barchart"
       },
       {
-        "collapsed": false,
+        "collapsed": true,
         "gridPos": {
           "h": 1,
           "w": 24,
@@ -1316,179 +1289,179 @@
           "y": 24
         },
         "id": 32,
-        "panels": [],
-        "title": "Beta",
-        "type": "row"
-      },
-      {
-        "datasource": {
-          "default": false,
-          "type": "grafana-postgresql-datasource",
-          "uid": "feetsozgtngg0d"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "fieldMinMax": false,
-            "mappings": [],
-            "max": 99,
-            "min": 0,
-            "thresholds": {
-              "mode": "percentage",
-              "steps": [
-                {
-                  "color": "transparent",
-                  "value": null
-                },
-                {
-                  "color": "green",
-                  "value": 0
-                },
-                {
-                  "color": "#EAB839",
-                  "value": 50
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                },
-                {
-                  "color": "red",
-                  "value": 100
-                }
-              ]
-            }
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "1月"
-              },
-              "properties": []
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "2月"
-              },
-              "properties": []
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "3月"
-              },
-              "properties": []
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "設備"
-              },
-              "properties": []
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 5,
-          "w": 10,
-          "x": 0,
-          "y": 25
-        },
-        "id": 26,
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "auto",
-          "percentChangeColorMode": "standard",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
-        },
-        "pluginVersion": "11.2.0",
-        "targets": [
+        "panels": [
           {
             "datasource": {
+              "default": false,
               "type": "grafana-postgresql-datasource",
               "uid": "feetsozgtngg0d"
             },
-            "editorMode": "code",
-            "format": "table",
-            "rawQuery": true,
-            "rawSql": "SELECT\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 1 THEN 1 ELSE 0 END) AS \"1月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 2 THEN 1 ELSE 0 END) AS \"2月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 3 THEN 1 ELSE 0 END) AS \"3月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 4 THEN 1 ELSE 0 END) AS \"4月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 5 THEN 1 ELSE 0 END) AS \"5月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 6 THEN 1 ELSE 0 END) AS \"6月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 7 THEN 1 ELSE 0 END) AS \"7月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 8 THEN 1 ELSE 0 END) AS \"8月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 9 THEN 1 ELSE 0 END) AS \"9月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 10 THEN 1 ELSE 0 END) AS \"10月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 11 THEN 1 ELSE 0 END) AS \"11月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 12 THEN 1 ELSE 0 END) AS \"12月\"\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  not(machine_name = '')\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND EXTRACT(YEAR FROM due_date) = 2025  -- 例: 2025\r\n",
-            "refId": "A",
-            "sql": {
-              "columns": [
-                {
-                  "name": "COUNT",
-                  "parameters": [
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "fieldMinMax": false,
+                "mappings": [],
+                "max": 99,
+                "min": 0,
+                "thresholds": {
+                  "mode": "percentage",
+                  "steps": [
                     {
-                      "name": "status",
-                      "type": "functionParameter"
+                      "color": "transparent"
+                    },
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 50
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    },
+                    {
+                      "color": "red",
+                      "value": 100
+                    }
+                  ]
+                }
+              },
+              "overrides": [
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "1月"
+                  },
+                  "properties": []
+                },
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "2月"
+                  },
+                  "properties": []
+                },
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "3月"
+                  },
+                  "properties": []
+                },
+                {
+                  "matcher": {
+                    "id": "byName",
+                    "options": "設備"
+                  },
+                  "properties": []
+                }
+              ]
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 10,
+              "x": 0,
+              "y": 25
+            },
+            "id": 26,
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "standard",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "auto",
+              "wideLayout": true
+            },
+            "pluginVersion": "11.2.0",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "grafana-postgresql-datasource",
+                  "uid": "feetsozgtngg0d"
+                },
+                "editorMode": "code",
+                "format": "table",
+                "rawQuery": true,
+                "rawSql": "SELECT\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 1 THEN 1 ELSE 0 END) AS \"1月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 2 THEN 1 ELSE 0 END) AS \"2月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 3 THEN 1 ELSE 0 END) AS \"3月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 4 THEN 1 ELSE 0 END) AS \"4月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 5 THEN 1 ELSE 0 END) AS \"5月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 6 THEN 1 ELSE 0 END) AS \"6月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 7 THEN 1 ELSE 0 END) AS \"7月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 8 THEN 1 ELSE 0 END) AS \"8月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 9 THEN 1 ELSE 0 END) AS \"9月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 10 THEN 1 ELSE 0 END) AS \"10月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 11 THEN 1 ELSE 0 END) AS \"11月\",\r\n    SUM(CASE WHEN status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 12 THEN 1 ELSE 0 END) AS \"12月\"\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  not(machine_name = '')\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND EXTRACT(YEAR FROM due_date) = 2025  -- 例: 2025\r\n",
+                "refId": "A",
+                "sql": {
+                  "columns": [
+                    {
+                      "name": "COUNT",
+                      "parameters": [
+                        {
+                          "name": "status",
+                          "type": "functionParameter"
+                        }
+                      ],
+                      "type": "function"
                     }
                   ],
-                  "type": "function"
-                }
-              ],
-              "groupBy": [
-                {
-                  "property": {
-                    "name": "process_name",
-                    "type": "string"
+                  "groupBy": [
+                    {
+                      "property": {
+                        "name": "process_name",
+                        "type": "string"
+                      },
+                      "type": "groupBy"
+                    }
+                  ],
+                  "limit": 50,
+                  "whereJsonTree": {
+                    "children1": [
+                      {
+                        "id": "ab989abb-cdef-4012-b456-7195615d989e",
+                        "properties": {
+                          "field": "site_name",
+                          "fieldSrc": "field",
+                          "operator": "equal",
+                          "value": [
+                            "${SiteName}"
+                          ],
+                          "valueError": [
+                            null
+                          ],
+                          "valueSrc": [
+                            "value"
+                          ],
+                          "valueType": [
+                            "text"
+                          ]
+                        },
+                        "type": "rule"
+                      }
+                    ],
+                    "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
+                    "type": "group"
                   },
-                  "type": "groupBy"
-                }
-              ],
-              "limit": 50,
-              "whereJsonTree": {
-                "children1": [
-                  {
-                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
-                    "properties": {
-                      "field": "site_name",
-                      "fieldSrc": "field",
-                      "operator": "equal",
-                      "value": [
-                        "${SiteName}"
-                      ],
-                      "valueError": [
-                        null
-                      ],
-                      "valueSrc": [
-                        "value"
-                      ],
-                      "valueType": [
-                        "text"
-                      ]
-                    },
-                    "type": "rule"
-                  }
-                ],
-                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
-                "type": "group"
-              },
-              "whereString": "site_name = '${SiteName}'"
-            },
-            "table": "scheduled_events"
+                  "whereString": "site_name = '${SiteName}'"
+                },
+                "table": "scheduled_events"
+              }
+            ],
+            "title": "残件（工程別） |  Remaining Cases by processes",
+            "type": "stat"
           }
         ],
-        "title": "残件（工程別） |  Remaining Cases by processes",
-        "type": "stat"
+        "title": "Beta",
+        "type": "row"
       }
     ],
-    "refresh": "30m",
-    "schemaVersion": 41,
+    "refresh": "",
+    "schemaVersion": 39,
     "tags": [],
     "templating": {
       "list": [
@@ -1569,7 +1542,7 @@
         },
         {
           "current": {
-            "selected": false,
+            "selected": true,
             "text": "Po5号ライン仕上",
             "value": "Po5号ライン仕上"
           },
