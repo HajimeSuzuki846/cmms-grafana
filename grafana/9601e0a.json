@@ -132,6 +132,23 @@
                   "value": 172
                 }
               ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "event_id"
+              },
+              "properties": [
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "title": "詳細確認",
+                      "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/selectedevent?EventId=${__value.raw}"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
