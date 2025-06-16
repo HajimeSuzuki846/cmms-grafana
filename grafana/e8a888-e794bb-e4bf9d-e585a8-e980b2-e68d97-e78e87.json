@@ -1602,7 +1602,7 @@
             "editorMode": "code",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "SELECT\r\n  machine_name,\r\n  SUM(number_of_workers * duration_in_minutes) AS total_worker_minutes\r\nFROM\r\n  work_orders \r\nWHERE\r\n  asset_name \u003c\u003e '' \r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name\r\n",
+            "rawSql": "SELECT\r\n  machine_name,\r\n  SUM(number_of_workers * duration_in_minutes) AS 累計メンテナンス時間（分）\r\nFROM\r\n  work_orders \r\nWHERE\r\n  asset_name \u003c\u003e '' \r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name\r\n",
             "refId": "A",
             "sql": {
               "columns": [
@@ -1791,7 +1791,7 @@
             "editorMode": "code",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "SELECT\r\n  machine_name || ' / ' || asset_name AS machine_asset,\r\n  SUM(number_of_workers * duration_in_minutes) AS total_worker_minutes\r\nFROM\r\n  work_orders \r\nWHERE\r\n  asset_name \u003c\u003e '' \r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name,\r\n  asset_name\r\nORDER BY\r\n  total_worker_minutes DESC\r\nLIMIT 20\r\n",
+            "rawSql": "SELECT\r\n  machine_name || ' / ' || asset_name AS machine_asset,\r\n  SUM(number_of_workers * duration_in_minutes) AS 累計メンテナンス時間（分）\r\nFROM\r\n  work_orders \r\nWHERE\r\n  asset_name \u003c\u003e '' \r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name,\r\n  asset_name\r\nORDER BY\r\n  累計メンテナンス時間（分） DESC\r\nLIMIT 20\r\n",
             "refId": "A",
             "sql": {
               "columns": [
@@ -1852,7 +1852,7 @@
         "type": "barchart"
       }
     ],
-    "refresh": "30m",
+    "refresh": "",
     "schemaVersion": 39,
     "tags": [],
     "templating": {
