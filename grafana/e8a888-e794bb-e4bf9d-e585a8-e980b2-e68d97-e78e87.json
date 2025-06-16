@@ -1659,7 +1659,7 @@
             "table": "scheduled_events"
           }
         ],
-        "title": "設備別の作業実績時間（分） |  Work duration in minutes by machines",
+        "title": "設備別のメンテナンス作業実績時間（分） |  Maintenance duration in minutes by machines",
         "type": "barchart"
       },
       {
@@ -1848,7 +1848,7 @@
             "table": "scheduled_events"
           }
         ],
-        "title": "項目別の作業実績時間（分） |  Work duration in minutes by assets",
+        "title": "項目別のメンテナンス作業実績時間（分） |  Maintenance duration in minutes by assets",
         "type": "barchart"
       }
     ],
