@@ -1490,7 +1490,7 @@
               "axisCenteredZero": false,
               "axisColorMode": "text",
               "axisLabel": "",
-              "axisPlacement": "auto",
+              "axisPlacement": "left",
               "fillOpacity": 80,
               "gradientMode": "none",
               "hideFrom": {
@@ -1582,14 +1582,14 @@
             "placement": "bottom",
             "showLegend": true
           },
-          "orientation": "auto",
+          "orientation": "vertical",
           "showValue": "auto",
           "stacking": "none",
           "tooltip": {
-            "mode": "single",
-            "sort": "none"
+            "mode": "multi",
+            "sort": "asc"
           },
-          "xTickLabelRotation": 0,
+          "xTickLabelRotation": -90,
           "xTickLabelSpacing": 0
         },
         "pluginVersion": "11.2.0",
@@ -1602,7 +1602,7 @@
             "editorMode": "code",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "SELECT\r\n    asset_name\r\n    SUM() \r\nWHERE\r\n  not(asset_name) = '')\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\n",
+            "rawSql": "SELECT\r\n  machine_name,\r\n  SUM(number_of_workers * duration_in_minutes) AS total_worker_minutes\r\nFROM\r\n  work_orders \r\nWHERE\r\n  asset_name \u003c\u003e '' \r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name\r\n",
             "refId": "A",
             "sql": {
               "columns": [
@@ -1659,7 +1659,196 @@
             "table": "scheduled_events"
           }
         ],
-        "title": "残件（今月） |  Remaining Cases of this month",
+        "title": "設備別の作業実績時間（分） |  Work duration in minutes by machines",
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "eep3dps344kcga"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "left",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "fieldMinMax": false,
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "確認",
+                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=29\u0026var-Status=${__field.name}\u0026from=${__from}\u0026to=${__to}"
+              }
+            ],
+            "mappings": [],
+            "max": 99,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "未完了件数"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#bebec2",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "完了件数"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "green",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 13,
+          "x": 10,
+          "y": 33
+        },
+        "id": 34,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "vertical",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "asc"
+          },
+          "xTickLabelRotation": -90,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "eep3dps344kcga"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  machine_name || ' / ' || asset_name AS machine_asset,\r\n  SUM(number_of_workers * duration_in_minutes) AS total_worker_minutes\r\nFROM\r\n  work_orders \r\nWHERE\r\n  asset_name \u003c\u003e '' \r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name,\r\n  asset_name\r\nORDER BY\r\n  total_worker_minutes DESC\r\nLIMIT 20\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "name": "COUNT",
+                  "parameters": [
+                    {
+                      "name": "status",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "process_name",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "scheduled_events"
+          }
+        ],
+        "title": "項目別の作業実績時間（分） |  Work duration in minutes by assets",
         "type": "barchart"
       }
     ],
