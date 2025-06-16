@@ -168,7 +168,7 @@
             "editorMode": "code",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "SELECT\r\n  machine_name,\r\n  SUM(number_of_workers * duration_in_minutes) AS 累計メンテナンス時間（分）\r\nFROM\r\n  work_orders \r\nWHERE\r\n  asset_name \u003c\u003e '' \r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name\r\n",
+            "rawSql": "SELECT\r\n  machine_name,\r\n  SUM(number_of_workers * duration_in_minutes) AS 累計メンテナンス時間（分）\r\nFROM\r\n  work_orders \r\nWHERE\r\n  asset_name \u003c\u003e '' \r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name\r\nLIMIT\r\n  '${top}'\r\n",
             "refId": "A",
             "sql": {
               "columns": [
@@ -357,7 +357,7 @@
             "editorMode": "code",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "SELECT\r\n  machine_name || ' / ' || asset_name AS machine_asset,\r\n  SUM(number_of_workers * duration_in_minutes) AS 累計メンテナンス時間（分）\r\nFROM\r\n  work_orders \r\nWHERE\r\n  asset_name \u003c\u003e '' \r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name,\r\n  asset_name\r\nORDER BY\r\n  累計メンテナンス時間（分） DESC\r\nLIMIT 20\r\n",
+            "rawSql": "SELECT\r\n  machine_name || ' / ' || asset_name AS machine_asset,\r\n  SUM(number_of_workers * duration_in_minutes) AS 累計メンテナンス時間（分）\r\nFROM\r\n  work_orders \r\nWHERE\r\n  asset_name \u003c\u003e '' \r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name,\r\n  asset_name\r\nORDER BY\r\n  累計メンテナンス時間（分） DESC\r\nLIMIT   '${top}'\r\n",
             "refId": "A",
             "sql": {
               "columns": [
@@ -458,12 +458,13 @@
         },
         {
           "current": {
-            "selected": false,
-            "text": "50",
-            "value": "50"
+            "selected": true,
+            "text": "20",
+            "value": "20"
           },
           "hide": 0,
           "includeAll": false,
+          "label": "LIMIT",
           "multi": false,
           "name": "top",
           "options": [
@@ -478,7 +479,7 @@
               "value": "10"
             },
             {
-              "selected": false,
+              "selected": true,
               "text": "20",
               "value": "20"
             },
@@ -488,7 +489,7 @@
               "value": "30"
             },
             {
-              "selected": true,
+              "selected": false,
               "text": "50",
               "value": "50"
             }
