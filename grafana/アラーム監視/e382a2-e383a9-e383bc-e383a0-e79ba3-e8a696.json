@@ -88,8 +88,8 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 8,
-          "w": 12,
+          "h": 16,
+          "w": 24,
           "x": 0,
           "y": 0
         },
@@ -131,7 +131,7 @@
           "multi": false,
           "name": "SiteName",
           "options": [],
-          "query": "",
+          "query": "北本,歌島,茨城",
           "skipUrlSync": false,
           "type": "custom"
         },
