@@ -28,47 +28,21 @@
     "panels": [
       {
         "datasource": {
-          "name": "ScheduledMaintenance-RDS",
+          "default": false,
           "type": "grafana-postgresql-datasource",
           "uid": "aeq6ooy52hiwwd"
         },
         "fieldConfig": {
           "defaults": {
             "color": {
-              "mode": "palette-classic"
+              "mode": "thresholds"
             },
             "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "barWidthFactor": 0.6,
-              "drawStyle": "line",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
               },
-              "insertNulls": false,
-              "lineInterpolation": "linear",
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
+              "inspect": false
             },
             "mappings": [],
             "thresholds": {
@@ -95,28 +69,92 @@
         },
         "id": 1,
         "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom",
-            "showLegend": true
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
           },
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
+          "showHeader": true
         },
+        "pluginVersion": "11.2.0",
         "targets": [
           {
             "datasource": {
               "type": "grafana-postgresql-datasource",
               "uid": "aeq6ooy52hiwwd"
             },
-            "refId": "A"
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT machine_name, asset_name, title, lf_finished, np_due_date FROM scheduled_maintenances LIMIT 50 ",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "machine_name",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "check_item",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "check_method",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "lf_finished",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "np_due_date",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            },
+            "table": "scheduled_maintenances"
           }
         ],
         "title": "Panel Title",
-        "type": "timeseries"
+        "type": "table"
       }
     ],
     "schemaVersion": 39,
