@@ -90,7 +90,7 @@
             "editorMode": "code",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "SELECT machine_name, asset_name, title, lf_finished, np_due_date FROM scheduled_maintenances LIMIT 50 ",
+            "rawSql": "SELECT machine_name, asset_name, title, lf_finished, np_due_date FROM scheduled_maintenances\r\nWHERE\r\n  not(machine_name = '')\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n",
             "refId": "A",
             "sql": {
               "columns": [
