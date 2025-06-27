@@ -122,7 +122,47 @@
     "schemaVersion": 39,
     "tags": [],
     "templating": {
-      "list": []
+      "list": [
+        {
+          "current": {},
+          "hide": 0,
+          "includeAll": false,
+          "label": "拠点選択",
+          "multi": false,
+          "name": "SiteName",
+          "options": [],
+          "query": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "Po5号ライン仕上",
+            "value": "Po5号ライン仕上"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "label": "工程",
+          "multi": false,
+          "name": "ProcessName",
+          "options": [
+            {
+              "selected": true,
+              "text": "Po5号ライン仕上",
+              "value": "Po5号ライン仕上"
+            },
+            {
+              "selected": false,
+              "text": "FI推進課",
+              "value": "FI推進課"
+            }
+          ],
+          "query": "Po5号ライン仕上,FI推進課",
+          "skipUrlSync": false,
+          "type": "custom"
+        }
+      ]
     },
     "time": {
       "from": "now-6h",
