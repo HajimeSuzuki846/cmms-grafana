@@ -27,14 +27,14 @@
     "links": [
       {
         "asDropdown": false,
-        "icon": "external link",
+        "icon": "dashboard",
         "includeVars": false,
         "keepTime": false,
         "tags": [],
         "targetBlank": false,
-        "title": "アラーム | Alarms",
+        "title": "アラーム",
         "tooltip": "",
-        "type": "dashboards",
+        "type": "link",
         "url": ""
       }
     ],
