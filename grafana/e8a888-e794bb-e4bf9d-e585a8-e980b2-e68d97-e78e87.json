@@ -24,7 +24,20 @@
     "editable": true,
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
-    "links": [],
+    "links": [
+      {
+        "asDropdown": false,
+        "icon": "external link",
+        "includeVars": false,
+        "keepTime": false,
+        "tags": [],
+        "targetBlank": false,
+        "title": "アラーム | Alarms",
+        "tooltip": "",
+        "type": "dashboards",
+        "url": ""
+      }
+    ],
     "panels": [
       {
         "collapsed": false,
@@ -1326,8 +1339,7 @@
               "mode": "percentage",
               "steps": [
                 {
-                  "color": "transparent",
-                  "value": null
+                  "color": "transparent"
                 },
                 {
                   "color": "green",
