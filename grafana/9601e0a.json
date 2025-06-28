@@ -317,7 +317,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 }
               ]
             }
@@ -461,7 +462,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 }
               ]
             }
@@ -492,6 +494,11 @@
                           "color": "blue",
                           "index": 0,
                           "text": "計画済み"
+                        },
+                        "NoSpecifiedAssignee": {
+                          "color": "#808080",
+                          "index": 5,
+                          "text": "計画中"
                         },
                         "Planed": {
                           "color": "#808080",
@@ -661,7 +668,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 }
               ]
             }
