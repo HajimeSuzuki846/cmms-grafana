@@ -35,7 +35,7 @@
         "title": "アラーム",
         "tooltip": "",
         "type": "link",
-        "url": ""
+        "url": "https://glicocmmsbeta.org/d/feq6oxi0iy874a/e382a2-e383a9-e383bc-e383a0-e79ba3-e8a696?orgId=1"
       }
     ],
     "panels": [
@@ -977,8 +977,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "transparent",
-                  "value": null
+                  "color": "transparent"
                 },
                 {
                   "color": "red",
@@ -1156,8 +1155,7 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
-                  "value": null
+                  "color": "green"
                 }
               ]
             }
