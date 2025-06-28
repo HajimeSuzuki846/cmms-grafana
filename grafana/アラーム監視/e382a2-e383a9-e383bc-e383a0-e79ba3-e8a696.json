@@ -49,17 +49,39 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green",
+                  "color": "transparent",
                   "value": null
                 },
                 {
-                  "color": "red",
-                  "value": 80
+                  "color": "light-yellow",
+                  "value": 7
+                },
+                {
+                  "color": "light-red",
+                  "value": 30
                 }
               ]
             }
           },
-          "overrides": []
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "遅延日数"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "applyToRow": true,
+                    "mode": "gradient",
+                    "type": "color-background",
+                    "wrapText": false
+                  }
+                }
+              ]
+            }
+          ]
         },
         "gridPos": {
           "h": 16,
@@ -96,7 +118,7 @@
             "editorMode": "code",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "SELECT \r\n  machine_name, \r\n  asset_name, \r\n  title, \r\n  lf_finished,\r\n  cyclic_interval_in_days, \r\n  np_due_date,\r\n  NOW() \u003e (lf_finished + (INTERVAL '1 day' * cyclic_interval_in_days)) AS is_overdue,\r\n  ROUND(EXTRACT(EPOCH FROM (NOW() - (lf_finished + (INTERVAL '1 day' * cyclic_interval_in_days))) ) / 86400, 1) AS overdue_days\r\nFROM scheduled_maintenances\r\nWHERE\r\n  machine_name \u003c\u003e ''\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}'\r\n  AND lf_finished IS NOT NULL\r\n  AND NOW() \u003e (lf_finished + (INTERVAL '1 day' * cyclic_interval_in_days));\r\n",
+            "rawSql": "SELECT \r\n  machine_name as 設備, \r\n  asset_name as 部位, \r\n  title as 項目, \r\n  lf_finished as 前回完了日,\r\n  cyclic_interval_in_days as 基準周期, \r\n  np_due_date as 次回予定日,\r\n  NOW() \u003e (lf_finished + (INTERVAL '1 day' * cyclic_interval_in_days)) AS 遅延,\r\n  ROUND(EXTRACT(EPOCH FROM (NOW() - (lf_finished + (INTERVAL '1 day' * cyclic_interval_in_days))) ) / 86400, 1) AS 遅延日数\r\nFROM scheduled_maintenances\r\nWHERE\r\n  machine_name \u003c\u003e ''\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}'\r\n  AND lf_finished IS NOT NULL\r\n  AND cyclic_interval_in_days \u003e 0\r\n  AND NOW() \u003e (lf_finished + (INTERVAL '1 day' * cyclic_interval_in_days));\r\n",
             "refId": "A",
             "sql": {
               "columns": [
