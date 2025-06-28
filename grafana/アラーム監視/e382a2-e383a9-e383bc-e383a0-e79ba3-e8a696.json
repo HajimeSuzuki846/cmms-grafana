@@ -78,7 +78,13 @@
             ],
             "show": false
           },
-          "showHeader": true
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": true,
+              "displayName": "is_overdue"
+            }
+          ]
         },
         "pluginVersion": "11.2.0",
         "targets": [
@@ -90,7 +96,7 @@
             "editorMode": "code",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "SELECT machine_name, asset_name, title, lf_finished, np_due_date FROM scheduled_maintenances\r\nWHERE\r\n  not(machine_name = '')\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n",
+            "rawSql": "SELECT \r\n  machine_name, \r\n  asset_name, \r\n  title, \r\n  lf_finished,\r\n  cyclic_interval_in_days, \r\n  np_due_date,\r\n  NOW() \u003e (lf_finished + (INTERVAL '1 day' * cyclic_interval_in_days)) AS is_overdue,\r\n  ROUND(EXTRACT(EPOCH FROM (NOW() - (lf_finished + (INTERVAL '1 day' * cyclic_interval_in_days))) ) / 86400, 1) AS overdue_days\r\nFROM scheduled_maintenances\r\nWHERE\r\n  machine_name \u003c\u003e ''\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}'\r\n  AND lf_finished IS NOT NULL\r\n  AND NOW() \u003e (lf_finished + (INTERVAL '1 day' * cyclic_interval_in_days));\r\n",
             "refId": "A",
             "sql": {
               "columns": [
