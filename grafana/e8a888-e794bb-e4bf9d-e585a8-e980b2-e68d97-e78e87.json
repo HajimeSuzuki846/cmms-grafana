@@ -967,7 +967,7 @@
               {
                 "targetBlank": true,
                 "title": "詳細",
-                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=34\u0026var-Month=${__field.name}\u0026var-MachineName=${__data.fields[0]}"
+                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=34\u0026var-Month=${__field.name}\u0026var-MachineName=${__data.fields[0]}\u0026var-SiteName=${SiteName}\u0026var-ProcessName=${ProcessName}"
               }
             ],
             "mappings": [],
@@ -977,7 +977,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "transparent"
+                  "color": "transparent",
+                  "value": null
                 },
                 {
                   "color": "red",
@@ -1155,7 +1156,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 }
               ]
             }
@@ -1337,7 +1339,8 @@
               "mode": "percentage",
               "steps": [
                 {
-                  "color": "transparent"
+                  "color": "transparent",
+                  "value": null
                 },
                 {
                   "color": "green",
