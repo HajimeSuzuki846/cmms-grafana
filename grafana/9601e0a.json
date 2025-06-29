@@ -66,8 +66,14 @@
               {
                 "options": {
                   "Finished": {
+                    "color": "green",
                     "index": 0,
                     "text": "完了 | Finished"
+                  },
+                  "InProcessing": {
+                    "color": "light-blue",
+                    "index": 2,
+                    "text": "計画済み | InProcessing"
                   },
                   "status": {
                     "index": 1,
