@@ -145,7 +145,7 @@
                     {
                       "targetBlank": true,
                       "title": "詳細確認",
-                      "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/selectedevent?EventId=${__value.raw}"
+                      "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/selectedevent?EventId=${__value.text}"
                     }
                   ]
                 }
@@ -215,7 +215,7 @@
             "editorMode": "code",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "SELECT\r\n  process_name AS 工程名, machine_name AS 設備名, asset_name AS 部位, sm_title AS 件名, sm_check_item AS 項目, due_date AS 期日, status AS ステータス, assignees_display_name AS 担当者, event_id::text AS リンク, finished_date AS 完了日, parts_ready_status AS 部品\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  NOT (machine_name = '')\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}'\r\n  AND $__timeFilter(due_date)\r\n  AND (\r\n    (\r\n      '${Status}' = '完了件数'\r\n      AND status IN ('Finished', 'FinalApprovementFinished', 'Requesting')\r\n    )\r\n    OR\r\n    (\r\n      '${Status}' = '未完了件数'\r\n      AND status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting')\r\n    )\r\n  )",
+            "rawSql": "SELECT\r\n  process_name AS 工程名, machine_name AS 設備名, asset_name AS 部位, sm_title AS 件名, sm_check_item AS 項目, due_date AS 期日, status AS ステータス, assignees_display_name AS 担当者, event_id AS リンク, finished_date AS 完了日, parts_ready_status AS 部品\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  NOT (machine_name = '')\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}'\r\n  AND $__timeFilter(due_date)\r\n  AND (\r\n    (\r\n      '${Status}' = '完了件数'\r\n      AND status IN ('Finished', 'FinalApprovementFinished', 'Requesting')\r\n    )\r\n    OR\r\n    (\r\n      '${Status}' = '未完了件数'\r\n      AND status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting')\r\n    )\r\n  )",
             "refId": "A",
             "sql": {
               "columns": [
