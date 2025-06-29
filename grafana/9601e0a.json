@@ -215,7 +215,7 @@
             "editorMode": "code",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "SELECT\r\n  process_name AS 工程名,\r\n  machine_name AS 設備名,\r\n  asset_name AS 部位,\r\n  sm_title AS 件名,\r\n  sm_check_item AS 項目,\r\n  due_date AS 期日,\r\n  status AS ステータス,\r\n  assignees_display_name AS 担当者,\r\n  event_id::text AS リンク,\r\n  finished_date AS 完了日,\r\n  parts_ready_status AS 部品\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  machine_name \u003c\u003e ''\r\n  AND site_name = '鳥取'\r\n  AND process_name = '菓子仕上'\r\n  AND $__timeFilter(due_date)\r\n  AND (\r\n    (\r\n      '未完了件数' = '完了件数'\r\n      AND status IN ('Finished', 'FinalApprovementFinished', 'Requesting')\r\n    )\r\n    OR\r\n    (\r\n      '未完了件数' = '未完了件数'\r\n      AND status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting')\r\n    )\r\n  )\r\n",
+            "rawSql": "SELECT\r\n  process_name AS 工程名,\r\n  machine_name AS 設備名,\r\n  asset_name AS 部位,\r\n  sm_title AS 件名,\r\n  sm_check_item AS 項目,\r\n  due_date AS 期日,\r\n  status AS ステータス,\r\n  assignees_display_name AS 担当者,\r\n  event_id AS リンク,\r\n  finished_date AS 完了日,\r\n  parts_ready_status AS 部品\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  machine_name \u003c\u003e ''\r\n  AND site_name = '鳥取'\r\n  AND process_name = '菓子仕上'\r\n  AND $__timeFilter(due_date)\r\n  AND (\r\n    (\r\n      '未完了件数' = '完了件数'\r\n      AND status IN ('Finished', 'FinalApprovementFinished', 'Requesting')\r\n    )\r\n    OR\r\n    (\r\n      '未完了件数' = '未完了件数'\r\n      AND status NOT IN ('Finished', 'FinalApprovementFinished', 'Requesting')\r\n    )\r\n  )\r\n",
             "refId": "A",
             "sql": {
               "columns": [
@@ -317,7 +317,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "green"
+                  "color": "green",
+                  "value": null
                 }
               ]
             }
@@ -1003,7 +1004,7 @@
         "type": "row"
       }
     ],
-    "refresh": "",
+    "refresh": "30m",
     "schemaVersion": 39,
     "tags": [],
     "templating": {
