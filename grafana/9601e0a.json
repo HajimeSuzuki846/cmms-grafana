@@ -145,7 +145,7 @@
                     {
                       "targetBlank": true,
                       "title": "詳細確認",
-                      "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/selectedevent?EventId=${__value.text}"
+                      "url": "https://glicocmmsbeta100.mendixcloud.com/rest/myservicegrafanadatalinks/v1/selectedevent"
                     }
                   ]
                 }
