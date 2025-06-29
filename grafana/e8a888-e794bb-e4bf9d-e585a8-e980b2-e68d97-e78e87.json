@@ -416,7 +416,7 @@
               {
                 "targetBlank": true,
                 "title": "確認",
-                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=29\u0026var-Status=${__field.name}\u0026from=${__from}\u0026to=${__to}"
+                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=29\u0026var-Status=${__field.name}\u0026from=${__from}\u0026to=${__to}\u0026var-SiteName=${SiteName}\u0026var-ProcessName=${ProcessName}"
               }
             ],
             "mappings": [],
@@ -599,7 +599,7 @@
               {
                 "targetBlank": true,
                 "title": "詳細（クリック）",
-                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=35\u0026var-MachineName=${__data.fields[0]}\u0026from=${__from}\u0026to=${__to}"
+                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=35\u0026var-MachineName=${__data.fields[0]}\u0026from=${__from}\u0026to=${__to}\u0026var-SiteName=${SiteName}\u0026var-ProcessName=${ProcessName}"
               }
             ],
             "mappings": [],
@@ -788,7 +788,7 @@
               {
                 "targetBlank": true,
                 "title": "詳細（クリック）",
-                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=35\u0026var-MachineName=${__data.fields[0]}\u0026from=${__from}\u0026to=${__to}"
+                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=35\u0026var-MachineName=${__data.fields[0]}\u0026from=${__from}\u0026to=${__to}\u0026var-SiteName=${SiteName}\u0026var-ProcessName=${ProcessName}"
               }
             ],
             "mappings": [],
@@ -1148,7 +1148,7 @@
               {
                 "targetBlank": true,
                 "title": "内容確認（クリック）",
-                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=33\u0026var-Assignee=${__data.fields[0]}\u0026from=${__from}\u0026to=${__to}"
+                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=33\u0026var-Assignee=${__data.fields[0]}\u0026from=${__from}\u0026to=${__to}\u0026var-SiteName=${SiteName}\u0026var-ProcessName=${ProcessName}"
               }
             ],
             "mappings": [],
