@@ -59,11 +59,24 @@
               ]
             }
           },
-          "overrides": []
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "id"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 356
+                }
+              ]
+            }
+          ]
         },
         "gridPos": {
           "h": 8,
-          "w": 12,
+          "w": 11,
           "x": 0,
           "y": 0
         },
@@ -78,7 +91,8 @@
             ],
             "show": false
           },
-          "showHeader": true
+          "showHeader": true,
+          "sortBy": []
         },
         "pluginVersion": "11.2.0",
         "targets": [
@@ -125,7 +139,7 @@
             "table": "device"
           }
         ],
-        "title": "Panel Title",
+        "title": "device テーブル",
         "type": "table"
       },
       {
