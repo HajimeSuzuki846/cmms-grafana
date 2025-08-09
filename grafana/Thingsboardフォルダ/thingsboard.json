@@ -239,7 +239,7 @@
             }
           }
         ],
-        "title": "Panel Title",
+        "title": "選択したデバイスのデータ",
         "transformations": [
           {
             "id": "groupingToMatrix",
