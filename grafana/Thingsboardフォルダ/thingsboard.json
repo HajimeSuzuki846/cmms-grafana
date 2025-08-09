@@ -403,8 +403,8 @@
         {
           "current": {
             "selected": true,
-            "text": "kitamoto-logs-cut-tube",
-            "value": "kitamoto-logs-cut-tube"
+            "text": "kitamoto-logs-cut-tube-mani",
+            "value": "kitamoto-logs-cut-tube-mani"
           },
           "datasource": {
             "type": "grafana-postgresql-datasource",
