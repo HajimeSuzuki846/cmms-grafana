@@ -382,7 +382,7 @@
             "uid": "eeuabvk7nz9xcc"
           },
           "definition": "SELECT id name FROM device LIMIT 50 ",
-          "hide": 1,
+          "hide": 0,
           "includeAll": false,
           "label": "デバイスID",
           "multi": false,
