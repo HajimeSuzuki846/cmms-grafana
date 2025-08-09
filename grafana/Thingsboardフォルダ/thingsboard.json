@@ -402,7 +402,7 @@
       "list": [
         {
           "current": {
-            "selected": false,
+            "selected": true,
             "text": "kitamoto-logs-cut-tube",
             "value": "kitamoto-logs-cut-tube"
           },
@@ -413,9 +413,9 @@
           "definition": "SELECT name FROM device LIMIT 50 ",
           "hide": 0,
           "includeAll": false,
-          "label": "デバイスID",
+          "label": "デバイス名",
           "multi": false,
-          "name": "DeviceId",
+          "name": "DeviceName",
           "options": [],
           "query": "SELECT name FROM device LIMIT 50 ",
           "refresh": 1,
