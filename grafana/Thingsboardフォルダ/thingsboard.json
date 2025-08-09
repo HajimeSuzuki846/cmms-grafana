@@ -127,6 +127,244 @@
         ],
         "title": "Panel Title",
         "type": "table"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "eeuabvk7nz9xcc"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 3,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "eeuabvk7nz9xcc"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "WITH f AS (\r\n  SELECT\r\n    ts,\r\n    k.key,  -- key属性を選択\r\n    COALESCE(dbl_v, long_v::double precision) AS v\r\n  FROM ts_kv k\r\n  LEFT JOIN key_dictionary kt ON k.key = kt.key_id  -- keyとkey_idを基にJOIN\r\n  WHERE k.entity_id = 'f3a8e810-4b82-11f0-8c8f-497def7eab67'\r\n    AND ts \u003e= (extract(epoch from now() - interval '1 day') * 1000)::bigint\r\n)\r\nSELECT\r\n  to_timestamp( (ts/60000) * 60 ) AS time,  -- 1分バケット\r\n  kt.key AS key_name,                  -- key_nameに変更\r\n  avg(v) AS value\r\nFROM f\r\nLEFT JOIN key_dictionary kt ON f.key = kt.key_id  -- 再度JOINしてkey_nameを取得\r\nGROUP BY time, kt.key                -- key_nameでグループ化\r\nORDER BY time, key_name;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Panel Title",
+        "transformations": [
+          {
+            "id": "groupingToMatrix",
+            "options": {
+              "columnField": "key_name",
+              "rowField": "time",
+              "valueField": "value"
+            }
+          },
+          {
+            "id": "convertFieldType",
+            "options": {
+              "conversions": [
+                {
+                  "destinationType": "time",
+                  "targetField": "time\\key_name"
+                }
+              ],
+              "fields": {}
+            }
+          }
+        ],
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "eeuabvk7nz9xcc"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 8
+        },
+        "id": 4,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "eeuabvk7nz9xcc"
+            },
+            "editorMode": "builder",
+            "format": "table",
+            "rawSql": "SELECT key_id, key FROM key_dictionary LIMIT 50 ",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "key_id",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "key",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            },
+            "table": "key_dictionary"
+          }
+        ],
+        "title": "Panel Title",
+        "type": "table"
       }
     ],
     "refresh": "",
