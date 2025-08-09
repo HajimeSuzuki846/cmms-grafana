@@ -232,7 +232,7 @@
             "editorMode": "code",
             "format": "table",
             "rawQuery": true,
-            "rawSql": "WITH f AS (\r\n  SELECT\r\n    ts,\r\n    k.key,  -- key属性を選択\r\n    COALESCE(dbl_v, long_v::double precision) AS v\r\n  FROM ts_kv k\r\n  LEFT JOIN key_dictionary kt ON k.key = kt.key_id  -- keyとkey_idを基にJOIN\r\n  WHERE k.entity_id = 'f3a8e810-4b82-11f0-8c8f-497def7eab67'\r\n    AND ts \u003e= (extract(epoch from now() - interval '1 day') * 1000)::bigint\r\n)\r\nSELECT\r\n  to_timestamp( (ts/60000) * 60 ) AS time,  -- 1分バケット\r\n  kt.key AS key_name,                  -- key_nameに変更\r\n  avg(v) AS value\r\nFROM f\r\nLEFT JOIN key_dictionary kt ON f.key = kt.key_id  -- 再度JOINしてkey_nameを取得\r\nGROUP BY time, kt.key                -- key_nameでグループ化\r\nORDER BY time, key_name;\r\n",
+            "rawSql": "WITH f AS (\r\n  SELECT\r\n    ts,\r\n    k.key,  -- key属性を選択\r\n    COALESCE(dbl_v, long_v::double precision) AS v\r\n  FROM ts_kv k\r\n  LEFT JOIN key_dictionary kt ON k.key = kt.key_id\r\n  LEFT JOIN device d ON k.entity_id = d.id\r\n  WHERE d.name = '${DeviceId}'\r\n  AND ts \u003e= (extract(epoch from now() - interval '1 day') * 1000)::bigint\r\n)\r\nSELECT\r\n  DATE_TRUNC('minute', to_timestamp(ts / 1000)) AS time,  -- 1分バケット\r\n  kt.key AS key_name,\r\n  avg(v) AS value\r\nFROM f\r\nLEFT JOIN key_dictionary kt ON f.key = kt.key_id\r\nGROUP BY time, kt.key\r\nORDER BY time, key_name;\r\n",
             "refId": "A",
             "sql": {
               "columns": [
@@ -381,6 +381,7 @@
         "type": "table"
       }
     ],
+    "refresh": "",
     "schemaVersion": 39,
     "tags": [],
     "templating": {
