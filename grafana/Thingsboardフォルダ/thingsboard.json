@@ -388,8 +388,8 @@
         {
           "current": {
             "selected": false,
-            "text": "clusterMode",
-            "value": "clusterMode"
+            "text": "kitamoto-logs-cut-tube",
+            "value": "kitamoto-logs-cut-tube"
           },
           "datasource": {
             "type": "grafana-postgresql-datasource",
@@ -400,7 +400,7 @@
           "includeAll": false,
           "label": "デバイスID",
           "multi": false,
-          "name": "DeviceID",
+          "name": "DeviceId",
           "options": [],
           "query": "SELECT name FROM device LIMIT 50 ",
           "refresh": 1,
