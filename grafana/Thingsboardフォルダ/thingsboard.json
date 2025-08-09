@@ -367,11 +367,35 @@
         "type": "table"
       }
     ],
-    "refresh": "",
     "schemaVersion": 39,
     "tags": [],
     "templating": {
-      "list": []
+      "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": "clusterMode",
+            "value": "clusterMode"
+          },
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "eeuabvk7nz9xcc"
+          },
+          "definition": "SELECT key FROM key_dictionary LIMIT 50 ",
+          "hide": 1,
+          "includeAll": false,
+          "label": "デバイスID",
+          "multi": false,
+          "name": "DeviceID",
+          "options": [],
+          "query": "SELECT key FROM key_dictionary LIMIT 50 ",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        }
+      ]
     },
     "time": {
       "from": "2025-08-07T13:22:58.000Z",
