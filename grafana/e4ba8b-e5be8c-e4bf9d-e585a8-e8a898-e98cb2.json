@@ -1,0 +1,559 @@
+{
+  "apiVersion": "dashboard.grafana.app/v1beta1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "cdxy77qlsg8owm"
+  },
+  "spec": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations \u0026 Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [],
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 30,
+        "panels": [],
+        "title": "事後保全（工場全体）",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "feetsozgtngg0d"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": false,
+              "inspect": false,
+              "width": 50
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "max": 99,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "transparent",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 0
+                },
+                {
+                  "color": "#EAB839",
+                  "value": 50
+                },
+                {
+                  "color": "light-green",
+                  "value": 80
+                },
+                {
+                  "color": "green",
+                  "value": 100
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "1月"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "color-background"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "2月"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "color-background"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "3月"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "color-background"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "設備 | Machines"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 150
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 13,
+          "x": 0,
+          "y": 1
+        },
+        "id": 25,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "enablePagination": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "feetsozgtngg0d"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  process_name AS \"設備 | Machines\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 1 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 1 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"1月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 2 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 2 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"2月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 3 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 3 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"3月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 4 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 4 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"4月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 5 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 5 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"5月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 6 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 6 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"6月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 7 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 7 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"7月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 8 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 8 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"8月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 9 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 9 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"9月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 10 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 10 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"10月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 11 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 11 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"11月\",\r\n  ROUND(\r\n    SUM(CASE WHEN status IN ('Finished', 'FinalApprovementFinished', 'Requesting') AND EXTRACT(MONTH FROM due_date) = 12 THEN 1 ELSE 0 END) * 100.0 /\r\n    NULLIF(SUM(CASE WHEN EXTRACT(MONTH FROM due_date) = 12 THEN 1 ELSE 0 END), 0), 2\r\n  ) AS \"12月\"\r\nFROM\r\n  scheduled_events\r\nWHERE\r\n  not(machine_name = '')\r\n  AND site_name = '${SiteName}' \r\n  AND EXTRACT(YEAR FROM due_date) = 2025  -- 例: 2025\r\nGROUP BY\r\n  process_name\r\nORDER BY\r\n  process_name;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "name": "COUNT",
+                  "parameters": [
+                    {
+                      "name": "status",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "process_name",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "scheduled_events"
+          }
+        ],
+        "title": "年間進捗率（工程） | Annual Progress Rate by processes",
+        "type": "table"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 6
+        },
+        "id": 23,
+        "panels": [],
+        "title": "事後保全（選択工程）",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "eeheqbjbgfwu8a"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisGridShow": true,
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "axisWidth": -1,
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "m"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "完了率（％）"
+              },
+              "properties": []
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 15,
+          "x": 0,
+          "y": 7
+        },
+        "id": 31,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.75,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": false
+          },
+          "orientation": "auto",
+          "showValue": "always",
+          "stacking": "none",
+          "text": {
+            "valueSize": 16
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xField": "asset_name",
+          "xTickLabelRotation": -90,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "eeheqbjbgfwu8a"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT asset_name, SUM(work_duration) FROM breakdown_maintenances \r\nWHERE process_name = '${ProcessName}' AND $__timeFilter(created_date) \r\nGROUP BY asset_name \r\nORDER BY SUM(work_duration) DESC LIMIT 30 ",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "asset_name",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "name": "SUM",
+                  "parameters": [
+                    {
+                      "name": "work_duration",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "asset_name",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 30,
+              "orderBy": {
+                "property": {
+                  "name": "SUM(work_duration)",
+                  "type": "string"
+                },
+                "type": "property"
+              },
+              "orderByDirection": "DESC",
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "b89989ba-cdef-4012-b456-7195eaa39ad3",
+                    "properties": {
+                      "field": "process_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${ProcessName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "8b8babba-0123-4456-b89a-b195e945848b",
+                "type": "group"
+              },
+              "whereString": "process_name = '${ProcessName}'"
+            },
+            "table": "breakdown_maintenances"
+          }
+        ],
+        "title": "作業時間（設備別） | Work duration by machines",
+        "transformations": [
+          {
+            "id": "groupingToMatrix",
+            "options": {
+              "columnField": "ステータス",
+              "rowField": "設備",
+              "valueField": "件数"
+            }
+          }
+        ],
+        "type": "barchart"
+      }
+    ],
+    "refresh": "",
+    "schemaVersion": 41,
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": "北本",
+            "value": "北本"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "label": "拠点選択",
+          "multi": false,
+          "name": "SiteName",
+          "options": [
+            {
+              "selected": false,
+              "text": "茨城",
+              "value": "茨城"
+            },
+            {
+              "selected": true,
+              "text": "北本",
+              "value": "北本"
+            },
+            {
+              "selected": false,
+              "text": "鳥取",
+              "value": "鳥取"
+            }
+          ],
+          "query": "茨城,北本,鳥取",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "50",
+            "value": "50"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "multi": false,
+          "name": "top",
+          "options": [
+            {
+              "selected": false,
+              "text": "5",
+              "value": "5"
+            },
+            {
+              "selected": false,
+              "text": "10",
+              "value": "10"
+            },
+            {
+              "selected": false,
+              "text": "20",
+              "value": "20"
+            },
+            {
+              "selected": false,
+              "text": "30",
+              "value": "30"
+            },
+            {
+              "selected": true,
+              "text": "50",
+              "value": "50"
+            }
+          ],
+          "query": "5,10,20,30,50",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "Po5号ライン仕上",
+            "value": "Po5号ライン仕上"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "label": "",
+          "multi": false,
+          "name": "ProcessName",
+          "options": [
+            {
+              "selected": true,
+              "text": "Po5号ライン仕上",
+              "value": "Po5号ライン仕上"
+            },
+            {
+              "selected": false,
+              "text": "FI推進課",
+              "value": "FI推進課"
+            }
+          ],
+          "query": "Po5号ライン仕上,FI推進課",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        }
+      ]
+    },
+    "time": {
+      "from": "2025-03-01T00:00:00.000Z",
+      "to": "2025-03-31T23:59:59.999Z"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "事後保全記録",
+    "weekStart": ""
+  }
+}
