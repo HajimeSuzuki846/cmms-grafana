@@ -1,0 +1,391 @@
+{
+  "apiVersion": "dashboard.grafana.app/v1beta1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "feq6oxi0iy874a"
+  },
+  "spec": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations \u0026 Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [],
+    "panels": [
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "aeq6ooy52hiwwd"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "transparent",
+                  "value": null
+                },
+                {
+                  "color": "light-yellow",
+                  "value": 7
+                },
+                {
+                  "color": "light-red",
+                  "value": 30
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "遅延日数"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "applyToRow": true,
+                    "mode": "gradient",
+                    "type": "color-background",
+                    "wrapText": false
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "部位"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "基準周期"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 103
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 17,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": true,
+              "displayName": "遅延日数"
+            }
+          ]
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aeq6ooy52hiwwd"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT \r\n  machine_name as 設備, \r\n  asset_name as 部位, \r\n  title as 項目, \r\n  lf_finished as 前回完了日,\r\n  cyclic_interval_in_days as 基準周期, \r\n  np_due_date as 次回予定日,\r\n  ROUND(EXTRACT(EPOCH FROM (NOW() - (lf_finished + (INTERVAL '1 day' * cyclic_interval_in_days))) ) / 86400, 1) AS 遅延日数\r\nFROM scheduled_maintenances\r\nWHERE\r\n  machine_name \u003c\u003e ''\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}'\r\n  AND lf_finished IS NOT NULL\r\n  AND cyclic_interval_in_days \u003e 0\r\n  AND NOW() \u003e (lf_finished + (INTERVAL '1 day' * cyclic_interval_in_days));\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "machine_name",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "check_item",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "check_method",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "lf_finished",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "np_due_date",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            },
+            "table": "scheduled_maintenances"
+          }
+        ],
+        "title": "周期設定を超えて未実施の計画保全項目",
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "aeq6ooy52hiwwd"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "text",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 7,
+          "x": 17,
+          "y": 0
+        },
+        "id": 2,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "aeq6ooy52hiwwd"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT \r\n  COUNT(*) AS 遅延件数\r\nFROM scheduled_maintenances\r\nWHERE\r\n  machine_name \u003c\u003e ''\r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}'\r\n  AND lf_finished IS NOT NULL\r\n  AND cyclic_interval_in_days \u003e 0\r\n  AND NOW() \u003e (lf_finished + (INTERVAL '1 day' * cyclic_interval_in_days));\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "machine_name",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "check_item",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "check_method",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "lf_finished",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "np_due_date",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            },
+            "table": "scheduled_maintenances"
+          }
+        ],
+        "title": "周期設定を超えて保全未実施の件数",
+        "type": "stat"
+      }
+    ],
+    "refresh": "",
+    "schemaVersion": 41,
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {},
+          "hide": 0,
+          "includeAll": false,
+          "label": "拠点選択",
+          "multi": false,
+          "name": "SiteName",
+          "options": [],
+          "query": "北本,歌島,茨城",
+          "skipUrlSync": false,
+          "type": "custom"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "Po5号ライン仕上",
+            "value": "Po5号ライン仕上"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "label": "工程",
+          "multi": false,
+          "name": "ProcessName",
+          "options": [
+            {
+              "selected": true,
+              "text": "Po5号ライン仕上",
+              "value": "Po5号ライン仕上"
+            },
+            {
+              "selected": false,
+              "text": "FI推進課",
+              "value": "FI推進課"
+            }
+          ],
+          "query": "Po5号ライン仕上,FI推進課",
+          "skipUrlSync": false,
+          "type": "custom"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "アラーム監視",
+    "weekStart": ""
+  }
+}
