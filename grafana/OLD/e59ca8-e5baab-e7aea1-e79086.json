@@ -1,0 +1,1526 @@
+{
+  "apiVersion": "dashboard.grafana.app/v1beta1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "cdxy77qlsg8owg"
+  },
+  "spec": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations \u0026 Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [],
+    "panels": [
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "cedpglkgedslca"
+        },
+        "gridPos": {
+          "h": 13,
+          "w": 22,
+          "x": 0,
+          "y": 0
+        },
+        "id": 14,
+        "options": {
+          "barPadding": 2,
+          "barTextFontSize": 12,
+          "barTextRotation": 270,
+          "isInclusive": false,
+          "showBarText": true,
+          "showBarValue": false,
+          "showVitalFew": true,
+          "valToFixed": 2,
+          "vitalBreakpointVal": 20
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "cedpglkgedslca"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT name_and_part_number, AVG(part_total_qty) FROM change_histories WHERE site_name = '${SiteName}' and $__timeFilter(datetime) GROUP BY name_and_part_number ORDER BY AVG(part_total_qty) DESC LIMIT 50 ",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "パレート図",
+        "type": "isaozler-paretochart-panel"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "cedpglkgedslca"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "currencyJPY"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 13
+        },
+        "id": 16,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "cedpglkgedslca"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "WITH latest_stock AS (\r\n    SELECT \r\n        name_and_part_number,\r\n        total_qty_after,\r\n        unit_price,\r\n        site_name,\r\n        ROW_NUMBER() OVER (\r\n            PARTITION BY name_and_part_number, site_name \r\n            ORDER BY datetime DESC\r\n        ) AS rn\r\n    FROM change_histories\r\n    WHERE site_name = '${SiteName}'  -- 指定されたサイトのみ取得\r\n)\r\nSELECT \r\n    NOW()::timestamp AS \"time\",\r\n    SUM(total_qty_after * unit_price) AS total_stock_value\r\nFROM latest_stock\r\nWHERE rn = 1;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "total_qty_after",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "unit_price",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "name_and_part_number",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "bba9b898-0123-4456-b89a-b1952cb81c65",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "88899ba8-0123-4456-b89a-b1952b3a5410",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "change_histories"
+          }
+        ],
+        "title": "現在の在庫総金額",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "datasource",
+          "uid": "-- Mixed --"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisGridShow": true,
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 17,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "smooth",
+              "lineWidth": 2,
+              "pointSize": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "在庫回転率"
+              },
+              "properties": []
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 11,
+          "x": 12,
+          "y": 13
+        },
+        "id": 15,
+        "maxDataPoints": 100,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "cedpglkgedslca"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "WITH stock_changes AS (\r\n    -- 指定 site_name のデータのみを取得\r\n    SELECT \r\n        ch.name_and_part_number,\r\n        ch.datetime::date AS date,  -- 明示的に datetime を date にキャスト\r\n        ch.total_qty_after,\r\n        ch.unit_price,\r\n        ch.site_name\r\n    FROM change_histories ch\r\n    WHERE ch.site_name = '${SiteName}'\r\n),\r\ndate_range AS (\r\n    -- 日付の最小値・最大値を取得\r\n    SELECT \r\n        MIN(date) AS min_date, \r\n        MAX(date) AS max_date\r\n    FROM stock_changes\r\n),\r\ndate_series AS (\r\n    -- すべての日付を作成（最小日付から最大日付まで）\r\n    SELECT generate_series(min_date, max_date, '1 day'::interval)::date AS date\r\n    FROM date_range\r\n),\r\nlatest_stock AS (\r\n    -- 各部品ごとに、その日までの最新の在庫データを取得\r\n    SELECT DISTINCT ON (sc.name_and_part_number, d.date) \r\n        d.date,\r\n        sc.name_and_part_number,\r\n        sc.site_name,\r\n        sc.total_qty_after AS latest_qty,\r\n        sc.unit_price AS latest_price\r\n    FROM date_series d\r\n    JOIN stock_changes sc\r\n    ON sc.date \u003c= d.date\r\n    ORDER BY sc.name_and_part_number, d.date, sc.date DESC\r\n),\r\nfinal_stock AS (\r\n    -- 各日ごとの最新在庫数を適用\r\n    SELECT \r\n        date,\r\n        site_name,\r\n        SUM(latest_qty * latest_price) AS total_stock_value\r\n    FROM latest_stock\r\n    GROUP BY date, site_name\r\n)\r\nSELECT \r\n    date AS \"time\",\r\n    total_stock_value\r\nFROM final_stock\r\nWHERE site_name = '${SiteName}'\r\nORDER BY date;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "name_and_part_number",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "name": "AVG",
+                  "parameters": [
+                    {
+                      "name": "part_total_qty",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "name_and_part_number",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "orderBy": {
+                "property": {
+                  "name": "AVG(part_total_qty)",
+                  "type": "string"
+                },
+                "type": "property"
+              },
+              "orderByDirection": "DESC",
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "bbb8899a-cdef-4012-b456-7195277ab9bf",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  },
+                  {
+                    "id": "9898a888-89ab-4cde-b012-319527ebb69f",
+                    "properties": {
+                      "field": "datetime",
+                      "fieldSrc": "field",
+                      "operator": "between",
+                      "value": [
+                        "2025-02-21 18:52:05",
+                        null
+                      ],
+                      "valueError": [
+                        null,
+                        null
+                      ],
+                      "valueSrc": [
+                        "value",
+                        "value"
+                      ],
+                      "valueType": [
+                        "datetime",
+                        "datetime"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "8b8abb89-0123-4456-b89a-b1952669d1f0",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "change_histories"
+          }
+        ],
+        "title": "在庫総金額の変動推移",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "datasource",
+          "uid": "-- Mixed --"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue"
+                }
+              ]
+            },
+            "unit": "currencyJPY"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": ""
+              },
+              "properties": []
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 19,
+          "w": 24,
+          "x": 0,
+          "y": 21
+        },
+        "id": 7,
+        "maxDataPoints": 100,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.9,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "vertical",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          },
+          "xTickLabelRotation": -90,
+          "xTickLabelSpacing": 0
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "cedpglkgedslca"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT \r\n    name_and_part_number AS 商品名・型式, \r\n    AVG(part_total_qty) * AVG(unit_price) AS 部品別総額\r\nFROM \r\n    change_histories\r\nWHERE \r\n    site_name = '${SiteName}' \r\n    AND $__timeFilter(datetime)\r\nGROUP BY \r\n    name_and_part_number\r\nHAVING \r\n    AVG(part_total_qty) * AVG(unit_price) \u003e 0\r\nORDER BY \r\n    部品別総額 DESC\r\nLIMIT 50;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "name_and_part_number",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "name": "AVG",
+                  "parameters": [
+                    {
+                      "name": "part_total_qty",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "name_and_part_number",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "orderBy": {
+                "property": {
+                  "name": "AVG(part_total_qty)",
+                  "type": "string"
+                },
+                "type": "property"
+              },
+              "orderByDirection": "DESC",
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "bbb8899a-cdef-4012-b456-7195277ab9bf",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  },
+                  {
+                    "id": "9898a888-89ab-4cde-b012-319527ebb69f",
+                    "properties": {
+                      "field": "datetime",
+                      "fieldSrc": "field",
+                      "operator": "between",
+                      "value": [
+                        "2025-02-21 18:52:05",
+                        null
+                      ],
+                      "valueError": [
+                        null,
+                        null
+                      ],
+                      "valueSrc": [
+                        "value",
+                        "value"
+                      ],
+                      "valueType": [
+                        "datetime",
+                        "datetime"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "8b8abb89-0123-4456-b89a-b1952669d1f0",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "change_histories"
+          }
+        ],
+        "title": "部品別の総額（総数量ｘ単価）",
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "datasource",
+          "uid": "-- Mixed --"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 50,
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "pointShape": "circle",
+              "pointSize": {
+                "fixed": 20
+              },
+              "pointStrokeWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "show": "points"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "在庫回転率"
+              },
+              "properties": []
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 19,
+          "w": 12,
+          "x": 0,
+          "y": 40
+        },
+        "id": 11,
+        "maxDataPoints": 100,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "mapping": "auto",
+          "series": [
+            {}
+          ],
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "cedpglkgedslca"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT \r\n    name_and_part_number, \r\n    AVG(unit_price) AS 単価,\r\n    CASE \r\n        WHEN AVG(part_total_qty) = 0 THEN 0 \r\n        ELSE SUM(qty_change) / AVG(part_total_qty) \r\n    END AS 在庫回転率\r\nFROM \r\n    change_histories\r\nWHERE \r\n    site_name = '${SiteName}' \r\n    AND $__timeFilter(datetime)\r\nGROUP BY \r\n    name_and_part_number\r\nORDER BY \r\n    単価 DESC, 在庫回転率 DESC\r\nLIMIT 50;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "name_and_part_number",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "name": "AVG",
+                  "parameters": [
+                    {
+                      "name": "part_total_qty",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "name_and_part_number",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "orderBy": {
+                "property": {
+                  "name": "AVG(part_total_qty)",
+                  "type": "string"
+                },
+                "type": "property"
+              },
+              "orderByDirection": "DESC",
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "bbb8899a-cdef-4012-b456-7195277ab9bf",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  },
+                  {
+                    "id": "9898a888-89ab-4cde-b012-319527ebb69f",
+                    "properties": {
+                      "field": "datetime",
+                      "fieldSrc": "field",
+                      "operator": "between",
+                      "value": [
+                        "2025-02-21 18:52:05",
+                        null
+                      ],
+                      "valueError": [
+                        null,
+                        null
+                      ],
+                      "valueSrc": [
+                        "value",
+                        "value"
+                      ],
+                      "valueType": [
+                        "datetime",
+                        "datetime"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "8b8abb89-0123-4456-b89a-b1952669d1f0",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "change_histories"
+          }
+        ],
+        "title": "部品単価 vs 在庫回転率",
+        "type": "xychart"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "datasource",
+          "uid": "-- Mixed --"
+        },
+        "description": "在庫変動数量/平均在庫数",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisGridShow": true,
+              "axisLabel": "",
+              "axisPlacement": "right",
+              "fillOpacity": 50,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "__systemRef": "hideSeriesFrom",
+              "matcher": {
+                "id": "byNames",
+                "options": {
+                  "mode": "exclude",
+                  "names": [
+                    "在庫回転率"
+                  ],
+                  "prefix": "All except:",
+                  "readOnly": true
+                }
+              },
+              "properties": [
+                {
+                  "id": "custom.hideFrom",
+                  "value": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 15,
+          "w": 18,
+          "x": 0,
+          "y": 59
+        },
+        "id": 10,
+        "maxDataPoints": 100,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "vertical",
+          "showValue": "always",
+          "stacking": "none",
+          "text": {
+            "valueSize": 12
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          },
+          "xField": "name_and_part_number",
+          "xTickLabelRotation": -90,
+          "xTickLabelSpacing": 0
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "cedpglkgedslca"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT \r\n    name_and_part_number as 商品名（型式）, \r\n    CASE \r\n        WHEN AVG(part_total_qty) = 0 THEN 0 \r\n        ELSE SUM(qty_change) / AVG(part_total_qty) \r\n    END AS 在庫回転率\r\nFROM \r\n    change_histories\r\nWHERE \r\n    site_name = '${SiteName}' AND \r\n    $__timeFilter(datetime)\r\nGROUP BY \r\n    name_and_part_number\r\nORDER BY \r\n    在庫回転率 DESC\r\nLIMIT 50;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "name_and_part_number",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "alias": "\"SUM_Change\"",
+                  "name": "SUM",
+                  "parameters": [
+                    {
+                      "name": "qty_change",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "name": "AVG",
+                  "parameters": [
+                    {
+                      "name": "part_total_qty",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "name_and_part_number",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "orderBy": {
+                "property": {
+                  "name": "SUM(qty_change)",
+                  "type": "string"
+                },
+                "type": "property"
+              },
+              "orderByDirection": "DESC",
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "a8a9ba89-cdef-4012-b456-7195272b9206",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "8b8abb89-0123-4456-b89a-b1952669d1f0",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "change_histories"
+          }
+        ],
+        "title": "在庫回転率",
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "datasource",
+          "uid": "-- Mixed --"
+        },
+        "description": "拠点ごとの在庫部品数量を可視化",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "__systemRef": "hideSeriesFrom",
+              "matcher": {
+                "id": "byNames",
+                "options": {
+                  "mode": "exclude",
+                  "names": [
+                    "TotalQty A"
+                  ],
+                  "prefix": "All except:",
+                  "readOnly": true
+                }
+              },
+              "properties": []
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "PhotoUrl"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "image"
+                  }
+                },
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "targetBlank": true,
+                      "title": "",
+                      "url": "${__value.row}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 17,
+          "w": 12,
+          "x": 0,
+          "y": 74
+        },
+        "id": 8,
+        "maxDataPoints": 100,
+        "options": {
+          "cellHeight": "lg",
+          "footer": {
+            "countRows": false,
+            "enablePagination": true,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "dvelop-odata-datasource",
+              "uid": "eedi34n3ayqdcd"
+            },
+            "entitySet": {
+              "entityType": "DefaultNamespace.Parts",
+              "name": "Parts"
+            },
+            "filterConditions": [],
+            "properties": [
+              {
+                "name": "Name",
+                "type": "Edm.String"
+              },
+              {
+                "name": "TotalQty",
+                "type": "Edm.Int64"
+              },
+              {
+                "name": "Parts_Sites",
+                "type": "Edm.Int64"
+              },
+              {
+                "name": "PhotoUrl",
+                "type": "Edm.String"
+              },
+              {
+                "name": "UnitPrice",
+                "type": "Edm.Decimal"
+              }
+            ],
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "dvelop-odata-datasource",
+              "uid": "cdtvprupj2lfkc"
+            },
+            "entitySet": {
+              "entityType": "DefaultNamespace.Sites",
+              "name": "Sites"
+            },
+            "hide": false,
+            "properties": [
+              {
+                "name": "ID",
+                "type": "Edm.Int64"
+              },
+              {
+                "name": "SiteNameCaption",
+                "type": "Edm.String"
+              }
+            ],
+            "refId": "B"
+          }
+        ],
+        "title": "総数量",
+        "transformations": [
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "Parts_Sites",
+              "renamePattern": "ID"
+            }
+          },
+          {
+            "id": "joinByField",
+            "options": {
+              "byField": "ID",
+              "mode": "inner"
+            }
+          },
+          {
+            "id": "filterByValue",
+            "options": {
+              "filters": [
+                {
+                  "config": {
+                    "id": "equal",
+                    "options": {
+                      "value": "${SiteName}"
+                    }
+                  },
+                  "fieldName": "SiteNameCaption B"
+                }
+              ],
+              "match": "any",
+              "type": "include"
+            }
+          },
+          {
+            "id": "convertFieldType",
+            "options": {
+              "conversions": [
+                {
+                  "destinationType": "string",
+                  "targetField": "PhotoUrl"
+                }
+              ],
+              "fields": {}
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "datasource",
+          "uid": "-- Mixed --"
+        },
+        "description": "拠点ごとの在庫部品数量を可視化",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "__systemRef": "hideSeriesFrom",
+              "matcher": {
+                "id": "byNames",
+                "options": {
+                  "mode": "exclude",
+                  "names": [
+                    "TotalQty A"
+                  ],
+                  "prefix": "All except:",
+                  "readOnly": true
+                }
+              },
+              "properties": []
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "PhotoUrl"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "image"
+                  }
+                },
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "targetBlank": true,
+                      "title": "",
+                      "url": "${__value.row}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 17,
+          "w": 12,
+          "x": 12,
+          "y": 74
+        },
+        "id": 17,
+        "maxDataPoints": 100,
+        "options": {
+          "cellHeight": "lg",
+          "footer": {
+            "countRows": false,
+            "enablePagination": true,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "cedpglkgedslca"
+            },
+            "editorMode": "builder",
+            "format": "table",
+            "rawSql": "SELECT name_and_part_number, total_qty_before, total_qty_after, unit_price FROM change_histories WHERE site_name = '${SiteName}' LIMIT 50 ",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "name_and_part_number",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "total_qty_before",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "total_qty_after",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "unit_price",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "88b8a988-cdef-4012-b456-71952cce733c",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "88899ba8-0123-4456-b89a-b1952b3a5410",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "change_histories"
+          }
+        ],
+        "title": "総数量",
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "bdyrch7nmvy0wa"
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 4,
+          "x": 0,
+          "y": 91
+        },
+        "id": 6,
+        "options": {
+          "clickMode": "SetVariable",
+          "dashboardVariableName": "process_id",
+          "dataLinkNewTab": false,
+          "disabledColumn": "disabled",
+          "displayedTreeDepth": 100,
+          "idColumn": "id",
+          "labelColumn": "label",
+          "multiSelect": true,
+          "orderLevels": "asc",
+          "parentIdColumn": "parent",
+          "showItemCount": false,
+          "showSearch": false,
+          "supportsDisabled": false,
+          "toggleSelectMode": "singleClick"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "bdyrch7nmvy0wa"
+            },
+            "editorMode": "builder",
+            "format": "table",
+            "rawSql": "SELECT * FROM process LIMIT 50 ",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "*",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            },
+            "table": "process"
+          }
+        ],
+        "title": "Panel Title",
+        "type": "equansdatahub-tree-panel"
+      }
+    ],
+    "refresh": "",
+    "schemaVersion": 41,
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": "茨城",
+            "value": "茨城"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "label": "拠点選択",
+          "multi": false,
+          "name": "SiteName",
+          "options": [
+            {
+              "selected": true,
+              "text": "茨城",
+              "value": "茨城"
+            },
+            {
+              "selected": false,
+              "text": "北本",
+              "value": "北本"
+            },
+            {
+              "selected": false,
+              "text": "鳥取",
+              "value": "鳥取"
+            }
+          ],
+          "query": "茨城,北本,鳥取",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-2y",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "在庫管理",
+    "weekStart": ""
+  }
+}
