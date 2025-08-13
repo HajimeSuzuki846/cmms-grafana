@@ -1,0 +1,540 @@
+{
+  "apiVersion": "dashboard.grafana.app/v1beta1",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "cdxy77qlsg8ozf"
+  },
+  "spec": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations \u0026 Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [],
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 32,
+        "panels": [],
+        "title": "作業実績",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "eep3dps344kcga"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "left",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "fieldMinMax": true,
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "確認",
+                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=29\u0026var-Status=${__field.name}\u0026from=${__from}\u0026to=${__to}"
+              }
+            ],
+            "mappings": [],
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "未完了件数"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#bebec2",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "完了件数"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "green",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 24,
+          "x": 0,
+          "y": 1
+        },
+        "id": 33,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "vertical",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "asc"
+          },
+          "xTickLabelRotation": -90,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "eep3dps344kcga"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  machine_name,\r\n  SUM(number_of_workers * duration_in_minutes) AS 累計メンテナンス時間（分）\r\nFROM\r\n  work_orders \r\nWHERE\r\n  asset_name \u003c\u003e '' \r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name\r\nORDER BY\r\n  累計メンテナンス時間（分） DESC\r\nLIMIT\r\n  '${top}'\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "name": "COUNT",
+                  "parameters": [
+                    {
+                      "name": "status",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "process_name",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "scheduled_events"
+          }
+        ],
+        "title": "設備別のメンテナンス作業実績時間（分） |  Maintenance duration in minutes by machines",
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "default": false,
+          "type": "grafana-postgresql-datasource",
+          "uid": "eep3dps344kcga"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "left",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "fieldMinMax": false,
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "確認",
+                "url": "https://glicocmmsbeta.org/d/cdxy77qlsg8owz/0b8c3330-e505-5b89-8e4e-99ee94a180cd?orgId=1\u0026refresh=30m\u0026viewPanel=29\u0026var-Status=${__field.name}\u0026from=${__from}\u0026to=${__to}"
+              }
+            ],
+            "mappings": [],
+            "max": 99,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "未完了件数"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#bebec2",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "完了件数"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "green",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 24,
+          "x": 0,
+          "y": 11
+        },
+        "id": 34,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "vertical",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "mode": "multi",
+            "sort": "asc"
+          },
+          "xTickLabelRotation": -90,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "eep3dps344kcga"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  machine_name || ' / ' || asset_name AS machine_asset,\r\n  SUM(number_of_workers * duration_in_minutes) AS 累計メンテナンス時間（分）\r\nFROM\r\n  work_orders \r\nWHERE\r\n  asset_name \u003c\u003e '' \r\n  AND site_name = '${SiteName}' \r\n  AND process_name = '${ProcessName}' \r\n  AND $__timeFilter(due_date)\r\nGROUP BY\r\n  machine_name,\r\n  asset_name\r\nORDER BY\r\n  累計メンテナンス時間（分） DESC\r\nLIMIT   '${top}'\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "name": "COUNT",
+                  "parameters": [
+                    {
+                      "name": "status",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "process_name",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50,
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "ab989abb-cdef-4012-b456-7195615d989e",
+                    "properties": {
+                      "field": "site_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${SiteName}"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "b98b89a9-0123-4456-b89a-b1956157d8cc",
+                "type": "group"
+              },
+              "whereString": "site_name = '${SiteName}'"
+            },
+            "table": "scheduled_events"
+          }
+        ],
+        "title": "項目別のメンテナンス作業実績時間（分） |  Maintenance duration in minutes by assets",
+        "type": "barchart"
+      }
+    ],
+    "refresh": "30m",
+    "schemaVersion": 41,
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": "北本",
+            "value": "北本"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "label": "拠点選択",
+          "multi": false,
+          "name": "SiteName",
+          "options": [
+            {
+              "selected": false,
+              "text": "茨城",
+              "value": "茨城"
+            },
+            {
+              "selected": true,
+              "text": "北本",
+              "value": "北本"
+            },
+            {
+              "selected": false,
+              "text": "鳥取",
+              "value": "鳥取"
+            }
+          ],
+          "query": "茨城,北本,鳥取",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": "20",
+            "value": "20"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "label": "LIMIT",
+          "multi": false,
+          "name": "top",
+          "options": [
+            {
+              "selected": false,
+              "text": "5",
+              "value": "5"
+            },
+            {
+              "selected": false,
+              "text": "10",
+              "value": "10"
+            },
+            {
+              "selected": true,
+              "text": "20",
+              "value": "20"
+            },
+            {
+              "selected": false,
+              "text": "30",
+              "value": "30"
+            },
+            {
+              "selected": false,
+              "text": "50",
+              "value": "50"
+            }
+          ],
+          "query": "5,10,20,30,50",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "Po5号ライン仕上",
+            "value": "Po5号ライン仕上"
+          },
+          "hide": 0,
+          "includeAll": false,
+          "label": "",
+          "multi": false,
+          "name": "ProcessName",
+          "options": [
+            {
+              "selected": true,
+              "text": "Po5号ライン仕上",
+              "value": "Po5号ライン仕上"
+            },
+            {
+              "selected": false,
+              "text": "FI推進課",
+              "value": "FI推進課"
+            }
+          ],
+          "query": "Po5号ライン仕上,FI推進課",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        }
+      ]
+    },
+    "time": {
+      "from": "now/M",
+      "to": "now/M"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "メンテナンス作業実績",
+    "weekStart": ""
+  }
+}
