@@ -1,8 +1,8 @@
 {
-  "apiVersion": "dashboard.grafana.app/v0alpha1",
+  "apiVersion": "dashboard.grafana.app/v1beta1",
   "kind": "Dashboard",
   "metadata": {
-    "name": "feq6oxi0iy874a"
+    "name": "fe5da833-be7b-4c2c-834f-1e858f881a9d"
   },
   "spec": {
     "annotations": {
@@ -50,7 +50,7 @@
               "steps": [
                 {
                   "color": "transparent",
-                  "value": null
+                  "value": 0
                 },
                 {
                   "color": "light-yellow",
@@ -88,8 +88,7 @@
               },
               "properties": [
                 {
-                  "id": "custom.width",
-                  "value": null
+                  "id": "custom.width"
                 }
               ]
             },
@@ -108,8 +107,8 @@
           ]
         },
         "gridPos": {
-          "h": 9,
-          "w": 17,
+          "h": 13,
+          "w": 18,
           "x": 0,
           "y": 0
         },
@@ -132,7 +131,7 @@
             }
           ]
         },
-        "pluginVersion": "11.2.0",
+        "pluginVersion": "12.1.0",
         "targets": [
           {
             "datasource": {
@@ -225,7 +224,7 @@
               "steps": [
                 {
                   "color": "text",
-                  "value": null
+                  "value": 0
                 }
               ]
             }
@@ -234,8 +233,8 @@
         },
         "gridPos": {
           "h": 9,
-          "w": 7,
-          "x": 17,
+          "w": 6,
+          "x": 18,
           "y": 0
         },
         "id": 2,
@@ -256,7 +255,7 @@
           "textMode": "auto",
           "wideLayout": true
         },
-        "pluginVersion": "11.2.0",
+        "pluginVersion": "12.1.0",
         "targets": [
           {
             "datasource": {
@@ -333,32 +332,47 @@
         "type": "stat"
       }
     ],
-    "schemaVersion": 39,
+    "preload": false,
+    "refresh": "",
+    "schemaVersion": 41,
     "tags": [],
     "templating": {
       "list": [
         {
-          "current": {},
-          "hide": 0,
+          "current": {
+            "text": "北本",
+            "value": "北本"
+          },
           "includeAll": false,
           "label": "拠点選択",
-          "multi": false,
           "name": "SiteName",
-          "options": [],
+          "options": [
+            {
+              "selected": true,
+              "text": "北本",
+              "value": "北本"
+            },
+            {
+              "selected": false,
+              "text": "歌島",
+              "value": "歌島"
+            },
+            {
+              "selected": false,
+              "text": "茨城",
+              "value": "茨城"
+            }
+          ],
           "query": "北本,歌島,茨城",
-          "skipUrlSync": false,
           "type": "custom"
         },
         {
           "current": {
-            "selected": false,
             "text": "Po5号ライン仕上",
             "value": "Po5号ライン仕上"
           },
-          "hide": 0,
           "includeAll": false,
           "label": "工程",
-          "multi": false,
           "name": "ProcessName",
           "options": [
             {
@@ -373,7 +387,6 @@
             }
           ],
           "query": "Po5号ライン仕上,FI推進課",
-          "skipUrlSync": false,
           "type": "custom"
         }
       ]
@@ -384,7 +397,6 @@
     },
     "timepicker": {},
     "timezone": "browser",
-    "title": "アラーム監視",
-    "weekStart": ""
+    "title": "アラーム監視"
   }
 }
