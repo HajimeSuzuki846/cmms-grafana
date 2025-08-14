@@ -1,5 +1,5 @@
 {
-  "apiVersion": "dashboard.grafana.app/v0alpha1",
+  "apiVersion": "dashboard.grafana.app/v1beta1",
   "kind": "Dashboard",
   "metadata": {
     "name": "deuakvi2v905ca"
@@ -50,7 +50,7 @@
               "steps": [
                 {
                   "color": "green",
-                  "value": null
+                  "value": 0
                 },
                 {
                   "color": "red",
@@ -94,7 +94,7 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "11.2.0",
+        "pluginVersion": "12.1.0",
         "targets": [
           {
             "datasource": {
@@ -192,7 +192,7 @@
               "steps": [
                 {
                   "color": "green",
-                  "value": null
+                  "value": 0
                 },
                 {
                   "color": "red",
@@ -218,11 +218,12 @@
             "showLegend": true
           },
           "tooltip": {
+            "hideZeros": false,
             "mode": "single",
             "sort": "none"
           }
         },
-        "pluginVersion": "11.2.0",
+        "pluginVersion": "12.1.0",
         "targets": [
           {
             "datasource": {
@@ -302,7 +303,7 @@
               "steps": [
                 {
                   "color": "green",
-                  "value": null
+                  "value": 0
                 },
                 {
                   "color": "red",
@@ -327,7 +328,7 @@
           ]
         },
         "gridPos": {
-          "h": 6,
+          "h": 7,
           "w": 5,
           "x": 0,
           "y": 8
@@ -346,7 +347,7 @@
           "showHeader": true,
           "sortBy": []
         },
-        "pluginVersion": "11.2.0",
+        "pluginVersion": "12.1.0",
         "targets": [
           {
             "datasource": {
@@ -395,14 +396,14 @@
         "type": "table"
       }
     ],
+    "preload": false,
     "refresh": "",
-    "schemaVersion": 39,
+    "schemaVersion": 41,
     "tags": [],
     "templating": {
       "list": [
         {
           "current": {
-            "selected": true,
             "text": "kitamoto-logs-cut-tube-mani",
             "value": "kitamoto-logs-cut-tube-mani"
           },
@@ -411,28 +412,23 @@
             "uid": "eeuabvk7nz9xcc"
           },
           "definition": "SELECT name FROM device LIMIT 50 ",
-          "hide": 0,
           "includeAll": false,
           "label": "デバイス名",
-          "multi": false,
           "name": "DeviceName",
           "options": [],
           "query": "SELECT name FROM device LIMIT 50 ",
           "refresh": 1,
           "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
           "type": "query"
         }
       ]
     },
     "time": {
-      "from": "2025-08-07T13:22:58.000Z",
-      "to": "2025-08-07T14:22:57.000Z"
+      "from": "2025-08-12T23:38:00.000Z",
+      "to": "2025-08-13T23:38:00.000Z"
     },
     "timepicker": {},
     "timezone": "browser",
-    "title": "Thingsboard",
-    "weekStart": ""
+    "title": "Thingsboard"
   }
 }
