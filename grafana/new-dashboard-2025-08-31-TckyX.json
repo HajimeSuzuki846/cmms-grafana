@@ -117,7 +117,7 @@
             "refId": "A"
           }
         ],
-        "title": "New panel",
+        "title": "時系列データ",
         "type": "timeseries"
       }
     ],
