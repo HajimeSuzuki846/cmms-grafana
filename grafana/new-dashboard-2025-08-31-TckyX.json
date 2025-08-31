@@ -125,7 +125,27 @@
     "schemaVersion": 41,
     "tags": [],
     "templating": {
-      "list": []
+      "list": [
+        {
+          "current": {
+            "text": "Temperature Sensor 001",
+            "value": "Temperature Sensor 001"
+          },
+          "datasource": {
+            "type": "influxdb",
+            "uid": "fewnhefnz2q68d"
+          },
+          "definition": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -90d)\r\n  |\u003e keep(columns: [\"sensor\"])\r\n  |\u003e distinct(column: \"sensor\")\r\n  |\u003e sort(columns: [\"sensor\"])",
+          "name": "sensor",
+          "options": [],
+          "query": {
+            "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -90d)\r\n  |\u003e keep(columns: [\"sensor\"])\r\n  |\u003e distinct(column: \"sensor\")\r\n  |\u003e sort(columns: [\"sensor\"])"
+          },
+          "refresh": 1,
+          "regex": "",
+          "type": "query"
+        }
+      ]
     },
     "time": {
       "from": "now-24h",
