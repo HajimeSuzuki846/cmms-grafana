@@ -28,8 +28,8 @@
     "panels": [
       {
         "datasource": {
-          "type": "datasource",
-          "uid": "grafana"
+          "type": "influxdb",
+          "uid": "fewnhefnz2q68d"
         },
         "fieldConfig": {
           "defaults": {
@@ -109,6 +109,11 @@
         "pluginVersion": "12.1.0",
         "targets": [
           {
+            "datasource": {
+              "type": "influxdb",
+              "uid": "fewnhefnz2q68d"
+            },
+            "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -24h)\r\n  |\u003e filter(fn: (r) =\u003e r._sensor == \"kitamoto-logs-cut-tube-mani\")\r\n  |\u003e aggregateWindow(every: 1m, fn: mean, createEmpty: false)\r\n  |\u003e yield(name: \"mean\")\r\n",
             "refId": "A"
           }
         ],
