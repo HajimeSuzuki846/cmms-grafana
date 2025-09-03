@@ -122,7 +122,7 @@
       }
     ],
     "preload": false,
-    "refresh": "5s",
+    "refresh": "5m",
     "schemaVersion": 41,
     "tags": [],
     "templating": {
