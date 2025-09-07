@@ -155,13 +155,13 @@
             "type": "influxdb",
             "uid": "fewnhefnz2q68d"
           },
-          "definition": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -90d)\r\n  |\u003e keep(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e group(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e distinct(column: \"asset_id\")\r\n  |\u003e sort(columns: [\"sensor\"])\r\n",
+          "definition": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -1d)\r\n  |\u003e keep(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e group(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e distinct(column: \"asset_id\")\r\n  |\u003e sort(columns: [\"sensor\"])\r\n",
           "description": "",
           "label": "sensor",
           "name": "copy_of_sensor",
           "options": [],
           "query": {
-            "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -90d)\r\n  |\u003e keep(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e group(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e distinct(column: \"asset_id\")\r\n  |\u003e sort(columns: [\"sensor\"])\r\n"
+            "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -1d)\r\n  |\u003e keep(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e group(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e distinct(column: \"asset_id\")\r\n  |\u003e sort(columns: [\"sensor\"])\r\n"
           },
           "refresh": 1,
           "regex": "/(?\u003ctext\u003e.*),(?\u003cvalue\u003e.*)/",
