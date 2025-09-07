@@ -148,8 +148,8 @@
         },
         {
           "current": {
-            "text": "",
-            "value": ""
+            "text": "08d4ee74-e1d4-b1da-b811-5bdc2c424b8a",
+            "value": "08d4ee74-e1d4-b1da-b811-5bdc2c424b8a"
           },
           "datasource": {
             "type": "influxdb",
@@ -164,7 +164,7 @@
             "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -1d)\r\n  |\u003e keep(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e group(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e distinct(column: \"asset_id\")\r\n  |\u003e sort(columns: [\"sensor\"])\r\n"
           },
           "refresh": 1,
-          "regex": "/(?\u003ctext\u003e.*),(?\u003cvalue\u003e.*)/",
+          "regex": "",
           "type": "query"
         }
       ]
