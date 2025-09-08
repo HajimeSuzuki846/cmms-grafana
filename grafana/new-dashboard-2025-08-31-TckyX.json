@@ -148,20 +148,20 @@
         },
         {
           "current": {
-            "text": "08d4ee74-e1d4-b1da-b811-5bdc2c424b8a",
-            "value": "08d4ee74-e1d4-b1da-b811-5bdc2c424b8a"
+            "text": "",
+            "value": ""
           },
           "datasource": {
             "type": "influxdb",
             "uid": "fewnhefnz2q68d"
           },
-          "definition": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -1d)\r\n  |\u003e keep(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e group(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e distinct(column: \"asset_id\")\r\n  |\u003e sort(columns: [\"sensor\"])\r\n",
+          "definition": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -1d)\r\n  |\u003e keep(columns: [\"_time\", \"sensor\", \"asset_id\"])\r\n  |\u003e group(columns: [\"sensor\"])     // センサーごとに1行に集約\r\n  |\u003e sort(columns: [\"_time\"])       // 最新行を確実に取るために時系列で並べる\r\n  |\u003e last()                         // 各sensorの最新のasset_idを1行に\r\n  |\u003e keep(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e group()\r\n  |\u003e sort(columns: [\"sensor\"])\r\n",
           "description": "",
           "label": "sensor",
           "name": "copy_of_sensor",
           "options": [],
           "query": {
-            "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -1d)\r\n  |\u003e keep(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e group(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e distinct(column: \"asset_id\")\r\n  |\u003e sort(columns: [\"sensor\"])\r\n"
+            "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -1d)\r\n  |\u003e keep(columns: [\"_time\", \"sensor\", \"asset_id\"])\r\n  |\u003e group(columns: [\"sensor\"])     // センサーごとに1行に集約\r\n  |\u003e sort(columns: [\"_time\"])       // 最新行を確実に取るために時系列で並べる\r\n  |\u003e last()                         // 各sensorの最新のasset_idを1行に\r\n  |\u003e keep(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e group()\r\n  |\u003e sort(columns: [\"sensor\"])\r\n"
           },
           "refresh": 1,
           "regex": "",
@@ -170,8 +170,8 @@
       ]
     },
     "time": {
-      "from": "2025-09-06T09:16:25.327Z",
-      "to": "2025-09-08T09:16:25.327Z"
+      "from": "2025-09-05T09:16:25.327Z",
+      "to": "2025-09-09T09:16:25.327Z"
     },
     "timepicker": {},
     "timezone": "browser",
