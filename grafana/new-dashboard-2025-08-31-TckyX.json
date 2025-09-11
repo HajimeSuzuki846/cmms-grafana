@@ -29,7 +29,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "fewnhefnz2q68d"
+          "uid": "aexre26udhslcf"
         },
         "fieldConfig": {
           "defaults": {
@@ -109,12 +109,32 @@
         "pluginVersion": "12.1.0",
         "targets": [
           {
+            "dataset": "iox",
             "datasource": {
               "type": "influxdb",
-              "uid": "fewnhefnz2q68d"
+              "uid": "aexre26udhslcf"
             },
-            "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r.sensor == \"${sensor}\")\r\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |\u003e yield(name: \"mean\")\r\n",
-            "refId": "A"
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT * FROM sensor WHERE asset_id IN ('08d4ee74-e1d4-b1da-b811-5bdc2c424b8a') AND time \u003e= now() - interval '5 minutes'",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ]
+            }
           }
         ],
         "title": "時系列データ",
@@ -129,8 +149,8 @@
       "list": [
         {
           "current": {
-            "text": "kitamoto-logs",
-            "value": "kitamoto-logs"
+            "text": "",
+            "value": ""
           },
           "datasource": {
             "type": "influxdb",
@@ -170,8 +190,8 @@
       ]
     },
     "time": {
-      "from": "2024-10-02T15:00:00.000Z",
-      "to": "2025-03-29T14:59:59.000Z"
+      "from": "2025-09-11T22:43:01.350Z",
+      "to": "2025-09-11T22:47:59.569Z"
     },
     "timepicker": {},
     "timezone": "browser",
