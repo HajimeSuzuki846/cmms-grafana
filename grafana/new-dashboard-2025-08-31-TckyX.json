@@ -106,7 +106,7 @@
             "sort": "none"
           }
         },
-        "pluginVersion": "12.1.0",
+        "pluginVersion": "12.1.1",
         "targets": [
           {
             "dataset": "iox",
@@ -118,7 +118,7 @@
             "format": "table",
             "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r.sensor == \"${sensor}\")\r\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |\u003e yield(name: \"mean\")\r\n",
             "rawQuery": true,
-            "rawSql": "",
+            "rawSql": "SELECT * FROM sensor WHERE time \u003e= now() - interval '1 hour' AND asset_id IN ('08d4ee74-e1d4-b1da-b811-5bdc2c424b8a') AND time \u003e= now() - interval '5 minutes'",
             "refId": "A",
             "sql": {
               "columns": [
@@ -172,8 +172,8 @@
       ]
     },
     "time": {
-      "from": "2025-09-11T22:54:28.596Z",
-      "to": "2025-09-11T22:59:26.561Z"
+      "from": "2025-09-11T23:20:51.061Z",
+      "to": "2025-09-11T23:25:49.146Z"
     },
     "timepicker": {},
     "timezone": "browser",
