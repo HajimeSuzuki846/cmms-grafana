@@ -150,8 +150,8 @@
       "list": [
         {
           "current": {
-            "text": "08d4ee74-e1d4-b1da-b811-5bdc2c424b8a",
-            "value": "08d4ee74-e1d4-b1da-b811-5bdc2c424b8a"
+            "text": "668c391c-adb0-aec1-ee76-7d9502cc72a2",
+            "value": "668c391c-adb0-aec1-ee76-7d9502cc72a2"
           },
           "datasource": {
             "type": "influxdb",
