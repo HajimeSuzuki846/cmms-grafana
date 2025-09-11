@@ -118,7 +118,7 @@
             "format": "table",
             "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r.sensor == \"${sensor}\")\r\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |\u003e yield(name: \"mean\")\r\n",
             "rawQuery": true,
-            "rawSql": "SELECT * FROM sensor WHERE asset_id IN ('08d4ee74-e1d4-b1da-b811-5bdc2c424b8a') AND time \u003e= now() - interval '5 minutes'  \r\n",
+            "rawSql": "SELECT * FROM sensor WHERE asset_id IN ('${AssetId}') AND time \u003e= now() - interval '5 minutes'  \r\n",
             "refId": "A",
             "sql": {
               "columns": [
@@ -150,8 +150,8 @@
       "list": [
         {
           "current": {
-            "text": "dd203d86-69c5-100e-edc3-53a56927d187",
-            "value": "dd203d86-69c5-100e-edc3-53a56927d187"
+            "text": "08d4ee74-e1d4-b1da-b811-5bdc2c424b8a",
+            "value": "08d4ee74-e1d4-b1da-b811-5bdc2c424b8a"
           },
           "datasource": {
             "type": "influxdb",
@@ -172,8 +172,8 @@
       ]
     },
     "time": {
-      "from": "2025-09-11T22:43:01.350Z",
-      "to": "2025-09-11T22:47:59.569Z"
+      "from": "2025-09-11T22:49:24.549Z",
+      "to": "2025-09-11T22:54:23.597Z"
     },
     "timepicker": {},
     "timezone": "browser",
