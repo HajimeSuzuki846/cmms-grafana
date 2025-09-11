@@ -118,7 +118,7 @@
             "format": "table",
             "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r.sensor == \"${sensor}\")\r\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |\u003e yield(name: \"mean\")\r\n",
             "rawQuery": true,
-            "rawSql": "SELECT * FROM sensor WHERE time \u003e= now() - interval '1 hour' AND asset_id IN ('08d4ee74-e1d4-b1da-b811-5bdc2c424b8a') AND time \u003e= now() - interval '5 minutes'",
+            "rawSql": "SELECT * FROM sensor WHERE time \u003e= now() - interval '1 hour' AND asset_id IN ('$AssetId') AND time \u003e= now() - interval '5 minutes'",
             "refId": "A",
             "sql": {
               "columns": [
@@ -150,8 +150,8 @@
       "list": [
         {
           "current": {
-            "text": "668c391c-adb0-aec1-ee76-7d9502cc72a2",
-            "value": "668c391c-adb0-aec1-ee76-7d9502cc72a2"
+            "text": "dd203d86-69c5-100e-edc3-53a56927d187",
+            "value": "dd203d86-69c5-100e-edc3-53a56927d187"
           },
           "datasource": {
             "type": "influxdb",
