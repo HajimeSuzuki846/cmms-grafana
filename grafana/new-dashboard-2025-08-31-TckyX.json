@@ -150,18 +150,19 @@
       "list": [
         {
           "current": {
-            "text": "",
-            "value": ""
+            "text": "dd203d86-69c5-100e-edc3-53a56927d187",
+            "value": "dd203d86-69c5-100e-edc3-53a56927d187"
           },
           "datasource": {
             "type": "influxdb",
-            "uid": "fewnhefnz2q68d"
+            "uid": "aexre26udhslcf"
           },
-          "definition": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -90d)\r\n  |\u003e keep(columns: [\"sensor\"])\r\n  |\u003e distinct(column: \"sensor\")\r\n  |\u003e sort(columns: [\"sensor\"])",
+          "definition": "SELECT DISTINCT asset_id FROM sensor WHERE time \u003e= now() - interval '24 hours'",
           "name": "sensor",
           "options": [],
           "query": {
-            "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -90d)\r\n  |\u003e keep(columns: [\"sensor\"])\r\n  |\u003e distinct(column: \"sensor\")\r\n  |\u003e sort(columns: [\"sensor\"])"
+            "query": "SELECT DISTINCT asset_id FROM sensor WHERE time \u003e= now() - interval '24 hours'",
+            "refId": "InfluxVariableQueryEditor-VariableQuery"
           },
           "refresh": 1,
           "regex": "",
