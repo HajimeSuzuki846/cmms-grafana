@@ -118,7 +118,7 @@
             "format": "table",
             "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r.sensor == \"${sensor}\")\r\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |\u003e yield(name: \"mean\")\r\n",
             "rawQuery": true,
-            "rawSql": "SELECT * FROM sensor WHERE asset_id IN ('$AssetId') AND time \u003e= now() - interval '5 minutes'  \r\n",
+            "rawSql": "SELECT * FROM sensor WHERE asset_id IN ('08d4ee74-e1d4-b1da-b811-5bdc2c424b8a') AND time \u003e= now() - interval '5 minutes'  \r\n",
             "refId": "A",
             "sql": {
               "columns": [
