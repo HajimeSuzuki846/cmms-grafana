@@ -155,13 +155,13 @@
             "type": "influxdb",
             "uid": "fewnhefnz2q68d"
           },
-          "definition": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -1d)\r\n  |\u003e keep(columns: [\"_time\", \"sensor\", \"asset_id\"])\r\n  |\u003e group(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e last()\r\n  |\u003e map(fn: (r) =\u003e ({ _value: r.sensor + \":\" + string(v: r.asset_id) }))\r\n  |\u003e group()\r\n  |\u003e distinct(column: \"_value\")\r\n  |\u003e sort()\r\n",
+          "definition": "SELECT DISTINCT asset_id FROM sensor WHERE time \u003e= now() - interval '24 hours'",
           "description": "",
-          "label": "sensor",
-          "name": "copy_of_sensor",
+          "label": "asset id",
+          "name": "AssetId",
           "options": [],
           "query": {
-            "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: -1d)\r\n  |\u003e keep(columns: [\"_time\", \"sensor\", \"asset_id\"])\r\n  |\u003e group(columns: [\"sensor\", \"asset_id\"])\r\n  |\u003e last()\r\n  |\u003e map(fn: (r) =\u003e ({ _value: r.sensor + \":\" + string(v: r.asset_id) }))\r\n  |\u003e group()\r\n  |\u003e distinct(column: \"_value\")\r\n  |\u003e sort()\r\n"
+            "query": "SELECT DISTINCT asset_id FROM sensor WHERE time \u003e= now() - interval '24 hours'"
           },
           "refresh": 1,
           "regex": "/^(?\u003ctext\u003e[^:]+):(?\u003cvalue\u003e.+)$/\n",
@@ -170,8 +170,8 @@
       ]
     },
     "time": {
-      "from": "2025-09-05T09:16:25.327Z",
-      "to": "2025-09-09T09:16:25.327Z"
+      "from": "2024-10-02T15:00:00.000Z",
+      "to": "2025-03-29T14:59:59.000Z"
     },
     "timepicker": {},
     "timezone": "browser",
