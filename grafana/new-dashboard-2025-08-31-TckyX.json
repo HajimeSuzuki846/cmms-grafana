@@ -158,28 +158,6 @@
             "uid": "aexre26udhslcf"
           },
           "definition": "SELECT DISTINCT asset_id FROM sensor WHERE time \u003e= now() - interval '24 hours'",
-          "name": "sensor",
-          "options": [],
-          "query": {
-            "query": "SELECT DISTINCT asset_id FROM sensor WHERE time \u003e= now() - interval '24 hours'",
-            "refId": "InfluxVariableQueryEditor-VariableQuery"
-          },
-          "refresh": 1,
-          "regex": "",
-          "type": "query"
-        },
-        {
-          "allowCustomValue": false,
-          "current": {
-            "text": "",
-            "value": ""
-          },
-          "datasource": {
-            "type": "influxdb",
-            "uid": "aexre26udhslcf"
-          },
-          "definition": "SELECT DISTINCT asset_id FROM sensor WHERE time \u003e= now() - interval '24 hours'",
-          "description": "",
           "label": "asset id",
           "name": "AssetId",
           "options": [],
@@ -188,7 +166,7 @@
             "refId": "InfluxVariableQueryEditor-VariableQuery"
           },
           "refresh": 1,
-          "regex": "/^(?\u003ctext\u003e[^:]+):(?\u003cvalue\u003e.+)$/\n",
+          "regex": "",
           "type": "query"
         }
       ]
