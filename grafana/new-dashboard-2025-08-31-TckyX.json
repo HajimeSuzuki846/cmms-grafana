@@ -29,7 +29,7 @@
       {
         "datasource": {
           "type": "influxdb",
-          "uid": "fewnhefnz2q68d"
+          "uid": "aexre26udhslcf"
         },
         "fieldConfig": {
           "defaults": {
@@ -109,12 +109,33 @@
         "pluginVersion": "12.1.0",
         "targets": [
           {
+            "dataset": "iox",
             "datasource": {
               "type": "influxdb",
-              "uid": "fewnhefnz2q68d"
+              "uid": "aexre26udhslcf"
             },
+            "editorMode": "code",
+            "format": "table",
             "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r.sensor == \"${sensor}\")\r\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |\u003e yield(name: \"mean\")\r\n",
-            "refId": "A"
+            "rawQuery": true,
+            "rawSql": "SELECT * FROM sensor WHERE asset_id IN ('08d4ee74-e1d4-b1da-b811-5bdc2c424b8a') AND time \u003e= now() - interval '5 minutes'  \r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ]
+            }
           }
         ],
         "title": "時系列データ",
