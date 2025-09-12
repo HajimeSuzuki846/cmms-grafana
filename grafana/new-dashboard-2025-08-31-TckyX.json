@@ -171,8 +171,8 @@
         },
         {
           "current": {
-            "text": "1 hour",
-            "value": "1 hour"
+            "text": "24hours",
+            "value": "24hours"
           },
           "label": "期間",
           "name": "Interval",
@@ -183,12 +183,12 @@
               "value": "10 minutes"
             },
             {
-              "selected": true,
+              "selected": false,
               "text": "1 hour",
               "value": "1 hour"
             },
             {
-              "selected": false,
+              "selected": true,
               "text": "24hours",
               "value": "24hours"
             },
