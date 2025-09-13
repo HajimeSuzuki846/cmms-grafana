@@ -153,15 +153,15 @@
       }
     ],
     "preload": false,
-    "refresh": "1h",
+    "refresh": "5m",
     "schemaVersion": 41,
     "tags": [],
     "templating": {
       "list": [
         {
           "current": {
-            "text": "08d4ee74-e1d4-b1da-b811-5bdc2c424b8a",
-            "value": "08d4ee74-e1d4-b1da-b811-5bdc2c424b8a"
+            "text": "dd203d86-69c5-100e-edc3-53a56927d187",
+            "value": "dd203d86-69c5-100e-edc3-53a56927d187"
           },
           "datasource": {
             "type": "influxdb",
@@ -181,8 +181,8 @@
         },
         {
           "current": {
-            "text": "24hours",
-            "value": "24hours"
+            "text": "1 hour",
+            "value": "1 hour"
           },
           "label": "期間",
           "name": "Interval",
@@ -193,12 +193,12 @@
               "value": "10 minutes"
             },
             {
-              "selected": false,
+              "selected": true,
               "text": "1 hour",
               "value": "1 hour"
             },
             {
-              "selected": true,
+              "selected": false,
               "text": "24hours",
               "value": "24hours"
             },
