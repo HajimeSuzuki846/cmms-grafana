@@ -118,7 +118,7 @@
             "format": "table",
             "query": "from(bucket: \"telemetry\")\r\n  |\u003e range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |\u003e filter(fn: (r) =\u003e r.sensor == \"${sensor}\")\r\n  |\u003e aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |\u003e yield(name: \"mean\")\r\n",
             "rawQuery": true,
-            "rawSql": "SELECT * FROM sensor WHERE asset_id IN ('$AssetId') AND time \u003e= now() - interval '$Interval'",
+            "rawSql": "SELECT time, key, value FROM sensor_data WHERE sensor_id IN ('$AssetId') AND time \u003e= now() - interval '$Interval'",
             "refId": "A",
             "sql": {
               "columns": [
@@ -139,6 +139,16 @@
           }
         ],
         "title": "時系列データ",
+        "transformations": [
+          {
+            "id": "groupingToMatrix",
+            "options": {
+              "columnField": "key",
+              "rowField": "time",
+              "valueField": "value"
+            }
+          }
+        ],
         "type": "timeseries"
       }
     ],
@@ -204,7 +214,7 @@
       ]
     },
     "time": {
-      "from": "now-24h",
+      "from": "now-1h",
       "to": "now"
     },
     "timepicker": {},
