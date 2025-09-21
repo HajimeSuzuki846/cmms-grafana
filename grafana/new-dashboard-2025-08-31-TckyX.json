@@ -265,7 +265,7 @@
             }
           }
         ],
-        "title": "時系列データ（旧）",
+        "title": "時系列データ（最小粒度）※表示に時間がかかります",
         "transformations": [
           {
             "id": "groupingToMatrix",
