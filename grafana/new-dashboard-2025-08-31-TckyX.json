@@ -333,9 +333,19 @@
               "selected": true,
               "text": "2 days",
               "value": "2 days"
+            },
+            {
+              "selected": false,
+              "text": "7days",
+              "value": "7days"
+            },
+            {
+              "selected": false,
+              "text": "1month",
+              "value": "1month"
             }
           ],
-          "query": "10 minutes, 1 hour, 24hours, 2 days",
+          "query": "10 minutes, 1 hour, 24hours, 2 days, 7days, 1month",
           "type": "custom"
         }
       ]
