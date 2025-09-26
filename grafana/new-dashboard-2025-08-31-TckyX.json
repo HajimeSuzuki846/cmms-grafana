@@ -60,6 +60,179 @@
                 "type": "linear"
               },
               "showPoints": "auto",
+              "spanNulls": true,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 3,
+        "options": {
+          "aggregationType": "none",
+          "chartType": "X-XbarR",
+          "controlLines": [
+            {
+              "field": "",
+              "fillDirection": 0,
+              "fillOpacity": 10,
+              "lineColor": "#1F60C4",
+              "lineWidth": 2,
+              "name": "Mean",
+              "position": 0,
+              "positionInput": "Static",
+              "reducerId": "mean",
+              "seriesIndex": 0
+            },
+            {
+              "field": "",
+              "fillDirection": 0,
+              "fillOpacity": 10,
+              "lineColor": "#F2495C",
+              "lineWidth": 2,
+              "name": "LCL",
+              "position": 0,
+              "positionInput": "Static",
+              "reducerId": "lcl",
+              "seriesIndex": 0
+            },
+            {
+              "field": "",
+              "fillDirection": 0,
+              "fillOpacity": 10,
+              "lineColor": "#F2495C",
+              "lineWidth": 2,
+              "name": "UCL",
+              "position": 0,
+              "positionInput": "Static",
+              "reducerId": "ucl",
+              "seriesIndex": 0
+            }
+          ],
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "subgroupSize": 11,
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "2.0.2",
+        "repeat": "AssetId",
+        "repeatDirection": "h",
+        "targets": [
+          {
+            "dataset": "iox",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "aexre26udhslcf"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "-- ${__interval_ms} はクォートなしで使うこと！\r\n(\r\n  SELECT\r\n    date_bin(INTERVAL '1 second', \"time\", TIMESTAMP '1970-01-01 00:00:00Z') AS \"time\",\r\n    key,\r\n    AVG(value) AS value\r\n  FROM sensor_data\r\n  WHERE sensor_id IN ('$AssetId')\r\n    AND $__timeFilter(\"time\")\r\n    AND ${__interval_ms} \u003c 5000      -- \u003c 5s → 1秒ビン（最小）\r\n  GROUP BY 1, key\r\n)\r\nUNION ALL\r\n(\r\n  SELECT\r\n    date_bin(INTERVAL '10 seconds', \"time\", TIMESTAMP '1970-01-01 00:00:00Z') AS \"time\",\r\n    key,\r\n    AVG(value) AS value\r\n  FROM sensor_data\r\n  WHERE sensor_id IN ('$AssetId')\r\n    AND $__timeFilter(\"time\")\r\n    AND ${__interval_ms} \u003e= 5000 AND ${__interval_ms} \u003c 15000     -- 5s～\u003c15s → 10秒\r\n  GROUP BY 1, key\r\n)\r\nUNION ALL\r\n(\r\n  SELECT\r\n    date_bin(INTERVAL '30 seconds', \"time\", TIMESTAMP '1970-01-01 00:00:00Z') AS \"time\",\r\n    key,\r\n    AVG(value) AS value\r\n  FROM sensor_data\r\n  WHERE sensor_id IN ('$AssetId')\r\n    AND $__timeFilter(\"time\")\r\n    AND ${__interval_ms} \u003e= 15000 AND ${__interval_ms} \u003c 60000    -- 15s～\u003c60s → 30秒\r\n  GROUP BY 1, key\r\n)\r\nUNION ALL\r\n(\r\n  SELECT\r\n    date_bin(INTERVAL '2 minutes', \"time\", TIMESTAMP '1970-01-01 00:00:00Z') AS \"time\",\r\n    key,\r\n    AVG(value) AS value\r\n  FROM sensor_data\r\n  WHERE sensor_id IN ('$AssetId')\r\n    AND $__timeFilter(\"time\")\r\n    AND ${__interval_ms} \u003e= 60000 AND ${__interval_ms} \u003c 300000   -- 60s～\u003c300s → 2分\r\n  GROUP BY 1, key\r\n)\r\nUNION ALL\r\n(\r\n  SELECT\r\n    date_bin(INTERVAL '5 minutes', \"time\", TIMESTAMP '1970-01-01 00:00:00Z') AS \"time\",\r\n    key,\r\n    AVG(value) AS value\r\n  FROM sensor_data\r\n  WHERE sensor_id IN ('$AssetId')\r\n    AND $__timeFilter(\"time\")\r\n    AND ${__interval_ms} \u003e= 300000 AND ${__interval_ms} \u003c 3600000 -- 5分\r\n  GROUP BY 1, key\r\n)\r\nUNION ALL\r\n(\r\n  SELECT\r\n    date_bin(INTERVAL '1 hour', \"time\", TIMESTAMP '1970-01-01 00:00:00Z') AS \"time\",\r\n    key,\r\n    AVG(value) AS value\r\n  FROM sensor_data\r\n  WHERE sensor_id IN ('$AssetId')\r\n    AND $__timeFilter(\"time\")\r\n    AND ${__interval_ms} \u003e= 3600000                                -- 1時間以上\r\n  GROUP BY 1, key\r\n)\r\nORDER BY \"time\";\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "time",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "value",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "name": "sensor_id",
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ]
+            },
+            "table": "sensor_data"
+          }
+        ],
+        "title": "New panel",
+        "type": "kensobi-spc-panel"
+      },
+      {
+        "datasource": {
+          "type": "influxdb",
+          "uid": "aexre26udhslcf"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
               "spanNulls": false,
               "stacking": {
                 "group": "A",
@@ -90,7 +263,7 @@
           "h": 13,
           "w": 24,
           "x": 0,
-          "y": 0
+          "y": 8
         },
         "id": 1,
         "maxDataPoints": 2000,
@@ -216,7 +389,7 @@
           "h": 13,
           "w": 24,
           "x": 0,
-          "y": 13
+          "y": 21
         },
         "id": 2,
         "maxDataPoints": 2000,
@@ -351,7 +524,7 @@
       ]
     },
     "time": {
-      "from": "now-2d",
+      "from": "now-3h",
       "to": "now"
     },
     "timepicker": {},
