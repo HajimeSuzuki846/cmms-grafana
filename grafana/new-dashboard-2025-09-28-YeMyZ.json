@@ -95,7 +95,9 @@
         "id": 1,
         "options": {
           "legend": {
-            "calcs": [],
+            "calcs": [
+              "lastNotNull"
+            ],
             "displayMode": "list",
             "placement": "bottom",
             "showLegend": true
@@ -122,11 +124,11 @@
             "root_selector": "",
             "source": "url",
             "type": "json",
-            "url": "https://glicocmms-cbm-notebooks.org/api/spc",
+            "url": "/api/spc",
             "url_options": {
               "body_content_type": "application/json",
               "body_type": "raw",
-              "data": "{\r\n  \"notebook\": \"SPC.ipynb\",\r\n  \"parameters\": {\r\n    \"threshold\": 0.8,\r\n    \"window\": 7,\r\n    \"asset_id\": \"asset_001\"\r\n  }\r\n}",
+              "data": "{\r\n  \"notebook\": \"SPC.ipynb\",\r\n  \"parameters\": {\r\n    \"asset_id\": \"A\",\r\n    \"start\": \"2025-09-20T00:00:00Z\",\r\n    \"end\":   \"2025-09-28T00:00:00Z\"\r\n  },\r\n  \"kernel\": \"python3\"\r\n}",
               "method": "POST"
             }
           }
