@@ -95,9 +95,7 @@
         "id": 1,
         "options": {
           "legend": {
-            "calcs": [
-              "lastNotNull"
-            ],
+            "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
             "showLegend": true
@@ -111,13 +109,14 @@
         "pluginVersion": "12.1.1",
         "targets": [
           {
+            "alias": "Random Walk",
             "columns": [],
             "datasource": {
               "type": "yesoreyeram-infinity-datasource",
               "uid": "bezftrby19lvka"
             },
             "filters": [],
-            "format": "table",
+            "format": "timeseries",
             "global_query_id": "",
             "parser": "backend",
             "refId": "A",
@@ -134,6 +133,20 @@
           }
         ],
         "title": "New panel",
+        "transformations": [
+          {
+            "id": "convertFieldType",
+            "options": {
+              "conversions": [
+                {
+                  "destinationType": "time",
+                  "targetField": "time"
+                }
+              ],
+              "fields": {}
+            }
+          }
+        ],
         "type": "timeseries"
       }
     ],
@@ -144,8 +157,8 @@
       "list": []
     },
     "time": {
-      "from": "now-6h",
-      "to": "now"
+      "from": "2025-09-28T00:00:00.000Z",
+      "to": "2025-09-28T00:01:00.000Z"
     },
     "timepicker": {},
     "timezone": "browser",
