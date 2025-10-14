@@ -115,11 +115,12 @@
             },
             "editorMode": "builder",
             "format": "table",
-            "rawSql": "SELECT COUNT(status), machine_name FROM ftags WHERE (status = 'Open' OR status = 'InProgress') GROUP BY machine_name ORDER BY COUNT(status) LIMIT 50 ",
+            "rawSql": "SELECT COUNT(status) AS \"未完了\", machine_name FROM ftags WHERE (status = 'Open' OR status = 'InProgress') GROUP BY machine_name ORDER BY COUNT(status) LIMIT 50 ",
             "refId": "A",
             "sql": {
               "columns": [
                 {
+                  "alias": "\"未完了\"",
                   "name": "COUNT",
                   "parameters": [
                     {
