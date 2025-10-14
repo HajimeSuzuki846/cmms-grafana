@@ -93,7 +93,7 @@
             ],
             "displayMode": "list",
             "placement": "bottom",
-            "showLegend": true
+            "showLegend": false
           },
           "orientation": "auto",
           "showValue": "auto",
@@ -104,7 +104,7 @@
             "sort": "none"
           },
           "xField": "machine_name",
-          "xTickLabelRotation": 0,
+          "xTickLabelRotation": -90,
           "xTickLabelSpacing": 0
         },
         "pluginVersion": "12.1.1",
