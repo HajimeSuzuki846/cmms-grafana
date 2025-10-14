@@ -42,28 +42,16 @@
               "axisColorMode": "text",
               "axisLabel": "",
               "axisPlacement": "auto",
-              "barAlignment": 0,
-              "barWidthFactor": 0.6,
-              "drawStyle": "line",
-              "fillOpacity": 0,
+              "fillOpacity": 80,
               "gradientMode": "none",
               "hideFrom": {
                 "legend": false,
                 "tooltip": false,
                 "viz": false
               },
-              "insertNulls": false,
-              "lineInterpolation": "linear",
               "lineWidth": 1,
-              "pointSize": 5,
               "scaleDistribution": {
                 "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
               },
               "thresholdsStyle": {
                 "mode": "off"
@@ -94,17 +82,29 @@
         },
         "id": 1,
         "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
           "legend": {
-            "calcs": [],
+            "calcs": [
+              "count"
+            ],
             "displayMode": "list",
             "placement": "bottom",
             "showLegend": true
           },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "none",
           "tooltip": {
             "hideZeros": false,
             "mode": "single",
             "sort": "none"
-          }
+          },
+          "xField": "machine_name",
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
         },
         "pluginVersion": "12.1.1",
         "targets": [
@@ -115,29 +115,12 @@
             },
             "editorMode": "builder",
             "format": "table",
-            "rawSql": "SELECT machine_name, process_name, status, found_at FROM ftags LIMIT 50 ",
+            "rawSql": "SELECT COUNT(status), machine_name FROM ftags WHERE (status = 'Open' AND status = 'InProgress') GROUP BY machine_name ORDER BY COUNT(status) LIMIT 50 ",
             "refId": "A",
             "sql": {
               "columns": [
                 {
-                  "parameters": [
-                    {
-                      "name": "machine_name",
-                      "type": "functionParameter"
-                    }
-                  ],
-                  "type": "function"
-                },
-                {
-                  "parameters": [
-                    {
-                      "name": "process_name",
-                      "type": "functionParameter"
-                    }
-                  ],
-                  "type": "function"
-                },
-                {
+                  "name": "COUNT",
                   "parameters": [
                     {
                       "name": "status",
@@ -149,7 +132,7 @@
                 {
                   "parameters": [
                     {
-                      "name": "found_at",
+                      "name": "machine_name",
                       "type": "functionParameter"
                     }
                   ],
@@ -159,18 +142,75 @@
               "groupBy": [
                 {
                   "property": {
+                    "name": "machine_name",
                     "type": "string"
                   },
                   "type": "groupBy"
                 }
               ],
-              "limit": 50
+              "limit": 50,
+              "orderBy": {
+                "property": {
+                  "name": "COUNT(status)",
+                  "type": "string"
+                },
+                "type": "property"
+              },
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "99aba98a-cdef-4012-b456-7199e28bca37",
+                    "properties": {
+                      "field": "status",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "Open"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  },
+                  {
+                    "id": "9abb8999-89ab-4cde-b012-3199e28bfdd7",
+                    "properties": {
+                      "field": "status",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "InProgress"
+                      ],
+                      "valueError": [
+                        null
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "b8a98aa8-0123-4456-b89a-b199e26a61db",
+                "type": "group"
+              },
+              "whereString": "(status = 'Open' AND status = 'InProgress')"
             },
             "table": "ftags"
           }
         ],
         "title": "New panel",
-        "type": "timeseries"
+        "type": "barchart"
       }
     ],
     "preload": false,
